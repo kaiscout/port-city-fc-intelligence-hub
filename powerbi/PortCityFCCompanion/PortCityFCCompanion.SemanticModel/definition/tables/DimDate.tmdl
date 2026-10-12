@@ -1,0 +1,45 @@
+table 'DimDate'
+	column 'DateKey'
+		dataType: int64
+		sourceColumn: DateKey
+		isKey
+		isHidden
+		summarizeBy: none
+
+	column 'Date'
+		dataType: dateTime
+		sourceColumn: Date
+		formatString: mmm-yy
+		summarizeBy: none
+
+	column 'Month'
+		dataType: string
+		sourceColumn: Month
+		sortByColumn: MonthNumber
+		summarizeBy: none
+
+	column 'MonthNumber'
+		dataType: int64
+		sourceColumn: MonthNumber
+		isHidden
+		summarizeBy: none
+
+	column 'Quarter'
+		dataType: string
+		sourceColumn: Quarter
+		summarizeBy: none
+
+	column 'Year'
+		dataType: int64
+		sourceColumn: Year
+		summarizeBy: none
+
+	partition 'DimDate' = m
+		mode: import
+		source =
+			let
+				Source = Csv.Document(File.Contents(DataRoot & "dim_date.csv"), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+				Headers = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				Typed = Table.TransformColumnTypes(Headers, {{"DateKey", Int64.Type}, {"Date", type date}, {"Month", type text}, {"MonthNumber", Int64.Type}, {"Quarter", type text}, {"Year", Int64.Type}}, "en-US")
+			in
+				Typed

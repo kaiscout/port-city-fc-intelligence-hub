@@ -1,0 +1,11 @@
+RoleKey,Role,CoverageStatus,SourceClass
+COACH_W,Women's head coach,Covered,Sanitized role-only data
+COACH_M,Men's head coach,Covered,Sanitized role-only data
+OPS_LEAD,Matchday operations lead,Covered,Sanitized role-only data
+ANALYST,Business analyst,Covered,Sanitized role-only data
+STREAM,Streaming lead,Covered,Sanitized role-only data
+SECURITY,Security lead,Covered,Sanitized role-only data
+MEDICAL,Medical lead,Covered,Sanitized role-only data
+SOCIAL,Social media lead,Covered,Sanitized role-only data
+LOGISTICS,Logistics support,Open,Sanitized role-only data
+CONTENT,Content intern,Open,Sanitized role-only data

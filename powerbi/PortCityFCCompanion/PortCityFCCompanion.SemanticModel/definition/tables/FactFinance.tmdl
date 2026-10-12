@@ -1,0 +1,53 @@
+table FactFinance
+
+	/// Synthetic cash inflow controlled by MetricKey.
+	measure 'Cash Inflow' = CALCULATE(SUM(FactFinance[Amount]), DimMetric[MetricKey] = "FIN_IN")
+		formatString: $#,##0;($#,##0);-
+
+	/// Synthetic cash outflow controlled by MetricKey.
+	measure 'Cash Outflow' = CALCULATE(SUM(FactFinance[Amount]), DimMetric[MetricKey] = "FIN_OUT")
+		formatString: $#,##0;($#,##0);-
+
+	measure 'Net Cash' = [Cash Inflow] - [Cash Outflow]
+		formatString: $#,##0;($#,##0);-
+
+	measure 'Cash Margin %' = DIVIDE([Net Cash], [Cash Inflow])
+		formatString: 0.0%
+
+	column DateKey
+		dataType: int64
+		isHidden
+		sourceColumn: DateKey
+		summarizeBy: none
+
+	column ProgramKey
+		dataType: string
+		isHidden
+		sourceColumn: ProgramKey
+		summarizeBy: none
+
+	column MetricKey
+		dataType: string
+		isHidden
+		sourceColumn: MetricKey
+		summarizeBy: none
+
+	column Amount
+		dataType: double
+		sourceColumn: Amount
+		formatString: $#,##0.00;($#,##0.00);-
+
+	column SourceClass
+		dataType: string
+		sourceColumn: SourceClass
+		summarizeBy: none
+
+	partition FactFinance = m
+		mode: import
+		source =
+			let
+				Source = Csv.Document(File.Contents(DataRoot & "fact_finance.csv"), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+				Headers = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				Typed = Table.TransformColumnTypes(Headers, {{"DateKey", Int64.Type}, {"ProgramKey", type text}, {"MetricKey", type text}, {"Amount", type number}, {"SourceClass", type text}}, "en-US")
+			in
+				Typed

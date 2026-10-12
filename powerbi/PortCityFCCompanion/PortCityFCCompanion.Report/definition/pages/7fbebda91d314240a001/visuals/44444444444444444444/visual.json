@@ -1,0 +1,38 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.7.0/schema.json",
+  "name": "44444444444444444444",
+  "position": {
+    "x": 920,
+    "y": 20,
+    "z": 920,
+    "height": 120,
+    "width": 280,
+    "tabOrder": 920
+  },
+  "visual": {
+    "visualType": "cardVisual",
+    "query": {
+      "queryState": {
+        "Data": {
+          "projections": [
+            {
+              "field": {
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "FactFinance"
+                    }
+                  },
+                  "Property": "Cash Margin %"
+                }
+              },
+              "queryRef": "FactFinance.Cash Margin %",
+              "nativeQueryRef": "Cash Margin %"
+            }
+          ]
+        }
+      }
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

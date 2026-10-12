@@ -1,0 +1,16 @@
+node_modules/
+.next/
+.env
+.env.local
+coverage/
+playwright-report/
+test-results/
+backups/
+*.log
+*.tsbuildinfo
+.DS_Store
+**/.pbi/localSettings.json
+**/.pbi/cache.abf
+outputs/**/*.inspect.ndjson
+outputs/**/workbook-inspection.ndjson
+outputs/**/ownership-snapshot-preview.png

@@ -1,0 +1,15 @@
+Direction,Category,Amount,SourceClass
+Inflow,Sponsorship,38000,Synthetic demonstration data
+Inflow,Ticket sales,15400,Synthetic demonstration data
+Inflow,Concessions,6400,Synthetic demonstration data
+Inflow,Memberships,4200,Synthetic demonstration data
+Inflow,Merchandise,2100,Synthetic demonstration data
+Inflow,Other income,1400,Synthetic demonstration data
+Outflow,Travel and lodging,14200,Synthetic demonstration data
+Outflow,Coaching staff and officials,13600,Synthetic demonstration data
+Outflow,Operations and supplies,9400,Synthetic demonstration data
+Outflow,Venue and fields,8100,Synthetic demonstration data
+Outflow,Media and marketing,6800,Synthetic demonstration data
+Outflow,League and registration,6200,Synthetic demonstration data
+Outflow,Gear and merchandise,3400,Synthetic demonstration data
+Outflow,Community programs,2000,Synthetic demonstration data

@@ -1,0 +1,65 @@
+{
+  "name": "port-city-fc-decision-intelligence-hub",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Independent operational decision-intelligence pilot for Port City FC.",
+  "scripts": {
+    "dev": "next dev --hostname 127.0.0.1",
+    "build": "next build",
+    "start": "next start --hostname 127.0.0.1",
+    "preview": "next start --hostname 127.0.0.1",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "lint": "eslint . --max-warnings=0",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:unit": "vitest run tests/unit",
+    "test:integration": "vitest run tests/integration",
+    "test:e2e": "npm run build && playwright test",
+    "data:build": "tsx scripts/build-public-dataset.ts",
+    "data:check": "npm run data:build && git diff --exit-code -- data/processed",
+    "powerbi:build": "tsx scripts/build-powerbi-companion.ts",
+    "powerbi:validate": "tsx scripts/validate-powerbi-project.ts",
+    "powerbi:check": "npm run powerbi:build && npm run powerbi:validate && git diff --exit-code -- powerbi",
+    "privacy:scan": "tsx scripts/privacy-scan.ts",
+    "db:migrate": "tsx --env-file-if-exists=.env.local scripts/migrate.ts",
+    "db:seed": "tsx --env-file-if-exists=.env.local scripts/seed.ts",
+    "db:clean-org": "tsx --env-file-if-exists=.env.local scripts/create-clean-org.ts",
+    "db:backup": "tsx --env-file-if-exists=.env.local scripts/backup.ts",
+    "security:audit": "npm audit --omit=dev --audit-level=high",
+    "verify": "npm run privacy:scan && npm run data:check && npm run powerbi:check && npm run format:check && npm run lint && npm run typecheck && npm run test && npm run build"
+  },
+  "dependencies": {
+    "@node-rs/argon2": "^2.0.2",
+    "clsx": "^2.1.1",
+    "drizzle-orm": "^0.45.4",
+    "jose": "^6.1.0",
+    "lucide-react": "^0.545.0",
+    "next": "16.4.0",
+    "postgres": "^3.4.7",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
+    "recharts": "^3.2.1",
+    "zod": "^4.1.12"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.56.0",
+    "@types/node": "^24.7.2",
+    "@types/react": "^19.2.2",
+    "@types/react-dom": "^19.2.2",
+    "eslint": "9.39.5",
+    "eslint-config-next": "16.4.0",
+    "prettier": "^3.6.2",
+    "tsx": "^4.20.6",
+    "typescript": "^5.9.3",
+    "vitest": "^4.0.0"
+  },
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "allowScripts": {
+    "esbuild@0.28.2": true,
+    "unrs-resolver@1.12.2": true
+  }
+}

@@ -1,0 +1,42 @@
+table FactFinanceCategory
+
+	measure 'Category Amount' = SUM(FactFinanceCategory[Amount])
+		formatString: $#,##0;($#,##0);-
+
+	column DateKey
+		dataType: int64
+		isHidden
+		sourceColumn: DateKey
+		summarizeBy: none
+
+	column ProgramKey
+		dataType: string
+		isHidden
+		sourceColumn: ProgramKey
+		summarizeBy: none
+
+	column CategoryKey
+		dataType: string
+		isHidden
+		sourceColumn: CategoryKey
+		summarizeBy: none
+
+	column Amount
+		dataType: double
+		sourceColumn: Amount
+		formatString: $#,##0.00;($#,##0.00);-
+
+	column SourceClass
+		dataType: string
+		sourceColumn: SourceClass
+		summarizeBy: none
+
+	partition FactFinanceCategory = m
+		mode: import
+		source =
+			let
+				Source = Csv.Document(File.Contents(DataRoot & "fact_finance_category.csv"), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+				Headers = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				Typed = Table.TransformColumnTypes(Headers, {{"DateKey", Int64.Type}, {"ProgramKey", type text}, {"CategoryKey", type text}, {"Amount", type number}, {"SourceClass", type text}}, "en-US")
+			in
+				Typed

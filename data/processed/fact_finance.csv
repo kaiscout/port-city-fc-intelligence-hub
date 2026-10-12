@@ -1,0 +1,25 @@
+DateKey,ProgramKey,MetricKey,Amount,SourceClass
+20250101,CLUB,FIN_IN,6000,Synthetic demonstration data
+20250101,CLUB,FIN_OUT,2500,Synthetic demonstration data
+20250201,CLUB,FIN_IN,5000,Synthetic demonstration data
+20250201,CLUB,FIN_OUT,3200,Synthetic demonstration data
+20250301,CLUB,FIN_IN,7500,Synthetic demonstration data
+20250301,CLUB,FIN_OUT,3800,Synthetic demonstration data
+20250401,CLUB,FIN_IN,8000,Synthetic demonstration data
+20250401,CLUB,FIN_OUT,4200,Synthetic demonstration data
+20250501,CLUB,FIN_IN,7000,Synthetic demonstration data
+20250501,CLUB,FIN_OUT,5200,Synthetic demonstration data
+20250601,CLUB,FIN_IN,6000,Synthetic demonstration data
+20250601,CLUB,FIN_OUT,6100,Synthetic demonstration data
+20250701,CLUB,FIN_IN,6500,Synthetic demonstration data
+20250701,CLUB,FIN_OUT,7400,Synthetic demonstration data
+20250801,CLUB,FIN_IN,7500,Synthetic demonstration data
+20250801,CLUB,FIN_OUT,8200,Synthetic demonstration data
+20250901,CLUB,FIN_IN,5000,Synthetic demonstration data
+20250901,CLUB,FIN_OUT,7600,Synthetic demonstration data
+20251001,CLUB,FIN_IN,4500,Synthetic demonstration data
+20251001,CLUB,FIN_OUT,6000,Synthetic demonstration data
+20251101,CLUB,FIN_IN,2500,Synthetic demonstration data
+20251101,CLUB,FIN_OUT,5100,Synthetic demonstration data
+20251201,CLUB,FIN_IN,2000,Synthetic demonstration data
+20251201,CLUB,FIN_OUT,4400,Synthetic demonstration data

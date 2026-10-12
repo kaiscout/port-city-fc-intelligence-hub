@@ -1,0 +1,44 @@
+table FactOperations
+
+	measure 'Average Attendance' = CALCULATE(MAX(FactOperations[Value]), DimMetric[MetricKey] = "AVG_ATT")
+		formatString: #,##0
+
+	measure 'Ticket Price' = CALCULATE(MAX(FactOperations[Value]), DimMetric[MetricKey] = "TICKET_PRICE")
+		formatString: $0.00
+
+	column DateKey
+		dataType: int64
+		isHidden
+		sourceColumn: DateKey
+		summarizeBy: none
+
+	column ProgramKey
+		dataType: string
+		isHidden
+		sourceColumn: ProgramKey
+		summarizeBy: none
+
+	column MetricKey
+		dataType: string
+		isHidden
+		sourceColumn: MetricKey
+		summarizeBy: none
+
+	column Value
+		dataType: double
+		sourceColumn: Value
+
+	column SourceClass
+		dataType: string
+		sourceColumn: SourceClass
+		summarizeBy: none
+
+	partition FactOperations = m
+		mode: import
+		source =
+			let
+				Source = Csv.Document(File.Contents(DataRoot & "fact_operations.csv"), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+				Headers = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				Typed = Table.TransformColumnTypes(Headers, {{"DateKey", Int64.Type}, {"ProgramKey", type text}, {"MetricKey", type text}, {"Value", type number}, {"SourceClass", type text}}, "en-US")
+			in
+				Typed

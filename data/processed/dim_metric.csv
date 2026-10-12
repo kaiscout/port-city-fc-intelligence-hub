@@ -1,0 +1,8 @@
+MetricKey,Metric,MetricGroup,Unit
+FIN_IN,Cash inflow,Finance,USD
+FIN_OUT,Cash outflow,Finance,USD
+AVG_ATT,Average attendance,Operations,People
+TICKET_PRICE,Ticket price,Operations,USD
+BASE_MATCHES,Base matches,Operations,Count
+PLAYOFF_MATCHES,Matches including playoffs,Operations,Count
+CONC_SPEND,Average concession spend,Operations,USD

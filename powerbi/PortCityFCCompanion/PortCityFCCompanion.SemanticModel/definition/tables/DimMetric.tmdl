@@ -1,0 +1,31 @@
+table 'DimMetric'
+	column 'MetricKey'
+		dataType: string
+		sourceColumn: MetricKey
+		isKey
+		summarizeBy: none
+
+	column 'Metric'
+		dataType: string
+		sourceColumn: Metric
+		summarizeBy: none
+
+	column 'MetricGroup'
+		dataType: string
+		sourceColumn: MetricGroup
+		summarizeBy: none
+
+	column 'Unit'
+		dataType: string
+		sourceColumn: Unit
+		summarizeBy: none
+
+	partition 'DimMetric' = m
+		mode: import
+		source =
+			let
+				Source = Csv.Document(File.Contents(DataRoot & "dim_metric.csv"), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+				Headers = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				Typed = Table.TransformColumnTypes(Headers, {{"MetricKey", type text}, {"Metric", type text}, {"MetricGroup", type text}, {"Unit", type text}}, "en-US")
+			in
+				Typed

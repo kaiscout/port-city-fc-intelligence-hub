@@ -1,0 +1,26 @@
+table 'DimCategory'
+	column 'CategoryKey'
+		dataType: string
+		sourceColumn: CategoryKey
+		isKey
+		summarizeBy: none
+
+	column 'Category'
+		dataType: string
+		sourceColumn: Category
+		summarizeBy: none
+
+	column 'Direction'
+		dataType: string
+		sourceColumn: Direction
+		summarizeBy: none
+
+	partition 'DimCategory' = m
+		mode: import
+		source =
+			let
+				Source = Csv.Document(File.Contents(DataRoot & "dim_category.csv"), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+				Headers = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				Typed = Table.TransformColumnTypes(Headers, {{"CategoryKey", type text}, {"Category", type text}, {"Direction", type text}}, "en-US")
+			in
+				Typed

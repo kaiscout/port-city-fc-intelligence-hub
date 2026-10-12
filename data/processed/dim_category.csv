@@ -1,0 +1,15 @@
+CategoryKey,Category,Direction
+CAT_01,Sponsorship,Inflow
+CAT_02,Ticket sales,Inflow
+CAT_03,Concessions,Inflow
+CAT_04,Memberships,Inflow
+CAT_05,Merchandise,Inflow
+CAT_06,Other income,Inflow
+CAT_07,Travel and lodging,Outflow
+CAT_08,Coaching staff and officials,Outflow
+CAT_09,Operations and supplies,Outflow
+CAT_10,Venue and fields,Outflow
+CAT_11,Media and marketing,Outflow
+CAT_12,League and registration,Outflow
+CAT_13,Gear and merchandise,Outflow
+CAT_14,Community programs,Outflow

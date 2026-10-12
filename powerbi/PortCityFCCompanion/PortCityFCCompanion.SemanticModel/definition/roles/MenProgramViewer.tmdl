@@ -1,0 +1,5 @@
+/// Restricts program-grain facts to club-wide and men's rows.
+role MenProgramViewer
+	modelPermission: read
+
+	tablePermission DimProgram = DimProgram[ProgramKey] IN {"CLUB","MEN"}

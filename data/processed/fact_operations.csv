@@ -1,0 +1,11 @@
+DateKey,ProgramKey,MetricKey,Value,SourceClass
+20250101,MEN,AVG_ATT,800,Sanitized operating assumption
+20250101,MEN,TICKET_PRICE,12,Sanitized operating assumption
+20250101,MEN,BASE_MATCHES,10,Sanitized operating assumption
+20250101,MEN,PLAYOFF_MATCHES,12,Sanitized operating assumption
+20250101,MEN,CONC_SPEND,8.5,Sanitized operating assumption
+20250101,WOMEN,AVG_ATT,800,Sanitized operating assumption
+20250101,WOMEN,TICKET_PRICE,12,Sanitized operating assumption
+20250101,WOMEN,BASE_MATCHES,10,Sanitized operating assumption
+20250101,WOMEN,PLAYOFF_MATCHES,12,Sanitized operating assumption
+20250101,WOMEN,CONC_SPEND,8.5,Sanitized operating assumption

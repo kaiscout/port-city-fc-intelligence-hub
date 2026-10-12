@@ -1,0 +1,35 @@
+relationship Finance_Date
+	fromColumn: FactFinance.DateKey
+	toColumn: DimDate.DateKey
+
+relationship Finance_Program
+	fromColumn: FactFinance.ProgramKey
+	toColumn: DimProgram.ProgramKey
+
+relationship Finance_Metric
+	fromColumn: FactFinance.MetricKey
+	toColumn: DimMetric.MetricKey
+
+relationship Category_Date
+	fromColumn: FactFinanceCategory.DateKey
+	toColumn: DimDate.DateKey
+
+relationship Category_Program
+	fromColumn: FactFinanceCategory.ProgramKey
+	toColumn: DimProgram.ProgramKey
+
+relationship Category_Category
+	fromColumn: FactFinanceCategory.CategoryKey
+	toColumn: DimCategory.CategoryKey
+
+relationship Operations_Date
+	fromColumn: FactOperations.DateKey
+	toColumn: DimDate.DateKey
+
+relationship Operations_Program
+	fromColumn: FactOperations.ProgramKey
+	toColumn: DimProgram.ProgramKey
+
+relationship Operations_Metric
+	fromColumn: FactOperations.MetricKey
+	toColumn: DimMetric.MetricKey

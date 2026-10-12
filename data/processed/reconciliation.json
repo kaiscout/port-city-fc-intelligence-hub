@@ -1,0 +1,76 @@
+{
+  "generatedAt": "2026-10-12T00:00:00.000Z",
+  "classification": "Synthetic demonstration data",
+  "privacyBoundary": "No staff contacts, source payees, bank transactions, private filenames or interview attribution.",
+  "checks": [
+    {
+      "name": "Monthly inflow to control",
+      "expected": 67500,
+      "actual": 67500,
+      "difference": 0,
+      "status": "PASS"
+    },
+    {
+      "name": "Category inflow to control",
+      "expected": 67500,
+      "actual": 67500,
+      "difference": 0,
+      "status": "PASS"
+    },
+    {
+      "name": "Monthly outflow to control",
+      "expected": 63700,
+      "actual": 63700,
+      "difference": 0,
+      "status": "PASS"
+    },
+    {
+      "name": "Category outflow to control",
+      "expected": 63700,
+      "actual": 63700,
+      "difference": 0,
+      "status": "PASS"
+    },
+    {
+      "name": "Net cash to control",
+      "expected": 3800,
+      "actual": 3800,
+      "difference": 0,
+      "status": "PASS"
+    },
+    {
+      "name": "Month count",
+      "expected": 12,
+      "actual": 12,
+      "difference": 0,
+      "status": "PASS"
+    },
+    {
+      "name": "Program count",
+      "expected": 2,
+      "actual": 2,
+      "difference": 0,
+      "status": "PASS"
+    }
+  ],
+  "rowCounts": {
+    "dimDate": 12,
+    "dimProgram": 3,
+    "dimMetric": 7,
+    "dimCategory": 14,
+    "dimStaffingRole": 10,
+    "factFinance": 24,
+    "factFinanceCategory": 14,
+    "factOperations": 10
+  },
+  "sha256": {
+    "dim_date.csv": "e0a8b8ca9966499877714a749bd65f1da88a712bae7ff94d6e1cdf52a837a751",
+    "dim_program.csv": "ae1f5d27005c31d06e775ba160a89aa1949cba88278bb93489a010bbb67e903e",
+    "dim_metric.csv": "140e7819f8fd052004dda1d70427737926eb28805239d0f4f2ab655ce1000ed0",
+    "dim_category.csv": "83811e976e436cdaeae955299d16221b09ef25db23de972ec4ae8e93127b43a5",
+    "dim_staffing_role.csv": "5383f7811bd28150b3c0129b982657587100cb84ab61ed8524d68d05f39e7de7",
+    "fact_finance.csv": "1bbf9b181cbe80fa3242a7dd805d5584ee51e839ece17a07afc53301928ad1a4",
+    "fact_finance_category.csv": "c09e8ce97f94dd34b03e5431dcab0f1e4eac0cd4d87ca3b20de1e4d82fe79c0b",
+    "fact_operations.csv": "04c77bf0314ab492d13bd218241accfbb4d1709513e1fc51bb45711ab6a24a34"
+  }
+}

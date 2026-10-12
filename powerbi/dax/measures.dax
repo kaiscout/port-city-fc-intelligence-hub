@@ -1,0 +1,8 @@
+-- Core measures also embedded in the TMDL semantic model.
+Cash Inflow := CALCULATE(SUM(FactFinance[Amount]), DimMetric[MetricKey] = "FIN_IN")
+Cash Outflow := CALCULATE(SUM(FactFinance[Amount]), DimMetric[MetricKey] = "FIN_OUT")
+Net Cash := [Cash Inflow] - [Cash Outflow]
+Cash Margin % := DIVIDE([Net Cash], [Cash Inflow])
+Category Amount := SUM(FactFinanceCategory[Amount])
+Average Attendance := CALCULATE(MAX(FactOperations[Value]), DimMetric[MetricKey] = "AVG_ATT")
+Ticket Price := CALCULATE(MAX(FactOperations[Value]), DimMetric[MetricKey] = "TICKET_PRICE")
