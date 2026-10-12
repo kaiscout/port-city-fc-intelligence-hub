@@ -9,6 +9,7 @@
     "build": "next build",
     "start": "next start --hostname 127.0.0.1",
     "preview": "next start --hostname 127.0.0.1",
+    "site:build": "tsx scripts/build-sites-demo.ts",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "lint": "eslint . --max-warnings=0",
