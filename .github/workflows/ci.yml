@@ -1,0 +1,67 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    services:
+      postgres:
+        image: postgres:17-alpine
+        env:
+          POSTGRES_DB: pcfc_hub_test
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d pcfc_hub_test"
+          --health-interval 5s
+          --health-timeout 3s
+          --health-retries 12
+
+    env:
+      DATABASE_URL: postgres://postgres:postgres@127.0.0.1:5432/pcfc_hub_test
+      E2E_DATABASE_URL: postgres://postgres:postgres@127.0.0.1:5432/pcfc_hub_test
+      SESSION_SECRET: ci-session-secret-is-at-least-thirty-two-characters
+      APP_URL: http://127.0.0.1:3000
+      DEMO_MODE: "true"
+      PUBLIC_DEMO_MODE: "false"
+      LOCAL_PREVIEW_MODE: "false"
+      DEMO_ADMIN_PASSWORD: PilotDemo!2026
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npm run security:audit
+      - run: npm run privacy:scan
+      - run: npm run data:check
+      - run: npm run powerbi:check
+      - run: npm run format:check
+      - run: npm run lint
+      - run: npm run typecheck
+      - run: npm run test
+      - run: npm run db:migrate
+      - run: npm run db:seed
+      - run: npm run build
+      - run: npx playwright install --with-deps chromium
+      - run: npx playwright test --project=desktop
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: playwright-evidence
+          path: |
+            playwright-report/
+            test-results/
+          retention-days: 7

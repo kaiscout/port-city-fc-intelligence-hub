@@ -1,0 +1,31 @@
+# KPI Dictionary
+
+| KPI                      | Definition                                                   | Formula                                          | Unit       | Direction                 | Source class                    | Owner              |
+| ------------------------ | ------------------------------------------------------------ | ------------------------------------------------ | ---------- | ------------------------- | ------------------------------- | ------------------ |
+| Cash inflow              | Credits in the selected source ledger                        | Σ valid credit rows                              | USD        | Contextual                | User-provided source document   | Finance owner      |
+| Cash outflow             | Debits in the selected source ledger                         | Σ valid debit rows                               | USD        | Controlled                | User-provided source document   | Finance owner      |
+| Net cash activity        | Cash movement across the source period                       | cash inflow − cash outflow                       | USD        | Positive                  | Calculated                      | Finance owner      |
+| Cash margin              | Net cash activity relative to cash inflow                    | net cash activity ÷ cash inflow                  | %          | Up                        | Calculated                      | Analyst            |
+| Sponsorship receipts     | Cash credits categorized as sponsorship                      | Σ sponsorship credits                            | USD        | Up / diversified          | User-provided source document   | Commercial         |
+| Ticket receipts          | Cash credits categorized as tickets or season tickets        | Σ ticket-category credits                        | USD        | Up                        | User-provided source document   | Finance owner      |
+| Projected attendance     | Expected attendance in scoped fixtures                       | Σ fixture forecast                               | people     | Up within capacity        | Forecast                        | Analyst            |
+| Paid attendance          | Attendees with paid ticket                                   | attendance − complimentary                       | people     | Up                        | Operational / synthetic in demo | Operations         |
+| Ticket revenue           | Recognized ticket income                                     | Σ paid tickets × price                           | USD        | Up                        | Operational                     | Finance owner      |
+| Matchday revenue         | Ticket + concession + merchandise + allocated sponsor income | Σ revenue categories                             | USD        | Up                        | Calculated                      | Analyst            |
+| Operating cost           | Fixed and variable fixture costs                             | Σ cost items                                     | USD        | Controlled                | Operational                     | Operations/finance |
+| Operating margin         | Revenue after operating costs                                | total revenue − total cost                       | USD/%      | Up                        | Calculated                      | Analyst            |
+| Break-even attendance    | Attendance at zero operating margin                          | residual fixed costs ÷ net contribution/attendee | people     | Down                      | Forecast                        | Analyst            |
+| Capacity utilization     | Attendance relative to venue capacity                        | attendance ÷ capacity                            | %          | Contextual                | Calculated                      | Operations         |
+| Returning-supporter rate | Paid attendees with prior attendance                         | returning ÷ paid                                 | %          | Up                        | Calculated                      | Marketing          |
+| Ticket conversion        | Completed purchases from ticket starts                       | purchases ÷ ticket starts                        | %          | Up                        | Calculated                      | Marketing          |
+| Show rate                | Purchasers who attend                                        | attendees ÷ purchases                            | %          | Up                        | Calculated                      | Operations         |
+| Sponsor fulfillment      | Due deliverables completed                                   | delivered ÷ due                                  | %          | Up                        | Calculated                      | Commercial         |
+| Sponsor renewal outlook  | Value weighted by renewal confidence                         | Σ value × probability                            | USD        | Up                        | Forecast                        | Commercial         |
+| Community participation  | Approved unique-equivalent participants                      | Σ deduplicated records                           | people     | Up                        | Operational                     | Community owner    |
+| Charitable contribution  | Approved ticket-linked/direct allocation                     | Σ contribution                                   | USD        | Up within policy          | Operational/calculated          | Administrator      |
+| Revenue per attendee     | Matchday revenue intensity                                   | revenue ÷ attendance                             | USD/person | Up                        | Calculated                      | Analyst            |
+| Cost per attendee        | Matchday cost intensity                                      | cost ÷ attendance                                | USD/person | Down without service loss | Calculated                      | Analyst            |
+
+## Governance
+
+Calculation version `PCFC-DIH-CALC-1.0` is the pilot baseline. Changes require an effective date, owner, rationale, regression examples, and report-version note. “Up” never overrides capacity, accessibility, supporter experience, or community commitments.
