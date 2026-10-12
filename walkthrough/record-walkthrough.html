@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>PCFC walkthrough recorder</title>
+    <style>
+      html,
+      body {
+        margin: 0;
+        min-height: 100%;
+        display: grid;
+        place-items: center;
+        background: #071e2b;
+        color: white;
+        font:
+          14px system-ui,
+          sans-serif;
+      }
+      canvas {
+        width: min(100vw, 1280px);
+        box-shadow: 0 30px 90px #0008;
+      }
+      button {
+        position: fixed;
+        right: 20px;
+        bottom: 20px;
+        padding: 12px 18px;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="stage" width="1280" height="720"></canvas>
+    <audio id="narration" preload="auto" src="/walkthrough/narration.wav"></audio>
+    <button id="start">Record walkthrough</button>
+    <script>
+      const canvas = document.querySelector("#stage");
+      const context = canvas.getContext("2d");
+      const audio = document.querySelector("#narration");
+      const start = document.querySelector("#start");
+      const frames = [
+        {
+          at: 0,
+          image: "/walkthrough/frames/01-ownership.png",
+          kicker: "PORT CITY FC · DECISION INTELLIGENCE",
+          title: "From disconnected evidence to governed decisions",
+          note: "Sanitized portfolio walkthrough",
+        },
+        {
+          at: 22,
+          image: "/walkthrough/frames/01-ownership.png",
+          kicker: "01 · PROBLEM & EVIDENCE BOUNDARY",
+          title: "One owner view. No private rows.",
+          note: "Synthetic and generalized data only",
+        },
+        {
+          at: 58,
+          image: "/walkthrough/frames/02-dashboard.png",
+          kicker: "02 · FINDING",
+          title: "Concentration plus a thin cash margin",
+          note: "Finding → decision → accountable owner",
+        },
+        {
+          at: 94,
+          image: "/walkthrough/frames/03-scenarios.png",
+          kicker: "03 · CONTROLLED DECISION",
+          title: "Test assumptions without calling them a forecast",
+          note: "Public mode is read-only; writes are authorized and audited",
+        },
+        {
+          at: 132,
+          image: "/walkthrough/frames/04-case-study.png",
+          kicker: "04 · ARCHITECTURE & TRACEABILITY",
+          title: "Every requirement connects to evidence and a test",
+          note: "Pipeline · star schema · RLS · PostgreSQL · CI",
+        },
+        {
+          at: 168,
+          image: "/walkthrough/frames/01-ownership.png",
+          kicker: "05 · NEXT STEP",
+          title: "Replace synthetic inputs through controlled UAT",
+          note: "Approve source ownership, definitions, roles, and release gates",
+        },
+      ];
+      const loaded = new Map();
+
+      function loadImage(source) {
+        if (!loaded.has(source)) {
+          const image = new Image();
+          image.src = source;
+          loaded.set(source, image);
+        }
+        return loaded.get(source);
+      }
+
+      frames.forEach((frame) => loadImage(frame.image));
+
+      function roundedRect(x, y, width, height, radius) {
+        context.beginPath();
+        context.roundRect(x, y, width, height, radius);
+        context.fill();
+      }
+
+      function draw(time = 0) {
+        const frame = [...frames].reverse().find((item) => time >= item.at) ?? frames[0];
+        const image = loadImage(frame.image);
+        context.fillStyle = "#071e2b";
+        context.fillRect(0, 0, 1280, 720);
+        if (image.complete) context.drawImage(image, 0, 0, 1280, 720);
+
+        const gradient = context.createLinearGradient(0, 360, 0, 720);
+        gradient.addColorStop(0, "rgba(5,26,38,0)");
+        gradient.addColorStop(0.48, "rgba(5,26,38,.68)");
+        gradient.addColorStop(1, "rgba(5,26,38,.96)");
+        context.fillStyle = gradient;
+        context.fillRect(0, 0, 1280, 720);
+
+        context.fillStyle = "rgba(15,58,72,.92)";
+        roundedRect(54, 500, 1172, 166, 18);
+        context.fillStyle = "#67c6b7";
+        context.font = "700 15px system-ui, sans-serif";
+        context.fillText(frame.kicker, 84, 538);
+        context.fillStyle = "#ffffff";
+        context.font = "700 38px Georgia, serif";
+        context.fillText(frame.title, 84, 590);
+        context.fillStyle = "#c7d9de";
+        context.font = "400 18px system-ui, sans-serif";
+        context.fillText(frame.note, 84, 627);
+
+        const duration = audio.duration || 190;
+        const progress = Math.min(1, time / duration);
+        context.fillStyle = "rgba(255,255,255,.16)";
+        context.fillRect(84, 646, 1062, 4);
+        context.fillStyle = "#67c6b7";
+        context.fillRect(84, 646, 1062 * progress, 4);
+        context.fillStyle = "#c7d9de";
+        context.font = "600 13px system-ui, sans-serif";
+        context.fillText("PORT CITY FC INTELLIGENCE HUB", 982, 538);
+      }
+
+      let animation;
+      function animate() {
+        draw(audio.currentTime);
+        if (!audio.ended) animation = requestAnimationFrame(animate);
+      }
+
+      start.addEventListener("click", async () => {
+        start.disabled = true;
+        await audio.play().then(() => audio.pause());
+        audio.currentTime = 0;
+        const audioContext = new AudioContext();
+        await audioContext.resume();
+        const source = audioContext.createMediaElementSource(audio);
+        const destination = audioContext.createMediaStreamDestination();
+        source.connect(destination);
+        source.connect(audioContext.destination);
+        const stream = new MediaStream([
+          ...canvas.captureStream(30).getVideoTracks(),
+          ...destination.stream.getAudioTracks(),
+        ]);
+        const mimeType = MediaRecorder.isTypeSupported("video/webm;codecs=vp9,opus")
+          ? "video/webm;codecs=vp9,opus"
+          : "video/webm";
+        const recorder = new MediaRecorder(stream, { mimeType, videoBitsPerSecond: 6_000_000 });
+        const chunks = [];
+        recorder.addEventListener("dataavailable", (event) => {
+          if (event.data.size) chunks.push(event.data);
+        });
+        recorder.addEventListener("stop", () => {
+          cancelAnimationFrame(animation);
+          const blob = new Blob(chunks, { type: mimeType });
+          const link = document.createElement("a");
+          link.href = URL.createObjectURL(blob);
+          link.download = "port-city-fc-intelligence-hub-walkthrough.webm";
+          link.click();
+          document.title = "COMPLETE";
+        });
+        audio.addEventListener("ended", () => recorder.stop(), { once: true });
+        recorder.start(1000);
+        await audio.play();
+        animate();
+      });
+
+      Promise.all(
+        [...loaded.values()].map(
+          (image) =>
+            new Promise((resolve) => {
+              if (image.complete) resolve();
+              else image.addEventListener("load", resolve, { once: true });
+            }),
+        ),
+      ).then(() => draw(0));
+    </script>
+  </body>
+</html>

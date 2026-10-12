@@ -4,6 +4,15 @@ A sanitized, recruiter-facing business-analysis portfolio project that turns a m
 
 > **Evidence boundary:** every public figure is synthetic or deliberately generalized. This repository contains no staff identities or contact channels, bank or transaction rows, payees, private filenames, document hashes, or attributed messages. It is an independent portfolio case study, not an audited financial statement and not an official Port City FC system.
 
+## Portfolio deliverables
+
+- **Live read-only demo:** [port-city-fc-intelligence-hub.deniropro.chatgpt.site](https://port-city-fc-intelligence-hub.deniropro.chatgpt.site)
+- **Three-minute walkthrough:** [`walkthrough/port-city-fc-intelligence-hub-walkthrough.webm`](walkthrough/port-city-fc-intelligence-hub-walkthrough.webm)
+- **Analytical workbook:** [`outputs/01a128c4-1c8c-71b0-819c-29eaae5a311f/PortCityFC_Analytics_Companion.xlsx`](outputs/01a128c4-1c8c-71b0-819c-29eaae5a311f/PortCityFC_Analytics_Companion.xlsx)
+- **Power BI project:** [`powerbi/PortCityFCCompanion/PortCityFCCompanion.pbip`](powerbi/PortCityFCCompanion/PortCityFCCompanion.pbip)
+
+The hosted demo is a purpose-built static Ownership Snapshot. It publishes no runtime database, credentials, mutation endpoint, or private evidence. The full repository retains the locally verified PostgreSQL scenario-and-audit vertical slice.
+
 ## What this proves
 
 - **Executive communication:** a one-screen Ownership Snapshot leads with cash position, trend, concentration, decisions, accountable owners, and explicit evidence limits.
@@ -155,6 +164,7 @@ powerbi/             PBIP, Power Query, DAX, TMDL model, PBIR report, and RLS
 prisma/migrations/   PostgreSQL schema and permission evolution
 scripts/             Pipeline, PBIP generator, migrations, seed, backup, privacy scan
 tests/               Unit, integration, and Playwright E2E coverage
+walkthrough/         Narration, reproducible recorder, application frames, and final video
 ```
 
 ## Known limits

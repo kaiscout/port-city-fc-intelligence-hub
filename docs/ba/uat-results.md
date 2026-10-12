@@ -16,6 +16,8 @@ Execution date: 12 October 2026. Executor: portfolio project developer. Environm
 | Dependency production audit    | Pass   | `npm audit --omit=dev --audit-level=high`; zero production vulnerabilities                                    |
 | PostgreSQL migrations and seed | Pass   | Two migrations applied; deterministic organization and three scenarios created                                |
 | Desktop Playwright E2E         | Pass   | 5/5 workflows, including persisted scenario and audit evidence                                                |
+| Public Sites deployment        | Pass   | Version 1 published publicly in read-only static mode; live Ownership Snapshot visually reviewed              |
+| Narrated walkthrough           | Pass   | 3:02 WebM, four verified application views, narration source and reproducible recording scripts               |
 
 The full development dependency tree reports five high findings in the current Next.js ESLint toolchain through `fast-glob`/`micromatch`/`braces`; it has no runtime path, and the production dependency audit is clean. The repository does not apply an unsafe forced downgrade.
 
@@ -38,6 +40,8 @@ The full development dependency tree reports five high findings in the current N
 | UAT-013 | Pass        | Power BI project generator and validator confirm Power Query imports, DAX measures, star relationships, and RLS source                 |
 | UAT-014 | Conditional | Power BI Desktop native refresh/render and Service role assignment require a machine with Power BI Desktop and an authorized workspace |
 | UAT-015 | Conditional | Backup procedure is documented; a managed-host restore drill remains an adoption prerequisite                                          |
+| UAT-016 | Pass        | Public deployment exposes only the sanitized Ownership Snapshot and contains no database, credentials, or mutation workflow            |
+| UAT-017 | Pass        | Walkthrough playback, opening frame, progress timeline, and audio track were visually verified in the browser                          |
 
 ## Residual acceptance work
 
