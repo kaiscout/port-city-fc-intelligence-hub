@@ -11,30 +11,34 @@ A sanitized, recruiter-facing business-analysis portfolio project that turns a m
 - **Analytical workbook:** [`outputs/01a128c4-1c8c-71b0-819c-29eaae5a311f/PortCityFC_Analytics_Companion.xlsx`](outputs/01a128c4-1c8c-71b0-819c-29eaae5a311f/PortCityFC_Analytics_Companion.xlsx)
 - **Power BI project:** [`powerbi/PortCityFCCompanion/PortCityFCCompanion.pbip`](powerbi/PortCityFCCompanion/PortCityFCCompanion.pbip)
 
-The hosted demo is a purpose-built static Ownership Snapshot. It publishes no runtime database, credentials, mutation endpoint, or private evidence. The full repository retains the locally verified PostgreSQL scenario-and-audit vertical slice.
+The hosted demo is a purpose-built, interactive executive workspace with nine decision views. It publishes no runtime database, credentials, mutation endpoint, or private evidence. The full repository retains the locally verified PostgreSQL scenario-and-audit vertical slice.
 
 ## What this proves
 
-- **Executive communication:** a one-screen Ownership Snapshot leads with cash position, trend, concentration, decisions, accountable owners, and explicit evidence limits.
+- **Executive communication:** a decision cockpit connects cash, commercial concentration, matchday readiness, program equity, accountable actions, and explicit evidence limits.
 - **Business analysis:** charter, requirements, process maps, RACI, RAID, KPI definitions, UAT, and traceability stay connected to current product behavior.
 - **Data engineering:** raw public inputs build deterministic dimensions/facts, SHA-256 manifests, and seven zero-difference reconciliation checks.
 - **Application engineering:** Next.js, TypeScript, PostgreSQL, migrations, organization scoping, secure sessions, route policies, entity permissions, and transactional audit writes.
 - **BI engineering:** a source-controlled Power BI Project (`.pbip`) with Power Query, DAX, a star-schema constellation, and program-level RLS roles.
-- **Delivery discipline:** privacy scanning, automated tests, database-backed E2E verification, CI, and a read-only public deployment mode.
+- **Delivery discipline:** privacy scanning, cross-platform formatting, automated interaction tests, database-backed E2E verification, CI, and a read-only public deployment mode.
 
 ## Product tour
 
-![Sanitized Ownership Snapshot](public/screenshots/ownership-snapshot.png)
+![Sanitized Port City FC executive command center](public/screenshots/executive-command-center.png)
 
-| Surface            | Decision purpose                                              | Evidence class                                                  |
-| ------------------ | ------------------------------------------------------------- | --------------------------------------------------------------- |
-| Ownership Snapshot | What needs owner attention now?                               | Synthetic controls + sanitized assumptions                      |
-| Command Center     | How are cash mix and modeled operations moving?               | Reconciled synthetic model                                      |
-| Scenario Lab       | What changes under attendance, pricing, and cost assumptions? | PostgreSQL workflow when configured; read-only presets publicly |
-| Sponsorship        | Where is concentration and delivery risk?                     | Synthetic sponsor portfolio                                     |
-| Program Equity     | How do equivalent program drivers compare?                    | Sanitized planning assumptions                                  |
-| Operations Studio  | How would governed imports and CRUD work?                     | Demonstration workflow and role-only staffing coverage          |
-| Settings & Audit   | Who can do what, and what changed?                            | Permission model + audit evidence                               |
+| Workspace           | Decision purpose                                              | Interactive behavior                                             |
+| ------------------- | ------------------------------------------------------------- | ---------------------------------------------------------------- |
+| Command center      | What changed and what needs owner attention now?              | KPI trends, flow/net toggle, category drill-down, decision queue |
+| Finance & cash      | Where are liquidity and spend concentration under pressure?   | Period filter, monthly rhythm, evidence drawer, CSV export       |
+| Commercial          | Where are sponsor, delivery, and acquisition risks?           | Sponsor search/drill-down, funnel and channel analysis           |
+| Matchday operations | Are modeled home fixtures operationally and economically fit? | Program filter, fixture cards, unit-economics drill-down         |
+| Program equity      | How do equivalent Men’s and Women’s program drivers compare?  | Like-for-like KPIs and fixture evidence                          |
+| Scenario lab        | What changes under attendance, pricing, and cost assumptions? | Live sliders, presets, waterfall, break-even and export          |
+| Decision register   | Who owns each finding, recommendation, and due date?          | Priority/status filters and executive detail drawers             |
+| Data quality        | Why should a reviewer trust the public model?                 | Reconciliation controls, lineage, freshness and privacy rules    |
+| Access & audit      | Who can do what and what changed?                             | Permission contract and synthetic audit evidence                 |
+
+Global conveniences include cross-workspace filters, `Ctrl+K` navigation, responsive mobile navigation, light/dark themes, tooltips, print-ready meeting briefs, local CSV exports, alerts, and a persistent evidence-boundary explanation.
 
 ## Architecture
 
@@ -54,7 +58,7 @@ flowchart LR
   F --> M[Program RLS]
 ```
 
-The public deployment uses `PUBLIC_DEMO_MODE=true`: pages and the two read-only scenario feeds remain available, while mutations and database access stay disabled. Local and CI verification use the same UI against PostgreSQL.
+The public deployment is a static privacy-safe adapter generated from the same sanitized source model. It performs local filtering, scenario calculation, drill-down, export, and theme persistence without a server or database. The full Next.js application uses `PUBLIC_DEMO_MODE=true` for read-only pages and scenario feeds; local and CI verification exercise its PostgreSQL workflow separately.
 
 ## Quick start
 
@@ -67,6 +71,14 @@ npm run dev
 ```
 
 Open `http://127.0.0.1:3000/ownership`. Development mode defaults to a read-only demonstration if no database is configured.
+
+To preview the exact recruiter-facing static deployment on loopback:
+
+```bash
+npm run site:preview
+```
+
+Open `http://127.0.0.1:4173`. `npm run site:check` validates the generated bundle and privacy patterns; `npm run site:test` exercises navigation, scenario recalculation, search, drill-down, theming, and mobile overflow in Chromium.
 
 For the complete persisted scenario workflow:
 
@@ -141,11 +153,13 @@ The analytical workbook in `outputs/01a128c4-1c8c-71b0-819c-29eaae5a311f/` provi
 npm run privacy:scan
 npm run data:check
 npm run powerbi:check
+npm run site:check
 npm run format:check
 npm run lint
 npm run typecheck
 npm run test
 npm run build
+npm run site:test
 E2E_DATABASE_URL=postgres://... npx playwright test --project=desktop
 ```
 
@@ -163,6 +177,7 @@ lib/auth/            Session, RBAC, route policies, and server guards
 powerbi/             PBIP, Power Query, DAX, TMDL model, PBIR report, and RLS
 prisma/migrations/   PostgreSQL schema and permission evolution
 scripts/             Pipeline, PBIP generator, migrations, seed, backup, privacy scan
+site/                Source for the nine-workspace recruiter-facing static deployment
 tests/               Unit, integration, and Playwright E2E coverage
 walkthrough/         Narration, reproducible recorder, application frames, and final video
 ```

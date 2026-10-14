@@ -31,6 +31,10 @@ Confirm that a reviewer can understand the executive decision story, reproduce t
 | UAT-013 | BI developer      | Regenerate and validate the PBIP source              | Tables, measures, relationships, visuals, and RLS source pass structural checks                       |
 | UAT-014 | BI reviewer       | Refresh in Power BI Desktop and use **View as**      | Visuals render and Men/Women roles filter program facts as designed                                   |
 | UAT-015 | Service owner     | Restore a backup into isolation                      | Checksum and row counts reconcile before controlled cutover                                           |
+| UAT-016 | Public viewer     | Navigate the deployed executive workspace            | Nine privacy-safe views load without database access or mutation controls                             |
+| UAT-017 | Recruiter         | Play the three-minute walkthrough                    | Problem, evidence boundary, finding, decision, architecture, and next step are understandable         |
+| UAT-018 | Executive         | Filter, drill down, search, and stress-test          | Controls respond immediately; scenario outputs change; evidence remains clearly labeled               |
+| UAT-019 | Mobile reviewer   | Use the public hub at 390-pixel width                | Navigation opens, cards reflow, core controls remain usable, and no horizontal overflow appears       |
 
 ## Exit criteria
 

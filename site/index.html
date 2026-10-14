@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="A privacy-safe, interactive decision-intelligence workspace for Port City FC."
+    />
+    <meta name="theme-color" content="#071d2b" />
+    <title>Port City FC Intelligence Hub</title>
+    <link rel="icon" href="./assets/pcfc-logo.png" />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#workspace">Skip to workspace</a>
+    <div class="app-shell" id="app-shell">
+      <aside class="app-rail" id="app-rail" aria-label="Primary navigation">
+        <div class="brand-lockup">
+          <img src="./assets/pcfc-logo.png" alt="Port City FC" />
+          <div><strong>Port City FC</strong><span>Intelligence Hub</span></div>
+          <button class="icon-button rail-close" id="rail-close" aria-label="Close navigation">
+            ×
+          </button>
+        </div>
+        <button class="workspace-switcher" id="workspace-switcher" type="button">
+          <span class="workspace-mark">PC</span>
+          <span><b>Executive workspace</b><small>Public simulation</small></span>
+          <span aria-hidden="true">⌄</span>
+        </button>
+        <nav id="primary-nav"></nav>
+        <div class="rail-footer">
+          <div class="environment-badge"><span></span> Portfolio-safe mode</div>
+          <p>Synthetic data · server writes disabled</p>
+          <button class="rail-help" id="tour-button" type="button">
+            ? <span>Workspace guide</span>
+          </button>
+        </div>
+      </aside>
+      <div class="mobile-scrim" id="mobile-scrim"></div>
+      <section class="app-stage">
+        <header class="topbar">
+          <div class="topbar-start">
+            <button class="icon-button mobile-menu" id="mobile-menu" aria-label="Open navigation">
+              ☰
+            </button>
+            <div class="breadcrumb">
+              <span>Port City FC</span><b>/</b><strong id="breadcrumb-view">Command center</strong>
+            </div>
+          </div>
+          <div class="topbar-actions">
+            <label class="select-control compact"
+              ><span>Period</span
+              ><select id="period-filter" aria-label="Financial period">
+                <option value="FY25">FY25 model</option>
+                <option value="FY24">FY24 benchmark</option>
+              </select></label
+            >
+            <label class="select-control compact"
+              ><span>Program</span
+              ><select id="program-filter" aria-label="Program filter">
+                <option value="All">All programs</option>
+                <option value="Men">Men</option>
+                <option value="Women">Women</option>
+              </select></label
+            >
+            <button
+              class="search-trigger"
+              id="search-trigger"
+              type="button"
+              aria-label="Search workspace"
+            >
+              <span class="search-icon">⌕</span><span>Search</span><kbd>Ctrl K</kbd>
+            </button>
+            <button class="icon-button" id="theme-toggle" type="button" aria-label="Toggle theme">
+              ◐
+            </button>
+            <button
+              class="notification-button"
+              id="notification-button"
+              type="button"
+              aria-label="Open alerts"
+            >
+              ♢<span>3</span>
+            </button>
+            <button class="profile-button" type="button" aria-label="Portfolio viewer profile">
+              <span>PV</span><b>Portfolio Viewer</b><small>Read-only</small>
+            </button>
+          </div>
+        </header>
+        <div class="evidence-ribbon" role="status">
+          <span class="live-dot"></span><b>Reconciled public model</b
+          ><span>Seven controls pass</span><span class="ribbon-separator"></span
+          ><span id="filter-summary">FY25 · All programs</span
+          ><button id="evidence-button" type="button">Review evidence boundary →</button>
+        </div>
+        <main id="workspace" class="workspace" tabindex="-1"></main>
+      </section>
+    </div>
+
+    <div class="modal-backdrop" id="palette-backdrop" hidden>
+      <section
+        class="command-palette"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="palette-title"
+      >
+        <div class="palette-search">
+          <span>⌕</span
+          ><input
+            id="palette-input"
+            type="search"
+            placeholder="Jump to a workspace or action…"
+            autocomplete="off"
+          /><kbd>Esc</kbd>
+        </div>
+        <div class="palette-body">
+          <p id="palette-title">Navigate the hub</p>
+          <div id="palette-results"></div>
+        </div>
+        <footer><span>↑↓ Navigate</span><span>↵ Open</span><span>Ctrl K Search</span></footer>
+      </section>
+    </div>
+
+    <div class="modal-backdrop" id="tour-backdrop" hidden>
+      <section class="tour-modal" role="dialog" aria-modal="true" aria-labelledby="tour-title">
+        <button class="modal-close" data-close-modal="tour-backdrop" aria-label="Close guide">
+          ×
+        </button>
+        <span class="section-kicker">Executive workspace guide</span>
+        <h2 id="tour-title">Find the decision before the detail.</h2>
+        <p>
+          The hub is organized around the questions a club leader asks—not around source-system
+          tables.
+        </p>
+        <div class="tour-grid">
+          <article>
+            <span>01</span><b>Scan</b>
+            <p>Start in Command center for changes, risks, and owner actions.</p>
+          </article>
+          <article>
+            <span>02</span><b>Investigate</b>
+            <p>Open Finance, Commercial, Matchday, or Programs to test the evidence.</p>
+          </article>
+          <article>
+            <span>03</span><b>Decide</b>
+            <p>Use Scenario lab and the Decision register to make the next action explicit.</p>
+          </article>
+        </div>
+        <button class="primary-button" data-close-modal="tour-backdrop">Enter workspace</button>
+      </section>
+    </div>
+
+    <aside class="detail-drawer" id="detail-drawer" aria-hidden="true" aria-label="Detail panel">
+      <div class="drawer-head">
+        <div>
+          <span class="section-kicker" id="drawer-kicker">Evidence detail</span>
+          <h2 id="drawer-title">Detail</h2>
+        </div>
+        <button class="icon-button" id="drawer-close" aria-label="Close detail panel">×</button>
+      </div>
+      <div class="drawer-body" id="drawer-body"></div>
+    </aside>
+    <div class="drawer-scrim" id="drawer-scrim"></div>
+    <div class="toast-region" id="toast-region" aria-live="polite"></div>
+    <div class="tooltip" id="tooltip" role="tooltip"></div>
+    <script src="./data.js"></script>
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>
