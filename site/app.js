@@ -73,59 +73,80 @@ const views = [
 
 const viewCopy = {
   command: {
-    kicker: "Executive decision cockpit",
-    title: "Know what changed. Decide what happens next.",
+    kicker: "Module 01 / Executive control",
+    title: "Club operating picture",
     description:
-      "A single operating view of cash resilience, demand, commercial concentration, matchday readiness, and accountable actions.",
+      "Financial resilience, commercial momentum, supporter demand and accountable actions on one decision surface.",
   },
   finance: {
-    kicker: "Finance & cash",
-    title: "Protect liquidity before approving growth.",
+    kicker: "Module 02 / Finance intelligence",
+    title: "Cash, runway & cost control",
     description:
       "Reconciled cash movement, category concentration, monthly pressure points, and the evidence behind the modeled position.",
   },
   commercial: {
-    kicker: "Commercial performance",
-    title: "Turn reach and partnerships into repeatable revenue.",
+    kicker: "Module 03 / Commercial intelligence",
+    title: "Revenue & partnership intelligence",
     description:
       "Sponsor concentration, delivery health, renewal posture, acquisition conversion, and channel efficiency in one place.",
   },
   matchday: {
-    kicker: "Matchday operations",
-    title: "Make every home fixture operationally ready.",
+    kicker: "Module 04 / Matchday control",
+    title: "Fixture readiness & unit economics",
     description:
       "Fixture economics, capacity signals, readiness controls, and cost assumptions designed for action before gates open.",
   },
   programs: {
-    kicker: "Program equity",
-    title: "Compare like with like—then fund the driver.",
+    kicker: "Module 05 / Program intelligence",
+    title: "Program performance & equity",
     description:
       "A consistent comparison of the Men’s and Women’s programs using shared definitions, equivalent KPIs, and visible evidence limits.",
   },
   scenarios: {
-    kicker: "Scenario lab",
-    title: "Test the decision without pretending it is a forecast.",
+    kicker: "Module 06 / Planning intelligence",
+    title: "Decision simulation lab",
     description:
       "Adjust attendance, price, match volume, and operating assumptions. Every output is calculated locally and remains clearly illustrative.",
   },
   decisions: {
-    kicker: "Decision register",
-    title: "Give every finding an owner and a next move.",
+    kicker: "Module 07 / Executive governance",
+    title: "Executive action register",
     description:
       "Prioritized decisions with evidence, recommendation, accountable owner, and timing—ready for an executive operating meeting.",
   },
   quality: {
-    kicker: "Data quality & lineage",
-    title: "Trust is a product feature, not a footnote.",
+    kicker: "Module 08 / Data observability",
+    title: "Data trust & lineage",
     description:
       "Control totals, freshness, privacy rules, and source-to-model lineage expose exactly why the public model can be used safely.",
   },
   access: {
-    kicker: "Access & audit",
-    title: "The interface is not the security boundary.",
+    kicker: "Module 09 / Platform governance",
+    title: "Governance & control",
     description:
       "Route policy, entity permissions, organization scope, transactional audit writes, and a transparent public-role contract.",
   },
+};
+
+const viewSignals = {
+  command:
+    "Liquidity is positive. Sponsor concentration and the unresolved fixture split are the two constraints to clear before plan approval.",
+  finance:
+    "Cash coverage remains above 1.0×, but the operating case should not be approved below the 1.05× management threshold.",
+  commercial:
+    "Protect high-value renewals first: delivery recovery and named account ownership have the fastest modeled impact on cash resilience.",
+  matchday:
+    "Attendance upside is meaningful, but contribution should be judged after direct staffing, field and concession costs—not gate revenue alone.",
+  programs:
+    "Equivalent definitions expose the real difference between programs; opportunity, capacity and fixture volume must be normalized before allocation.",
+  scenarios:
+    "The model is most sensitive to paid attendance and direct fixture cost. Use the downside case to set the minimum reserve, not as a forecast.",
+  decisions:
+    "Three decisions affect the operating plan now. Each needs one accountable owner, a due date and evidence that can close the loop.",
+  quality:
+    "All seven public controls reconcile. Remaining uncertainty is explicitly labeled as an evidence gap rather than silently converted into an actual.",
+  access:
+    "Public access is intentionally read-only. The full application repeats authorization at the route, entity and organization-query boundaries.",
 };
 
 const icons = {
@@ -155,7 +176,7 @@ const state = {
       : "command",
   period: localStorage.getItem("pcfc-period") || "FY25",
   program: localStorage.getItem("pcfc-program") || "All",
-  theme: localStorage.getItem("pcfc-theme") || "light",
+  theme: localStorage.getItem("pcfc-theme-v2") || "dark",
   cashMode: "flow",
   decisionFilter: "All",
   paletteIndex: 0,
@@ -218,11 +239,11 @@ function renderNav() {
 
 function viewHeader(actions = true) {
   const copy = viewCopy[state.view];
-  return `<header class="view-header"><div><span class="section-kicker">${copy.kicker}</span><h1>${copy.title}</h1><p>${copy.description}</p></div>${
+  return `<header class="view-header"><div class="view-identity"><div class="view-label-row"><span class="section-kicker">${copy.kicker}</span><span class="live-module"><i></i> Live model</span></div><h1>${copy.title}</h1><p>${copy.description}</p></div>${
     actions
-      ? `<div class="view-actions"><button class="secondary-button" data-action="export-view">⇩ Export view</button><button class="primary-button" data-action="open-decisions">Open decisions →</button></div>`
+      ? `<div class="view-actions"><button class="secondary-button" data-action="export-view">Export intelligence</button><button class="primary-button" data-action="open-decisions">Review actions <span>→</span></button></div>`
       : ""
-  }</header>`;
+  }</header><section class="intelligence-brief"><div class="signal-orb" aria-hidden="true"><span></span><i></i></div><div><small>Analyst signal</small><p>${viewSignals[state.view]}</p></div><div class="brief-score"><small>Control status</small><b>7<span>/7</span></b><em>PASSING</em></div></section>`;
 }
 
 function sparkline(values, tone = "primary") {
@@ -241,7 +262,11 @@ function sparkline(values, tone = "primary") {
 }
 
 function metricCard({ label, value, delta, tone = "", tooltip, series = [] }) {
-  return `<article class="card metric-card interactive"><div class="metric-top"><span>${label}</span><button type="button" data-tooltip="${tooltip}" aria-label="${tooltip}">i</button></div><strong class="metric-value">${value}</strong><span class="metric-delta ${tone}">${tone === "positive" ? "↗" : tone === "negative" ? "↘" : "—"} ${delta}</span>${series.length ? sparkline(series, tone) : ""}</article>`;
+  const maximum = series.length ? Math.max(...series) : 1;
+  const minimum = series.length ? Math.min(...series) : 0;
+  const current = series.length ? series.at(-1) : 0;
+  const position = series.length ? 18 + ((current - minimum) / (maximum - minimum || 1)) * 74 : 50;
+  return `<article class="card metric-card interactive"><div class="metric-top"><span>${label}</span><span class="metric-live">LIVE</span><button type="button" data-tooltip="${tooltip}" aria-label="${tooltip}">?</button></div><strong class="metric-value">${value}</strong><span class="metric-delta ${tone}">${tone === "positive" ? "↗" : tone === "negative" ? "↘" : "—"} ${delta}</span>${series.length ? sparkline(series, tone) : ""}<div class="metric-track"><i style="width:${position}%"></i><span></span></div></article>`;
 }
 
 function panel(title, subtitle, body, options = {}) {
@@ -1098,7 +1123,7 @@ $("#tour-backdrop").addEventListener("click", (event) => {
 });
 $("#theme-toggle").addEventListener("click", () => {
   state.theme = state.theme === "light" ? "dark" : "light";
-  localStorage.setItem("pcfc-theme", state.theme);
+  localStorage.setItem("pcfc-theme-v2", state.theme);
   document.documentElement.dataset.theme = state.theme;
   showToast(
     `${state.theme === "dark" ? "Dark" : "Light"} theme applied`,

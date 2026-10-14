@@ -49,9 +49,7 @@ try {
   });
 
   await page.goto(url, { waitUntil: "networkidle" });
-  await page
-    .getByRole("heading", { name: "Know what changed. Decide what happens next." })
-    .waitFor();
+  await page.getByRole("heading", { name: "Club operating picture" }).waitFor();
   if ((await page.locator(".nav-item").count()) !== 9)
     throw new Error("Expected nine primary workspaces.");
   await mkdir(path.join(process.cwd(), "test-results"), { recursive: true });
@@ -69,12 +67,10 @@ try {
   await page.getByText("Monthly net", { exact: true }).waitFor();
 
   await page.locator('.nav-item[data-view="finance"]').click();
-  await page.getByRole("heading", { name: "Protect liquidity before approving growth." }).waitFor();
+  await page.getByRole("heading", { name: "Cash, runway & cost control" }).waitFor();
 
   await page.locator('.nav-item[data-view="scenarios"]').click();
-  await page
-    .getByRole("heading", { name: "Test the decision without pretending it is a forecast." })
-    .waitFor();
+  await page.getByRole("heading", { name: "Decision simulation lab" }).waitFor();
   const contributionBefore = await page.locator("#scenario-contribution").textContent();
   await page.locator('[data-scenario-input="expectedAttendance"]').fill("900");
   const contributionAfter = await page.locator("#scenario-contribution").textContent();
@@ -84,16 +80,17 @@ try {
   await page.locator("#search-trigger").click();
   await page.locator("#palette-input").fill("commercial");
   await page.locator('.palette-result[data-view="commercial"]').click();
-  await page
-    .getByRole("heading", { name: "Turn reach and partnerships into repeatable revenue." })
-    .waitFor();
+  await page.getByRole("heading", { name: "Revenue & partnership intelligence" }).waitFor();
   await page.locator("#sponsor-table-body tr").first().click();
   await page.locator("#detail-drawer.open").waitFor();
   await page.locator("#drawer-close").click();
 
+  const themeBefore = await page.locator("html").getAttribute("data-theme");
   await page.locator("#theme-toggle").click();
-  if ((await page.locator("html").getAttribute("data-theme")) !== "dark")
+  const themeAfter = await page.locator("html").getAttribute("data-theme");
+  if (themeBefore === themeAfter || themeAfter !== "light")
     throw new Error("Theme preference did not apply.");
+  await page.locator("#theme-toggle").click();
 
   await page.setViewportSize({ width: 390, height: 844 });
   await page.locator("#mobile-menu").click();

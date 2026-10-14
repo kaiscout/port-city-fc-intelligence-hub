@@ -11,11 +11,11 @@ A sanitized, recruiter-facing business-analysis portfolio project that turns a m
 - **Analytical workbook:** [`outputs/01a128c4-1c8c-71b0-819c-29eaae5a311f/PortCityFC_Analytics_Companion.xlsx`](outputs/01a128c4-1c8c-71b0-819c-29eaae5a311f/PortCityFC_Analytics_Companion.xlsx)
 - **Power BI project:** [`powerbi/PortCityFCCompanion/PortCityFCCompanion.pbip`](powerbi/PortCityFCCompanion/PortCityFCCompanion.pbip)
 
-The hosted demo is a purpose-built, interactive executive workspace with nine decision views. It publishes no runtime database, credentials, mutation endpoint, or private evidence. The full repository retains the locally verified PostgreSQL scenario-and-audit vertical slice.
+The hosted demo is a purpose-built football business control room with nine decision views, a midnight telemetry interface, interactive drill-downs, and an accountable owner queue. It publishes no runtime database, credentials, mutation endpoint, or private evidence. The full repository retains the locally verified PostgreSQL scenario-and-audit vertical slice.
 
 ## What this proves
 
-- **Executive communication:** a decision cockpit connects cash, commercial concentration, matchday readiness, program equity, accountable actions, and explicit evidence limits.
+- **Executive communication:** a high-density decision cockpit connects cash, commercial concentration, matchday readiness, program equity, accountable actions, and explicit evidence limits.
 - **Business analysis:** charter, requirements, process maps, RACI, RAID, KPI definitions, UAT, and traceability stay connected to current product behavior.
 - **Data engineering:** raw public inputs build deterministic dimensions/facts, SHA-256 manifests, and seven zero-difference reconciliation checks.
 - **Application engineering:** Next.js, TypeScript, PostgreSQL, migrations, organization scoping, secure sessions, route policies, entity permissions, and transactional audit writes.
@@ -38,7 +38,7 @@ The hosted demo is a purpose-built, interactive executive workspace with nine de
 | Data quality        | Why should a reviewer trust the public model?                 | Reconciliation controls, lineage, freshness and privacy rules    |
 | Access & audit      | Who can do what and what changed?                             | Permission contract and synthetic audit evidence                 |
 
-Global conveniences include cross-workspace filters, `Ctrl+K` navigation, responsive mobile navigation, light/dark themes, tooltips, print-ready meeting briefs, local CSV exports, alerts, and a persistent evidence-boundary explanation.
+Global conveniences include cross-workspace filters, `Ctrl+K` navigation, responsive mobile navigation, dark control-room and light presentation themes, tooltips, print-ready meeting briefs, local CSV exports, alerts, and a persistent evidence-boundary explanation.
 
 ## Architecture
 

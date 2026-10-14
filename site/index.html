@@ -7,7 +7,7 @@
       name="description"
       content="A privacy-safe, interactive decision-intelligence workspace for Port City FC."
     />
-    <meta name="theme-color" content="#071d2b" />
+    <meta name="theme-color" content="#050912" />
     <title>Port City FC Intelligence Hub</title>
     <link rel="icon" href="./assets/pcfc-logo.png" />
     <link rel="stylesheet" href="./styles.css" />
@@ -18,20 +18,20 @@
       <aside class="app-rail" id="app-rail" aria-label="Primary navigation">
         <div class="brand-lockup">
           <img src="./assets/pcfc-logo.png" alt="Port City FC" />
-          <div><strong>Port City FC</strong><span>Intelligence Hub</span></div>
+          <div><strong>Port City FC</strong><span>Club Intelligence // 01</span></div>
           <button class="icon-button rail-close" id="rail-close" aria-label="Close navigation">
             ×
           </button>
         </div>
         <button class="workspace-switcher" id="workspace-switcher" type="button">
           <span class="workspace-mark">PC</span>
-          <span><b>Executive workspace</b><small>Public simulation</small></span>
+          <span><b>Executive command</b><small>FY25 public model</small></span>
           <span aria-hidden="true">⌄</span>
         </button>
         <nav id="primary-nav"></nav>
         <div class="rail-footer">
-          <div class="environment-badge"><span></span> Portfolio-safe mode</div>
-          <p>Synthetic data · server writes disabled</p>
+          <div class="environment-badge"><span></span> System operational</div>
+          <p>Public model · 7/7 controls · read only</p>
           <button class="rail-help" id="tour-button" type="button">
             ? <span>Workspace guide</span>
           </button>
@@ -45,19 +45,20 @@
               ☰
             </button>
             <div class="breadcrumb">
-              <span>Port City FC</span><b>/</b><strong id="breadcrumb-view">Command center</strong>
+              <span>PCFC // BUSINESS OPS</span><b>/</b
+              ><strong id="breadcrumb-view">Command center</strong>
             </div>
           </div>
           <div class="topbar-actions">
             <label class="select-control compact"
-              ><span>Period</span
+              ><span>Season</span
               ><select id="period-filter" aria-label="Financial period">
                 <option value="FY25">FY25 model</option>
                 <option value="FY24">FY24 benchmark</option>
               </select></label
             >
             <label class="select-control compact"
-              ><span>Program</span
+              ><span>Squad</span
               ><select id="program-filter" aria-label="Program filter">
                 <option value="All">All programs</option>
                 <option value="Men">Men</option>
@@ -70,7 +71,7 @@
               type="button"
               aria-label="Search workspace"
             >
-              <span class="search-icon">⌕</span><span>Search</span><kbd>Ctrl K</kbd>
+              <span class="search-icon">⌕</span><span>Command</span><kbd>Ctrl K</kbd>
             </button>
             <button class="icon-button" id="theme-toggle" type="button" aria-label="Toggle theme">
               ◐
@@ -84,14 +85,13 @@
               ♢<span>3</span>
             </button>
             <button class="profile-button" type="button" aria-label="Portfolio viewer profile">
-              <span>PV</span><b>Portfolio Viewer</b><small>Read-only</small>
+              <span>EV</span><b>Executive Viewer</b><small>Secure read-only</small>
             </button>
           </div>
         </header>
         <div class="evidence-ribbon" role="status">
-          <span class="live-dot"></span><b>Reconciled public model</b
-          ><span>Seven controls pass</span><span class="ribbon-separator"></span
-          ><span id="filter-summary">FY25 · All programs</span
+          <span class="live-dot"></span><b>DATA TRUST: VERIFIED</b><span>7/7 controls passing</span
+          ><span class="ribbon-separator"></span><span id="filter-summary">FY25 · All programs</span
           ><button id="evidence-button" type="button">Review evidence boundary →</button>
         </div>
         <main id="workspace" class="workspace" tabindex="-1"></main>
