@@ -1,5 +1,9 @@
 # Production-Readiness Assessment
 
+## Stakeholder presentation scope — 16 October 2026
+
+The public Hub is a synthetic demonstration for reviewing workflows, definitions and a proposed validation pilot. Its calculation, filter, export and evidence contracts are documented in calculation methodology 2.0 and the current UAT execution record. The Owner briefing provides the presentation route and explicit approval requests. This technical presentation does not establish PCFC acceptance or authorize operational reliance on public figures.
+
 ## Ready for supervised pilot
 
 - Complete decision experience and deterministic demonstration mode.

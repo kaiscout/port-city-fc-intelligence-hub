@@ -12,7 +12,7 @@
     "site:build": "tsx scripts/build-sites-demo.ts",
     "site:check": "npm run site:build && node scripts/check-sites-demo.mjs",
     "site:preview": "npm run site:build && node scripts/preview-sites-demo.mjs",
-    "site:test": "npm run site:build && node scripts/test-sites-demo.mjs",
+    "site:test": "npm run site:build && node scripts/test-sites-model.mjs && node scripts/test-sites-demo.mjs",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "lint": "eslint . --max-warnings=0",

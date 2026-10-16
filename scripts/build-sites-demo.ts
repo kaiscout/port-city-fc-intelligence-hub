@@ -1,5 +1,7 @@
 import { cp, mkdir, readFile, rm, writeFile } from "node:fs/promises";
 import path from "node:path";
+import { pathToFileURL } from "node:url";
+import { permissions } from "../lib/rbac";
 
 import {
   auditEvents,
@@ -8,7 +10,6 @@ import {
   demoFixtures,
   demoSponsors,
   funnelStages,
-  monthlyTrend,
   scenarioPresets,
 } from "../lib/data/demo";
 import {
@@ -32,7 +33,10 @@ const output = path.join(root, "dist");
 
 const reconciliation = JSON.parse(
   await readFile(path.join(root, "data", "processed", "reconciliation.json"), "utf8"),
-) as { generatedAt?: string; checks?: unknown[] };
+) as {
+  generatedAt: string;
+  checks: { name: string; expected: number; actual: number; difference: number; status: string }[];
+};
 
 const publicSponsors = demoSponsors.map(
   ({
@@ -102,9 +106,11 @@ const data = {
   meta: {
     product: "Port City FC Intelligence Hub",
     mode: "Public portfolio simulation",
-    refreshedAt: "2026-10-14T18:30:00Z",
-    modelStatus: "Reconciled",
-    release: "Executive workspace 3.0",
+    snapshotAt: reconciliation.generatedAt,
+    builtAt: new Date().toISOString(),
+    release: "Stakeholder review 5.0",
+    operationsScope: "2026 synthetic operational sample",
+    acquisitionScope: "2026 club-wide acquisition sample; no program-level attribution",
     evidenceBoundary:
       "Synthetic and deliberately generalized data. No bank rows, payees, staff identities, contact details, private filenames, or attributed messages are published.",
   },
@@ -112,6 +118,13 @@ const data = {
   incomeCategories: fy25IncomeCategories,
   expenseCategories: fy25ExpenseCategories,
   monthlyCash: fy25MonthlyCashFlow,
+  financeBreakdowns: {
+    FY25: {
+      monthly: fy25MonthlyCashFlow,
+      income: fy25IncomeCategories,
+      expenses: fy25ExpenseCategories,
+    },
+  },
   fieldCosts: fy25FieldCosts,
   operatingBaseline: managementOperatingBaseline,
   matchdayCosts: managementMatchdayCosts,
@@ -121,9 +134,12 @@ const data = {
   fixtures: publicFixtures,
   funnelStages,
   channelPerformance,
-  scenarioPresets,
+  scenarioPresets: scenarioPresets.map((preset) => ({
+    ...preset,
+    homeMatches: 10,
+    variableCostPerAttendee: 2.4,
+  })),
   communityRecords,
-  monthlyTrend,
   staffing: { covered: staffRoles, open: openStaffRoles },
   matchdayNeeds,
   auditEvents: auditEvents.map((event, index) => ({
@@ -133,9 +149,10 @@ const data = {
       "System",
   })),
   reconciliation: {
-    generatedAt: reconciliation.generatedAt ?? "2026-10-14T18:30:00Z",
-    checks: Array.isArray(reconciliation.checks) ? reconciliation.checks : [],
+    generatedAt: reconciliation.generatedAt,
+    checks: reconciliation.checks,
   },
+  permissions,
   decisions: [
     {
       id: "DEC-017",
@@ -144,9 +161,10 @@ const data = {
       owner: "Ownership group",
       due: "Before budget approval",
       status: "Decision required",
-      evidence: "Modeled margin is 5.6%; downside tolerance is limited.",
+      evidence:
+        "FY25 synthetic net cash margin is 5.6%. No opening bank balance is supplied, so liquidity and runway cannot be established.",
       recommendation:
-        "Ring-fence at least one month of modeled operating spend before approving growth cases.",
+        "Propose a minimum reserve and validate it against an authorized cash balance and payment schedule. The amount requires ownership approval.",
     },
     {
       id: "DEC-014",
@@ -155,9 +173,10 @@ const data = {
       owner: "Commercial lead",
       due: "30 days",
       status: "Action open",
-      evidence: "Sponsorship provides 56.3% of modeled income.",
+      evidence:
+        "Sponsorship is 56.3% of FY25 synthetic cash inflow. The separate 2026 sponsor sample illustrates delivery and renewal workflows.",
       recommendation:
-        "Use a 90/60/30-day renewal cadence with delivery proof attached to each account.",
+        "Propose a 90/60/30-day renewal cadence with delivery proof. Confirm account ownership and actual contract dates with PCFC.",
     },
     {
       id: "DEC-012",
@@ -166,7 +185,8 @@ const data = {
       owner: "Operations lead",
       due: "Before forecast lock",
       status: "Evidence gap",
-      evidence: "The public evidence confirms match volume, but not the home/away split.",
+      evidence:
+        "The generalized planning assumptions do not establish an approved home/away split. Eight synthetic home-fixture examples are not a season schedule.",
       recommendation:
         "Validate fixture classification before using per-home-match cost projections.",
     },
@@ -182,26 +202,17 @@ const data = {
         "Adopt paid attendance for commercial reporting and scanned attendance for operations.",
     },
   ],
-  qualityChecks: [
-    { name: "Monthly inflow to category control", status: "Pass", difference: 0, owner: "Finance" },
-    {
-      name: "Monthly outflow to category control",
-      status: "Pass",
-      difference: 0,
-      owner: "Finance",
-    },
-    { name: "Net cash arithmetic", status: "Pass", difference: 0, owner: "Business analyst" },
-    { name: "Twelve-month date coverage", status: "Pass", difference: 0, owner: "Data steward" },
-    { name: "Program dimension coverage", status: "Pass", difference: 0, owner: "Operations" },
-    { name: "Role-only staffing boundary", status: "Pass", difference: 0, owner: "Administrator" },
-    {
-      name: "Public-field privacy contract",
-      status: "Pass",
-      difference: 0,
-      owner: "Administrator",
-    },
-  ],
 };
+
+const { validateHubModel } = await import(pathToFileURL(path.join(source, "model.js")).href);
+const modelChecks = validateHubModel(data);
+if (
+  modelChecks.some((check: { status: string }) => check.status !== "PASS") ||
+  reconciliation.checks.some((check) => check.status !== "PASS" || check.difference !== 0)
+) {
+  throw new Error("Hub integrity controls failed; refusing to build the public release.");
+}
+const bundle = { ...data, modelChecks };
 
 await rm(output, { recursive: true, force: true });
 await mkdir(path.join(output, "assets"), { recursive: true });
@@ -209,6 +220,7 @@ await Promise.all([
   cp(path.join(source, "index.html"), path.join(output, "index.html")),
   cp(path.join(source, "styles.css"), path.join(output, "styles.css")),
   cp(path.join(source, "app.js"), path.join(output, "app.js")),
+  cp(path.join(source, "model.js"), path.join(output, "model.js")),
   cp(
     path.join(root, "public", "brand", "port-city-fc-logo.png"),
     path.join(output, "assets", "pcfc-logo.png"),
@@ -216,8 +228,16 @@ await Promise.all([
 ]);
 await writeFile(
   path.join(output, "data.js"),
-  `window.PCFC_DATA = ${JSON.stringify(data)};\n`,
+  `window.PCFC_DATA = ${JSON.stringify(bundle)};\n`,
   "utf8",
 );
 
-console.log(JSON.stringify({ output, files: 5, views: 9, status: "PASS" }));
+console.log(
+  JSON.stringify({
+    output,
+    files: 6,
+    views: 9,
+    integrityChecks: modelChecks.length,
+    status: "PASS",
+  }),
+);

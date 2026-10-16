@@ -2,7 +2,14 @@ import { readFile, stat } from "node:fs/promises";
 import path from "node:path";
 
 const root = process.cwd();
-const requiredFiles = ["index.html", "styles.css", "app.js", "data.js", "assets/pcfc-logo.png"];
+const requiredFiles = [
+  "index.html",
+  "styles.css",
+  "app.js",
+  "model.js",
+  "data.js",
+  "assets/pcfc-logo.png",
+];
 
 for (const file of requiredFiles) {
   const details = await stat(path.join(root, "dist", file));

@@ -34,7 +34,7 @@ export type ManagementSeasonCommitment = {
   item: string;
   amount: number;
   basis: string;
-  confidence: "Confirmed in messages" | "Approximate — confirm";
+  confidence: "Synthetic fixed assumption" | "Approximate — confirm";
 };
 
 export const financialPeriods: FinancialPeriod[] = [
@@ -172,13 +172,13 @@ export const managementSeasonCommitments: ManagementSeasonCommitment[] = [
     item: "Officials",
     amount: 5600,
     basis: "Synthetic club-wide commitment",
-    confidence: "Confirmed in messages",
+    confidence: "Synthetic fixed assumption",
   },
   {
     item: "Game fields",
     amount: 6400,
     basis: "Synthetic combined-program commitment",
-    confidence: "Confirmed in messages",
+    confidence: "Synthetic fixed assumption",
   },
   {
     item: "Practice fields",

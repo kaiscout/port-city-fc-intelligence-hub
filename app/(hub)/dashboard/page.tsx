@@ -22,10 +22,10 @@ const cashMargin = (current.netCash / current.inflow) * 100;
 const sponsorship = fy25IncomeCategories.find((item) => item.name === "Sponsorship")!.amount;
 const fieldCosts = fy25FieldCosts.reduce((sum, item) => sum + item.amount, 0);
 const confirmedCommitments = managementSeasonCommitments
-  .filter((item) => item.confidence === "Confirmed in messages")
+  .filter((item) => item.confidence === "Synthetic fixed assumption")
   .reduce((sum, item) => sum + item.amount, 0);
 const conditionalCommitments = managementSeasonCommitments
-  .filter((item) => item.confidence !== "Confirmed in messages")
+  .filter((item) => item.confidence !== "Synthetic fixed assumption")
   .reduce((sum, item) => sum + item.amount, 0);
 const recurringHomeMinimum = managementMatchdayCosts.reduce((sum, item) => sum + item.minimum, 0);
 const recurringHomeMaximum = managementMatchdayCosts.reduce((sum, item) => sum + item.maximum, 0);
@@ -40,10 +40,10 @@ const evidenceReadiness = [
     "success",
   ],
   [
-    "Field-cost category",
-    `${currency(fieldCosts)} synthetic annual total`,
-    "Reconciled",
-    "success",
+    "Field-cost sample",
+    `${currency(fieldCosts)} synthetic standalone aggregate`,
+    "Illustrative",
+    "info",
   ],
   [
     "Operating assumptions",
@@ -66,7 +66,7 @@ function downloadSummary() {
     `Cash outflow: ${current.outflow.toFixed(2)}`,
     `Net cash: ${current.netCash.toFixed(2)}`,
     `Cash margin: ${cashMargin.toFixed(1)}%`,
-    `Confirmed synthetic commitments: ${confirmedCommitments.toFixed(2)}`,
+    `Independent fixed planning assumptions (not added to cash totals): ${confirmedCommitments.toFixed(2)}`,
     "",
     "DECISION",
     "Approve a monthly cash floor and complete the fixture driver pack before presenting a forecast.",
@@ -155,7 +155,7 @@ export default function DashboardPage() {
           definition="Synthetic match and practice-field category total; no vendor rows."
         />
         <KpiCard
-          label="Confirmed commitments"
+          label="Fixed planning assumptions"
           value={currency(confirmedCommitments, true)}
           change={`${currency(conditionalCommitments, true)} conditional`}
           positive={null}

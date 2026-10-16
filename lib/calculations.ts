@@ -5,7 +5,7 @@ const safeDiv = (numerator: number, denominator: number) =>
 
 export function calculateScenario(input: ScenarioInput): ScenarioResult {
   const attendance = Math.max(0, Math.min(input.expectedAttendance, input.venueCapacity));
-  const paidAttendance = Math.round(attendance * (1 - input.complimentaryPct / 100));
+  const paidAttendance = attendance * (1 - input.complimentaryPct / 100);
   const ticketRevenue = paidAttendance * input.ticketPrice;
   const concessionRevenue =
     attendance * (input.concessionParticipationPct / 100) * input.averageConcessionSpend;
@@ -41,11 +41,16 @@ export function calculateScenario(input: ScenarioInput): ScenarioResult {
   const netContributionPerAttendee =
     (netTicketPerAttendee + netAncillaryPerAttendee) * (1 - input.communityAllocationPct / 100) -
     perAttendeeVariableCost;
-  const residualFixedCosts = Math.max(0, fixedCosts - sponsorshipAllocation);
+  const residualFixedCosts = Math.max(
+    0,
+    fixedCosts - sponsorshipAllocation * (1 - input.communityAllocationPct / 100),
+  );
   const breakEvenAttendance =
-    netContributionPerAttendee > 0
-      ? Math.ceil(residualFixedCosts / netContributionPerAttendee)
-      : null;
+    residualFixedCosts === 0
+      ? 0
+      : netContributionPerAttendee > 0
+        ? Math.ceil(residualFixedCosts / netContributionPerAttendee - 1e-10)
+        : null;
 
   return {
     paidAttendance,

@@ -17,7 +17,11 @@ describe("matchday economics", () => {
     expect(result.variableCosts).toBeCloseTo(6_212.84, 1);
     expect(result.totalRevenue).toBeCloseTo(54_521, 1);
     expect(result.operatingMargin).toBeCloseTo(21_758.16, 1);
-    expect(result.breakEvenAttendance).toBe(651);
+    expect(result.breakEvenAttendance).toBe(674);
+    const atBreakEven = calculateScenario({ ...scenarioPresets[1]!, expectedAttendance: 674 });
+    const belowBreakEven = calculateScenario({ ...scenarioPresets[1]!, expectedAttendance: 673 });
+    expect(atBreakEven.operatingMargin).toBeGreaterThanOrEqual(0);
+    expect(belowBreakEven.operatingMargin).toBeLessThan(0);
   });
 
   it("caps attendance at venue capacity and handles impossible break-even", () => {

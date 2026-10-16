@@ -2308,9 +2308,7 @@ a:focus-visible,
   }
 }
 
-/* --------------------------------------------------------------------------
-   PCFC Control Room — stadium-grade analytics surface
-   -------------------------------------------------------------------------- */
+/* PCFC control-room presentation theme */
 
 :root,
 [data-theme="dark"] {
@@ -3621,5 +3619,259 @@ body::before {
     border-color: #ccd4dc !important;
     background: white !important;
     color: black !important;
+  }
+}
+
+.scope-note {
+  display: grid;
+  gap: 5px;
+  margin: -4px 0 14px;
+  padding: 11px 14px;
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--amber-600);
+  border-radius: 8px;
+  background: var(--surface-2);
+  font-size: 11px;
+  line-height: 1.55;
+}
+.scope-note b {
+  color: var(--amber-600);
+  font-size: 10px;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+.scope-note small,
+.method-note {
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.6;
+}
+.metric-trend {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: 15px;
+}
+.metric-trend .sparkline {
+  position: static;
+  flex-shrink: 0;
+}
+.metric-trend small {
+  max-width: 130px;
+  font-size: 8px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+.metric-card .metric-value {
+  font-size: clamp(24px, 2.3vw, 34px);
+}
+.metric-live {
+  white-space: nowrap;
+}
+.portfolio-controls {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+.portfolio-controls input,
+.portfolio-controls select,
+.scenario-controls select {
+  min-width: 0;
+  padding: 10px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface-2);
+  color: var(--ink);
+  font: inherit;
+  font-size: 11px;
+}
+.portfolio-controls input {
+  flex: 1 1 160px;
+}
+.portfolio-controls select {
+  flex: 0 1 145px;
+}
+.select-control:has(select:disabled) {
+  opacity: 0.48;
+}
+select:disabled {
+  cursor: not-allowed;
+}
+.assumption-details {
+  margin-top: 18px;
+  border-top: 1px solid var(--line);
+  padding-top: 14px;
+}
+.assumption-details summary {
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 700;
+  padding-bottom: 14px;
+}
+.range-control label {
+  line-height: 1.6;
+}
+#scenario-detail {
+  margin-top: 18px;
+}
+#presentation-print {
+  display: none;
+}
+.evidence-ribbon {
+  flex-wrap: wrap;
+  height: auto;
+  padding-block: 9px;
+}
+#filter-summary {
+  line-height: 1.5;
+}
+
+@media (max-width: 720px) {
+  .topbar {
+    height: auto;
+    min-height: 58px;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding-block: 9px;
+    position: relative;
+  }
+  .topbar-start {
+    flex: 1;
+  }
+  .topbar-actions {
+    display: grid;
+    width: 100%;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) 40px 40px;
+  }
+  .topbar-actions .select-control.compact {
+    display: flex;
+    min-width: 0;
+  }
+  .select-control.compact select {
+    font-size: 10px;
+  }
+  .topbar-actions .search-trigger {
+    min-width: 0;
+    width: 40px;
+    height: 42px;
+    padding: 0;
+    justify-content: center;
+  }
+  .evidence-ribbon > b {
+    display: block;
+    font-size: 9px;
+  }
+  #filter-summary {
+    flex-basis: 100%;
+    font-size: 9px;
+  }
+  .metric-card .metric-value {
+    font-size: 30px;
+  }
+  .scope-note {
+    margin-top: 10px;
+  }
+  .portfolio-controls button {
+    flex: 1 0 auto;
+  }
+  .chart-wrap,
+  .chart-wrap.compact {
+    min-height: 0;
+    overflow-x: auto;
+    overflow-y: hidden;
+  }
+  .chart-svg {
+    min-width: 620px;
+    display: block;
+  }
+  .chart-axis-label {
+    font-size: 13px;
+  }
+  .chart-wrap::after {
+    content: "Swipe chart horizontally to inspect all months";
+    display: block;
+    position: sticky;
+    left: 0;
+    color: var(--muted);
+    font-size: 10px;
+    padding-block: 8px;
+  }
+}
+
+@media print {
+  .scope-note {
+    color: #14202e !important;
+    background: #fff !important;
+    border-color: #526170 !important;
+  }
+  .scope-note small,
+  .method-note,
+  .panel p,
+  .card p,
+  .card small,
+  .card span {
+    color: #344250 !important;
+  }
+  .portfolio-controls,
+  .segmented,
+  .ghost-button,
+  .secondary-button,
+  .primary-button,
+  .panel-menu {
+    display: none !important;
+  }
+  body.print-owner .app-shell {
+    display: none !important;
+  }
+  body.print-owner #presentation-print {
+    display: block !important;
+    color: #111;
+    padding: 18px;
+    font-size: 12px;
+    line-height: 1.55;
+  }
+  #presentation-print .drawer-section {
+    break-inside: avoid;
+  }
+  #presentation-print h1 {
+    font-size: 24px;
+  }
+  #presentation-print h3 {
+    color: #111;
+    font-size: 15px;
+  }
+  #presentation-print .callout {
+    color: #111;
+    background: #f0f4f8;
+  }
+  @page {
+    size: A4;
+    margin: 16mm;
+  }
+  body.print-owner #presentation-print {
+    max-width: 178mm;
+    margin: 0 auto;
+    padding: 0;
+    font-size: 11pt;
+  }
+  #presentation-print p,
+  #presentation-print small,
+  #presentation-print b,
+  #presentation-print strong {
+    color: #111 !important;
+    font-size: 10.5pt;
+    line-height: 1.5;
+  }
+  #presentation-print h1 {
+    font-size: 20pt;
+  }
+  #presentation-print h3 {
+    font-size: 12pt;
+  }
+  #presentation-print .drawer-section {
+    padding-block: 12px;
+    border-color: #b9c3cf;
   }
 }

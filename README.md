@@ -10,6 +10,7 @@ A sanitized, recruiter-facing business-analysis portfolio project that turns a m
 - **Three-minute walkthrough:** [`walkthrough/port-city-fc-intelligence-hub-walkthrough.webm`](walkthrough/port-city-fc-intelligence-hub-walkthrough.webm)
 - **Analytical workbook:** [`outputs/01a128c4-1c8c-71b0-819c-29eaae5a311f/PortCityFC_Analytics_Companion.xlsx`](outputs/01a128c4-1c8c-71b0-819c-29eaae5a311f/PortCityFC_Analytics_Companion.xlsx)
 - **Power BI project:** [`powerbi/PortCityFCCompanion/PortCityFCCompanion.pbip`](powerbi/PortCityFCCompanion/PortCityFCCompanion.pbip)
+- **Stakeholder presentation:** [`docs/ba/stakeholder-brief.md`](docs/ba/stakeholder-brief.md), also available in the Hub through **Owner briefing** with a printable handout.
 
 The hosted demo is a purpose-built football business control room with nine decision views, a midnight telemetry interface, interactive drill-downs, and an accountable owner queue. It publishes no runtime database, credentials, mutation endpoint, or private evidence. The full repository retains the locally verified PostgreSQL scenario-and-audit vertical slice.
 
@@ -39,6 +40,19 @@ The hosted demo is a purpose-built football business control room with nine deci
 | Access & audit      | Who can do what and what changed?                             | Permission contract and synthetic audit evidence                 |
 
 Global conveniences include cross-workspace filters, `Ctrl+K` navigation, responsive mobile navigation, dark control-room and light presentation themes, tooltips, print-ready meeting briefs, local CSV exports, alerts, and a persistent evidence-boundary explanation.
+
+## Stakeholder review contract
+
+The current presentation is a **proposal for a controlled validation pilot**. PCFC acceptance, actual-data reconciliation, current cash balances, an approved home/away split and production adoption remain decisions for authorized stakeholders.
+
+- The finance selector changes **FY24/FY25 club-wide cash measures**. FY24 has annual totals only; the interface and CSV leave its monthly/category breakdown unavailable.
+- Program selection changes the **2026 synthetic fixture and sponsor samples**. It does not allocate cash or acquisition measures to programs. Club-wide sponsor accounts are included once in each program view; program totals must not be added together.
+- The **2026 club-wide acquisition sample** is a separate scope with no program attribution. Contract face value, cash receipts, acquisition volumes and season scenarios are never silently combined.
+- Inapplicable global controls are disabled. Sponsor program, search and sort share one selector; exported records and measures match the visible selection.
+- Cards carry evidence labels, time sparklines have dated sequences, program comparisons retain their units, and displayed controls are calculated rather than hard-coded success badges.
+- Every workspace export contains its data, definitions of scope and synthetic evidence boundary. Scenario exports include all inputs and outputs. CSVs retain calculation precision while cards use presentation rounding.
+
+The formula specification and independent worked example are in [`docs/operations/calculation-methodology.md`](docs/operations/calculation-methodology.md). The supplied walkthrough illustrates the separate native application and architecture; use the current live Hub and Owner briefing for this presentation.
 
 ## Architecture
 
@@ -78,7 +92,7 @@ To preview the exact recruiter-facing static deployment on loopback:
 npm run site:preview
 ```
 
-Open `http://127.0.0.1:4173`. `npm run site:check` validates the generated bundle and privacy patterns; `npm run site:test` exercises navigation, scenario recalculation, search, drill-down, theming, and mobile overflow in Chromium.
+Open `http://127.0.0.1:4173`. `npm run site:check` validates the generated bundle and privacy patterns. `npm run site:test` runs independent numerical/export regression cases, then Chromium checks the 54 period/program/workspace combinations, downloaded CSV contents, every scenario driver, sponsor search/sort, negative cash charts, evidence labels, the owner handout, and nine mobile workspaces. Machine-readable execution reports are written to `test-results/hub-numerical-verification.json` and `test-results/hub-browser-verification.json`.
 
 For the complete persisted scenario workflow:
 

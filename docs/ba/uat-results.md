@@ -1,5 +1,46 @@
 # UAT and verification results
 
+## Current stakeholder presentation release — 16 October 2026
+
+Environment: Dell Windows, Node.js 24.19 and Chromium. The task's automatic workhorse check returned Dell fallback because both trusted Pi aliases were unresolved. Verification is by the project developer; PCFC stakeholder acceptance remains pending.
+
+| Gate                                      | Result | Current evidence                                                                                                                                                           |
+| ----------------------------------------- | ------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Public calculation and export regressions | Pass   | 77 independent numerical/export cases; period availability, weighted denominators, scenario equation/break-even, corrupted controls and export scope                       |
+| Public browser verification               | Pass   | 94 checks; 54 fiscal-period/program/workspace combinations, real downloaded CSV contents, all exposed scenario drivers and program, search/sort, labels and print workflow |
+| Mobile coverage                           | Pass   | All nine workspaces at 390 × 844; applicable filters visible, navigation usable, no horizontal page overflow                                                               |
+| Model controls                            | Pass   | 24 checks calculated from the published inputs, including agreement with pipeline controls                                                                                 |
+| Source-model pipeline                     | Pass   | Seven zero-difference controls; regeneration causes no processed-data drift                                                                                                |
+| Power BI source structure                 | Pass   | Seven model tables, nine relationships, two roles and six visuals; regeneration causes no source drift                                                                     |
+| Privacy                                   | Pass   | Repository scan; public bundle pattern check; no contact, bank-identifier, private-path or row-level financial export fields                                               |
+| Formatting / lint / strict types          | Pass   | Repository checks plus final focused lint of browser, model, build and test sources                                                                                        |
+| Native calculation regression             | Pass   | 21 unit/integration tests; baseline native break-even is 674 and the operating margin crosses zero between 673 and 674                                                     |
+| Production build                          | Pass   | Next.js 16.4 compiles all 25 routes/endpoints                                                                                                                              |
+| Production dependency audit               | Pass   | Zero production vulnerabilities                                                                                                                                            |
+| Visual review                             | Pass   | Rendered desktop, mobile and A4 briefing screenshots inspected; print body text is dark and at least 10.5pt                                                                |
+
+Machine-readable evidence is retained in [numerical verification](../verification/2026-10-16-v5/hub-numerical-verification.json) and [browser verification](../verification/2026-10-16-v5/hub-browser-verification.json). The Sites saved version records the exact source commit and deployment outcome separately.
+
+| Acceptance scenario | Result | Evidence                                                                                                                                                                                     |
+| ------------------- | ------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| UAT-020             | Pass   | FY24 annual controls stay $63,200/$60,950/$2,250 with no invented breakdown; FY25 monthly/category totals agree; negative chart points stay within axes                                      |
+| UAT-021             | Pass   | Program AND search constrain accounts, cards and downloads; sorting is functional; empty delivery percentage is unavailable; club-wide accounts appear once                                  |
+| UAT-022             | Pass   | Every workspace exports substantive scoped data; all 54 combinations tested; inactive filters do not mislabel filenames                                                                      |
+| UAT-023             | Pass   | Each numeric driver and scenario program tested; all attendee receipts capacity capped; full cost/community/risk equation matches exported output; break-even boundary independently checked |
+| UAT-024             | Pass   | Source manifest and calculated model results are exported; missing/failed controls cannot become a passing assurance badge                                                                   |
+| UAT-025             | Pass   | Dated sparklines only, no mixed-unit index, weighted capacity/returning denominators, consistent category drill-down                                                                         |
+| UAT-026             | Pass   | Owner briefing contains three explicit approval requests and a printable, readable handout with the synthetic boundary retained                                                              |
+
+### Acceptance boundary
+
+This release is technically verified for a guided stakeholder presentation and proposed validation pilot. All public figures remain synthetic or generalized. No test result establishes PCFC financial accuracy, actual current liquidity, an approved fixture schedule, production recovery capability or stakeholder sign-off.
+
+The in-app browser automation service timed out during this task; browser behavior was verified with the independent Chromium suite and generated screenshot review. Native Power BI Desktop refresh/render/RLS interaction and a managed-host recovery drill remain conditional. Database-backed persistence and audit evidence below are the 14 October baseline; they were not rerun on 16 October because this release changes presentation calculations and the static adapter, not persistence or authorization.
+
+Use [stakeholder-brief.md](stakeholder-brief.md) for the meeting route, decisions and proposed pilot acceptance criteria.
+
+## Historical technical baseline — 14 October 2026
+
 Execution date: 14 October 2026. Executor: portfolio project developer. Environment: Dell browser verification plus a hash-matched, isolated Raspberry Pi 5 ARM64 build and PostgreSQL 17.10 test evidence. This is portfolio verification, **not Port City FC stakeholder acceptance**.
 
 ## Automated gates

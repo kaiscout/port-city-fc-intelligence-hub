@@ -20,13 +20,14 @@ const cashMargin = (current.netCash / current.inflow) * 100;
 const sponsorship = fy25IncomeCategories.find((item) => item.name === "Sponsorship")!.amount;
 const sponsorshipShare = (sponsorship / current.inflow) * 100;
 const committed = managementSeasonCommitments
-  .filter((item) => item.confidence === "Confirmed in messages")
+  .filter((item) => item.confidence === "Synthetic fixed assumption")
   .reduce((sum, item) => sum + item.amount, 0);
 
 const decisions = [
   {
     decision: "Protect early-season liquidity",
-    position: "Synthetic cash turns negative in the second half of the year.",
+    position:
+      "Synthetic monthly net cash movement is negative in the second half; no opening bank balance is supplied.",
     ask: "Approve a monthly cash floor and named mitigation owner.",
     tone: "warning" as const,
   },
@@ -140,8 +141,8 @@ export default function OwnershipPage() {
               <FileCheck2 size={16} />
               <span>
                 <b>Controlled:</b> {currency(current.inflow)} inflow, {currency(current.outflow)}{" "}
-                outflow and {currency(committed)} confirmed synthetic commitments reconcile through
-                the published pipeline.
+                outflow reconcile through the published pipeline. Independently,{" "}
+                {currency(committed)} of fixed planning assumptions require club confirmation.
               </span>
             </li>
             <li>

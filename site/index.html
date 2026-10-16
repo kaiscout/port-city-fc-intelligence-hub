@@ -25,13 +25,19 @@
         </div>
         <button class="workspace-switcher" id="workspace-switcher" type="button">
           <span class="workspace-mark">PC</span>
-          <span><b>Executive command</b><small>FY25 public model</small></span>
+          <span
+            ><b>Executive command</b
+            ><small id="workspace-model-label">Synthetic demonstration</small></span
+          >
           <span aria-hidden="true">⌄</span>
         </button>
         <nav id="primary-nav"></nav>
         <div class="rail-footer">
-          <div class="environment-badge"><span></span> System operational</div>
-          <p>Public model · 7/7 controls · read only</p>
+          <div class="environment-badge"><span></span> Stakeholder review demo</div>
+          <p id="rail-status">Synthetic model · read only</p>
+          <button class="rail-help" data-action="presentation-brief" type="button">
+            ↗ <span>Owner briefing</span>
+          </button>
           <button class="rail-help" id="tour-button" type="button">
             ? <span>Workspace guide</span>
           </button>
@@ -51,14 +57,14 @@
           </div>
           <div class="topbar-actions">
             <label class="select-control compact"
-              ><span>Season</span
+              ><span>Finance period</span
               ><select id="period-filter" aria-label="Financial period">
                 <option value="FY25">FY25 model</option>
                 <option value="FY24">FY24 benchmark</option>
               </select></label
             >
             <label class="select-control compact"
-              ><span>Squad</span
+              ><span>Sample program</span
               ><select id="program-filter" aria-label="Program filter">
                 <option value="All">All programs</option>
                 <option value="Men">Men</option>
@@ -85,12 +91,13 @@
               ♢<span>3</span>
             </button>
             <button class="profile-button" type="button" aria-label="Portfolio viewer profile">
-              <span>EV</span><b>Executive Viewer</b><small>Secure read-only</small>
+              <span>EV</span><b>Public Viewer</b><small>Synthetic read-only demo</small>
             </button>
           </div>
         </header>
         <div class="evidence-ribbon" role="status">
-          <span class="live-dot"></span><b>DATA TRUST: VERIFIED</b><span>7/7 controls passing</span
+          <span class="live-dot"></span><b>SYNTHETIC DEMONSTRATION</b
+          ><span id="controls-summary">Calculating model controls</span
           ><span class="ribbon-separator"></span><span id="filter-summary">FY25 · All programs</span
           ><button id="evidence-button" type="button">Review evidence boundary →</button>
         </div>
@@ -164,6 +171,7 @@
     <div class="drawer-scrim" id="drawer-scrim"></div>
     <div class="toast-region" id="toast-region" aria-live="polite"></div>
     <div class="tooltip" id="tooltip" role="tooltip"></div>
+    <section id="presentation-print"></section>
     <script src="./data.js"></script>
     <script type="module" src="./app.js"></script>
   </body>

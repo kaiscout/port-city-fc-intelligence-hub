@@ -13,26 +13,26 @@
 
 ## Functional requirements
 
-| ID     | Requirement                                                                                                          | Priority | Implementation                |
-| ------ | -------------------------------------------------------------------------------------------------------------------- | -------- | ----------------------------- |
-| FR-001 | Global season/team/competition/venue/fixture filters recalculate KPIs.                                               | Must     | Command center context        |
-| FR-002 | KPI cards expose definition, comparison, trend, source, and drill-down.                                              | Must     | `KpiCard`, dashboard detail   |
-| FR-003 | Users create, name, save, edit, duplicate, compare, delete, and export scenarios.                                    | Must     | Scenario lab                  |
-| FR-004 | Scenario formulas calculate all specified revenue, cost, margin, break-even, utilization, and downside outputs.      | Must     | `calculateScenario`           |
-| FR-005 | Funnel views expose stage conversion/drop-off, channel performance, cohorts, and fixtures.                           | Must     | Fan funnel                    |
-| FR-006 | Sponsor profiles store contacts, package, value, dates, program, delivery, exposure, reach, risk, notes, and action. | Must     | Sponsorship workspace         |
-| FR-007 | Renewal risk is rules-based and explains contributing signals.                                                       | Must     | `assessSponsorRisk`           |
-| FR-008 | Program comparison exposes equivalent metrics and a women’s investment case.                                         | Must     | Program equity                |
-| FR-009 | Community records show participation, attendance, partners, hours, giving, reach, initiative, and trend.             | Must     | Community impact              |
-| FR-010 | Reports export active application data and carry filters/date/methodology/source notes.                              | Must     | Reports & exports             |
-| FR-011 | Administrator can maintain every named data domain.                                                                  | Must     | Operations studio + CRUD API  |
-| FR-012 | CSV imports provide template, preview, row errors, duplicates, and transactional boundary.                           | Must     | CSV controls + import API     |
-| FR-013 | Onboarding configures org, season, teams, venue, categories, targets, users, and mode.                               | Must     | First-run onboarding          |
-| FR-014 | Administrator provisions users and assigns one of six roles.                                                         | Must     | User management + schema      |
-| FR-015 | Important writes append an audit event.                                                                              | Must     | Transactional server handlers |
-| FR-016 | Demonstration seed is deterministic; clean organization contains no synthetic records.                               | Must     | Seed/clean scripts            |
-| FR-017 | Sponsor and executive reports are print optimized.                                                                   | Must     | Print CSS and report views    |
-| FR-018 | In-app help exposes calculations, operating guidance, and integration boundaries.                                    | Should   | Help section                  |
+| ID     | Requirement                                                                                                                                | Priority | Implementation                     |
+| ------ | ------------------------------------------------------------------------------------------------------------------------------------------ | -------- | ---------------------------------- |
+| FR-001 | Applicable period/program filters constrain supported measures and exports consistently; unsupported dimensions are explicit and disabled. | Must     | Public Hub scope contract          |
+| FR-002 | KPI cards expose definition and evidence class; comparisons and time trends appear only when a valid same-grain source is available.       | Must     | KPI dictionary and model selectors |
+| FR-003 | Users create, name, save, edit, duplicate, compare, delete, and export scenarios.                                                          | Must     | Scenario lab                       |
+| FR-004 | Scenario formulas calculate all specified revenue, cost, margin, break-even, utilization, and downside outputs.                            | Must     | `calculateScenario`                |
+| FR-005 | Funnel views expose stage conversion/drop-off, channel performance, cohorts, and fixtures.                                                 | Must     | Fan funnel                         |
+| FR-006 | Sponsor profiles store contacts, package, value, dates, program, delivery, exposure, reach, risk, notes, and action.                       | Must     | Sponsorship workspace              |
+| FR-007 | Renewal risk is rules-based and explains contributing signals.                                                                             | Must     | `assessSponsorRisk`                |
+| FR-008 | Program comparison exposes equivalent metrics and a women’s investment case.                                                               | Must     | Program equity                     |
+| FR-009 | Community records show participation, attendance, partners, hours, giving, reach, initiative, and trend.                                   | Must     | Community impact                   |
+| FR-010 | Reports export active application data and carry filters/date/methodology/source notes.                                                    | Must     | Reports & exports                  |
+| FR-011 | Administrator can maintain every named data domain.                                                                                        | Must     | Operations studio + CRUD API       |
+| FR-012 | CSV imports provide template, preview, row errors, duplicates, and transactional boundary.                                                 | Must     | CSV controls + import API          |
+| FR-013 | Onboarding configures org, season, teams, venue, categories, targets, users, and mode.                                                     | Must     | First-run onboarding               |
+| FR-014 | Administrator provisions users and assigns one of six roles.                                                                               | Must     | User management + schema           |
+| FR-015 | Important writes append an audit event.                                                                                                    | Must     | Transactional server handlers      |
+| FR-016 | Demonstration seed is deterministic; clean organization contains no synthetic records.                                                     | Must     | Seed/clean scripts                 |
+| FR-017 | Sponsor and executive reports are print optimized.                                                                                         | Must     | Print CSS and report views         |
+| FR-018 | In-app help exposes calculations, operating guidance, and integration boundaries.                                                          | Should   | Help section                       |
 
 ## Non-functional requirements
 
