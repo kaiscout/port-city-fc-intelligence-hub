@@ -104,7 +104,7 @@ const publicFixtures = demoFixtures.map(
 
 const data = {
   meta: {
-    product: "Port City FC Intelligence Hub",
+    product: "Port City FC Business Intelligence & Analytics",
     mode: "Public portfolio simulation",
     snapshotAt: reconciliation.generatedAt,
     builtAt: new Date().toISOString(),

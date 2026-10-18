@@ -755,7 +755,7 @@ function render() {
     ? `${state.period} finance · 2026 sample`
     : "Synthetic demonstration";
   $("#workspace").innerHTML = renderers[state.view]();
-  document.title = `${views.find((view) => view.id === state.view)?.label || "Hub"} | Port City FC`;
+  document.title = `${views.find((view) => view.id === state.view)?.label || "Workspace"} | ${data.meta.product}`;
   $("#tooltip").classList.remove("visible");
   window.scrollTo({ top: 0, behavior: "auto" });
 }

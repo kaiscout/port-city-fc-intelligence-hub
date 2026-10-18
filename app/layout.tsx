@@ -3,9 +3,12 @@ import { headers } from "next/headers";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: { default: "Port City FC Decision Intelligence Hub", template: "%s · PCFC Hub" },
+  title: {
+    default: "Port City FC Business Intelligence & Analytics",
+    template: "%s · PCFC BI & Analytics",
+  },
   description:
-    "Independent portfolio case study: an operational decision-intelligence pilot for Port City FC.",
+    "Independent Port City FC business intelligence and analytics case study. Public demonstration uses synthetic and generalized data.",
   robots: { index: false, follow: false },
 };
 

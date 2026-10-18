@@ -87,7 +87,7 @@ function ShellContent({
           </div>
           <div>
             <strong>Port City FC</strong>
-            <span>Decision Intelligence</span>
+            <span>Business Intelligence &amp; Analytics</span>
           </div>
           <button
             className="sidebar-close"

@@ -50,7 +50,7 @@ export default function LoginPage() {
           />
           <div>
             <strong>Port City FC</strong>
-            <span>Decision Intelligence Hub</span>
+            <span>Business Intelligence &amp; Analytics</span>
           </div>
         </div>
         <div className="auth-message">

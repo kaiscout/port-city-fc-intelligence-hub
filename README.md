@@ -1,4 +1,4 @@
-# Port City FC Decision Intelligence Hub
+# Port City FC Business Intelligence & Analytics
 
 A sanitized, recruiter-facing business-analysis portfolio project that turns a mixed evidence pack into an executive decision product, a governed PostgreSQL workflow, and a reproducible Power BI model.
 
@@ -6,13 +6,19 @@ A sanitized, recruiter-facing business-analysis portfolio project that turns a m
 
 ## Portfolio deliverables
 
-- **Live read-only demo:** [port-city-fc-intelligence-hub.deniropro.chatgpt.site](https://port-city-fc-intelligence-hub.deniropro.chatgpt.site)
+- **Live read-only demo:** [pcfc.denizci.dev](https://pcfc.denizci.dev/)
 - **Three-minute walkthrough:** [`walkthrough/port-city-fc-intelligence-hub-walkthrough.webm`](walkthrough/port-city-fc-intelligence-hub-walkthrough.webm)
 - **Analytical workbook:** [`outputs/01a128c4-1c8c-71b0-819c-29eaae5a311f/PortCityFC_Analytics_Companion.xlsx`](outputs/01a128c4-1c8c-71b0-819c-29eaae5a311f/PortCityFC_Analytics_Companion.xlsx)
 - **Power BI project:** [`powerbi/PortCityFCCompanion/PortCityFCCompanion.pbip`](powerbi/PortCityFCCompanion/PortCityFCCompanion.pbip)
 - **Stakeholder presentation:** [`docs/ba/stakeholder-brief.md`](docs/ba/stakeholder-brief.md), also available in the Hub through **Owner briefing** with a printable handout.
 
 The hosted demo is a purpose-built football business control room with nine decision views, a midnight telemetry interface, interactive drill-downs, and an accountable owner queue. It publishes no runtime database, credentials, mutation endpoint, or private evidence. The full repository retains the locally verified PostgreSQL scenario-and-audit vertical slice.
+
+The project was renamed on 18 October 2026. The repository URL and historical
+artifact filenames remain unchanged to preserve existing links. The public
+site is versioned separately; this naming-only commit does not publish the
+uncommitted application work from the local development checkout. Historical
+recordings retain their original branding and are not evidence of club adoption.
 
 ## What this proves
 

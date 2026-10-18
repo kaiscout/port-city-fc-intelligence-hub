@@ -1,0 +1,16 @@
+Project name: Port City FC Business Intelligence & Analytics
+Project URL: https://pcfc.denizci.dev/
+
+Interactive analytics hub covering football club finance, sponsorship and
+matchday planning. Features executive KPIs, cash-flow analysis, sponsor delivery
+reporting, scenario modeling, break-even analysis and a decision register.
+
+Supporting deliverables include documented requirements, KPI definitions,
+source-to-model reconciliation, traceability, acceptance criteria and automated
+validation. The public demonstration uses synthetic and generalized data.
+Independent case study—not an official club system or endorsement.
+
+Suggested skills: Business Analysis, Requirements Analysis, Data Analysis,
+Business Intelligence, Data Visualization.
+
+Draft profile entry only. No LinkedIn update or upload has been performed.
