@@ -3,6 +3,7 @@ import { createServer } from "node:http";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import vm from "node:vm";
+import { setTimeout as delay } from "node:timers/promises";
 import { chromium } from "@playwright/test";
 
 const root = path.resolve("dist");
@@ -78,7 +79,12 @@ function section(rows, title) {
   return result;
 }
 try {
-  browser = await chromium.launch({ headless: true });
+  browser = await chromium.launch({
+    headless: true,
+    ...(process.env.CHROMIUM_EXECUTABLE_PATH
+      ? { executablePath: process.env.CHROMIUM_EXECUTABLE_PATH }
+      : {}),
+  });
   const context = await browser.newContext({
     viewport: { width: 1440, height: 1000 },
     reducedMotion: "reduce",
@@ -89,9 +95,11 @@ try {
   });
   const page = await context.newPage();
   const errors = [];
+  const warnings = [];
   page.on("pageerror", (error) => errors.push(error.message));
   page.on("console", (message) => {
     if (message.type() === "error") errors.push(message.text());
+    if (message.type() === "warning") warnings.push(message.text());
   });
   await page.goto(url, { waitUntil: "networkidle" });
   await mkdir("test-results", { recursive: true });
@@ -101,17 +109,30 @@ try {
   };
   const metric = async (label) =>
     page.locator('[data-metric="' + label + '"] .metric-value').innerText();
+  let lastDownloadAt = 0;
+  let downloadCount = 0;
   const download = async (action) => {
+    // Exercise each real CSV download without turning this correctness suite
+    // into a burst-download stress test on fast CI runners.
+    await delay(Math.max(0, 250 - (performance.now() - lastDownloadAt)));
+    lastDownloadAt = performance.now();
+    downloadCount++;
     const pending = page.waitForEvent("download");
     await page
       .locator('[data-action="' + action + '"]')
       .first()
       .click();
-    const item = await pending;
+    const item = await pending.catch((error) => {
+      throw new Error(
+        `Download ${downloadCount} (${action}) failed; browser warnings: ${warnings.join("; ")}`,
+        { cause: error },
+      );
+    });
     const text = await readFile(await item.path(), "utf8");
     const rows = csvParse(text);
     assert.equal(rows[0][0], "Evidence class");
     assert.ok(rows[0][1].includes("not PCFC actuals"));
+    assert.equal(rows.find((row) => row[0] === "Project")?.[1], data.meta.product);
     assert.ok(rows.length > 9);
     return rows;
   };

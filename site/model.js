@@ -398,6 +398,7 @@ export function buildExport(
   const kind = action === "export-view" ? context.view : action.replace("export-", "");
   const rows = [
     ["Evidence class", EVIDENCE],
+    ["Project", data.meta.product],
     ["Release", data.meta.release],
     ["Input snapshot UTC", data.meta.snapshotAt],
     ["Build UTC", data.meta.builtAt],
