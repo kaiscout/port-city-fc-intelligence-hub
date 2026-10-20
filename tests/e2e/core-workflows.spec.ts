@@ -53,7 +53,9 @@ test("operations does not manufacture a successful import", async ({ page }) => 
     ).toBeDisabled();
     await expect(page.getByText("No Records in This Selection", { exact: true })).toBeVisible();
   } else {
-    await expect(page.getByText("Read-only demonstration", { exact: true })).toBeVisible();
+    await expect(
+      page.getByRole("heading", { name: "Read-only Demonstration", exact: true }),
+    ).toBeVisible();
     await expect(page.getByRole("button", { name: /Commit/ })).toHaveCount(0);
   }
 });

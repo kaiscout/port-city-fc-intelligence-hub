@@ -93,7 +93,9 @@ test("public no-database mode cannot impersonate a private operating workspace",
     return;
   }
   await page.goto("/operations");
-  await expect(page.getByText("Read-only demonstration", { exact: true })).toBeVisible();
+  await expect(
+    page.getByRole("heading", { name: "Read-only Demonstration", exact: true }),
+  ).toBeVisible();
   expect(
     (
       await request.post("/api/admin/entities/fixtures", {
