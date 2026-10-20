@@ -1,7 +1,19 @@
 import { NextResponse } from "next/server";
 import { env } from "@/lib/env";
+import { getDb } from "@/lib/server/db";
+import { sql } from "drizzle-orm";
 
 export async function GET() {
+  if (env.DATABASE_URL) {
+    try {
+      await getDb().execute(sql`SELECT 1`);
+    } catch {
+      return NextResponse.json(
+        { status: "unavailable", database: "unreachable" },
+        { status: 503, headers: { "Cache-Control": "no-store" } },
+      );
+    }
+  }
   return NextResponse.json(
     {
       status: "ok",

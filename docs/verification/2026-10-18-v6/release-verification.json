@@ -1,0 +1,161 @@
+{
+  "candidate": "6.0",
+  "executionDate": "2026-10-18",
+  "baseGitRevision": "6330e24c2c0774cff36b53e0aacb853941705c3d",
+  "candidateChangesUncommitted": true,
+  "runtimeFingerprint": "951c82cb147ea18066f310ff03b92a8ab84715dec2b3aeb8acc771919876b3ca",
+  "runtimeInputFiles": 99,
+  "runtimeSourceAlignment": "Dell editing checkout and isolated execution inputs hash matched",
+  "environment": {
+    "machine": "Dell Windows fallback after Pi connectivity loss",
+    "node": "24.19.0",
+    "next": "16.4.0",
+    "database": "PostgreSQL 17.6; loopback disposable synthetic source and restore databases",
+    "browser": "Locked Playwright Chromium",
+    "migrationsApplied": 3
+  },
+  "gates": [
+    { "command": "npm run privacy:scan", "status": "PASS" },
+    {
+      "command": "npm run data:check",
+      "status": "PASS",
+      "files": 10,
+      "reconciliationChecks": 7,
+      "allDifferences": 0
+    },
+    {
+      "command": "npm run powerbi:check",
+      "status": "PASS",
+      "files": 28,
+      "jsonDocuments": 13,
+      "tables": 7,
+      "relationships": 9,
+      "roles": 2,
+      "visuals": 6
+    },
+    { "command": "npm run format:check", "status": "PASS" },
+    {
+      "command": "npm run lint",
+      "status": "PASS",
+      "note": "Changed restart helper also rechecked after a type-only environment annotation"
+    },
+    { "command": "npm run typecheck", "status": "PASS", "strict": true },
+    { "command": "npm run test", "status": "PASS", "files": 9, "tests": 39 },
+    {
+      "command": "npm run build",
+      "status": "PASS",
+      "note": "Final tested runtime fingerprint above; later changes are verification helpers, documentation and media"
+    },
+    {
+      "command": "npx playwright test --workers=1",
+      "mode": "private PostgreSQL",
+      "status": "PASS",
+      "tests": 36,
+      "profiles": ["desktop", "tablet", "mobile"],
+      "minutes": 5.4
+    },
+    {
+      "command": "npx playwright test --project=desktop --workers=1",
+      "mode": "public no-database",
+      "status": "PASS",
+      "tests": 6,
+      "notApplicableDatabaseCases": 6
+    },
+    { "command": "npm run site:check", "status": "PASS", "publicFiles": 6, "workspaces": 9 },
+    {
+      "command": "npm run site:test",
+      "status": "PASS",
+      "numericalAndExportCases": 78,
+      "modelControls": 24,
+      "browserChecks": 95,
+      "filterExportCombinations": 54,
+      "mobileViews": 9,
+      "consoleErrors": 0
+    },
+    {
+      "command": "npx tsx scripts/check-restart-cycle.ts",
+      "status": "PASS",
+      "note": "Separate owned application PIDs, same database, fresh browser contexts; five business fingerprints identical; processes stopped"
+    },
+    {
+      "command": "npm run db:test-recovery",
+      "status": "PASS",
+      "tables": 33,
+      "allCanonicalHashesMatched": true,
+      "note": "Logical application-data backup/readback plus isolated same-migrated-schema restore; no target business data overwritten"
+    },
+    {
+      "command": "npm run security:audit",
+      "status": "PASS",
+      "productionDependencyVulnerabilities": 0
+    },
+    {
+      "command": "node scripts/check-walkthrough.mjs",
+      "status": "PASS",
+      "durationSeconds": 180.711,
+      "resolution": "1280x720",
+      "audioDurationSeconds": 180,
+      "audioDecodeEngine": "Chromium Web Audio",
+      "seekScreenshots": 4
+    },
+    {
+      "command": "Workbook artifact-engine recalculation/render",
+      "status": "PASS",
+      "sheets": 8,
+      "linkedReconciliationChecks": 7,
+      "allDifferences": 0,
+      "detectedFormulaErrors": 0
+    }
+  ],
+  "syntheticFinancialControlsUSD": {
+    "FY25": { "inflow": 67500, "outflow": 63700, "netCashMovement": 3800 },
+    "FY24": {
+      "inflow": 63200,
+      "outflow": 60950,
+      "netCashMovement": 2250,
+      "monthlyBreakdownAvailable": false
+    }
+  },
+  "independentScenarioExampleUSD": {
+    "receipts": 1620,
+    "costs": 784,
+    "community": 162,
+    "receiptAllowance": 304,
+    "contribution": 370,
+    "breakEvenAttendance": 37,
+    "contributionAt36": -4,
+    "contributionAt37": 4.5
+  },
+  "visualReview": [
+    "private desktop/tablet/mobile",
+    "mobile filter control widths",
+    "private printable report",
+    "public desktop/mobile and owner print",
+    "workbook ownership snapshot",
+    "four decoded walkthrough frames"
+  ],
+  "evidenceFiles": [
+    "hub-numerical-verification.json",
+    "hub-browser-verification.json",
+    "restart-before.json",
+    "restart-after.json",
+    "restart-cycle.json",
+    "disposable-recovery.json",
+    "walkthrough-verification.json"
+  ],
+  "publication": {
+    "hostingChanged": false,
+    "dnsChanged": false,
+    "linkedInPosted": false,
+    "hostedCIRunClaimed": false
+  },
+  "limitations": [
+    "Synthetic/generalized public figures, not verified PCFC accounts or operational impact",
+    "Developer verification, not stakeholder acceptance or independent security/accessibility/load certification",
+    "Workbook engine validation is not native Microsoft Excel refresh",
+    "Power BI source validation is not Desktop refresh/render or native View As",
+    "Logical recovery is not pg_dump/physical/PITR/encrypted off-host/provider recovery",
+    "Production private hosting, actual data owners/inputs, access approval, upstream authentication throttling, support and recovery ownership require separate adoption decisions",
+    "Static publication and LinkedIn posting require Deniz's separate approval"
+  ]
+}

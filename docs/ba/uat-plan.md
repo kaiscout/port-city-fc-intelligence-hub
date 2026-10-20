@@ -43,6 +43,19 @@ Confirm that a reviewer can understand the executive decision story, reproduce t
 | UAT-025 | Analyst             | Review charts and program measures                             | Dated sequences only; no combined unlike-unit index; capacity fill and returning share use weighted denominators                       |
 | UAT-026 | Presenter           | Open and print Owner briefing                                  | Three evidence-based requests are explicit; synthetic boundary remains visible; print text is dark and at least 10.5pt                 |
 
-## Exit criteria
+## Candidate 6.0 private operating-loop acceptance
+
+Use a loopback disposable PostgreSQL database and synthetic UAT organizations, never the real club database. Execute the private suite at desktop, tablet and mobile sizes. These checks supplement, not replace, the public cases above.
+
+| ID      | Scenario                                     | Observable acceptance                                                                                                                                                               |
+| ------- | -------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| UAT-027 | Clean organization and typed configuration   | No sample substitution; season/program/venue references and dates validate; approved rows alone feed analytics                                                                      |
+| UAT-028 | CSV preview, commit and correction           | Quoted values parse; invalid/duplicate/stale batches never partially commit; repeated commit is idempotent; corrected receipt/cost changes displayed totals and downloaded rows     |
+| UAT-029 | Commercial and accountable action            | Sponsor face value is not cash; deliverable status and owner/due/status/rationale persist; organization-wide action scope stays explicit                                            |
+| UAT-030 | Settings, users and actual-route permissions | Server-confirmed settings/user writes survive fresh context; all six role policies, last-admin protection, revoked sessions, origin and foreign-organization requests are exercised |
+| UAT-031 | Versioned planning                           | Blank private assumptions require entry; scope/frequency/capacity/allowances validate; save, compare, reset, duplicate, historical restore-as-draft, archive and export work        |
+| UAT-032 | Restart and isolated recovery                | Before/after separate-process restart fingerprints agree; logical backup readback checksum and every restored application table agree in a different migrated disposable database   |
+
+## Candidate exit criteria
 
 All public-portfolio critical scenarios pass with no P1/P2 defect. Native Power BI and managed-host recovery scenarios may remain conditional only when their required external environment is unavailable and the limitation is stated in the UAT result and README.

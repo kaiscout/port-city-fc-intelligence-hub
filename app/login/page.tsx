@@ -8,8 +8,8 @@ import { Card, Status } from "@/components/ui";
 
 export default function LoginPage() {
   const router = useRouter();
-  const [email, setEmail] = useState("admin@pcfc-demo.local");
-  const [password, setPassword] = useState("PilotDemo!2026");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
 
@@ -119,11 +119,9 @@ export default function LoginPage() {
             </button>
           </form>
           <div className="auth-demo">
-            <strong>Local demonstration account</strong>
+            <strong>Administrator-provisioned access only</strong>
             <br />
-            admin@pcfc-demo.local · PilotDemo!2026
-            <br />
-            Available only when development demo mode is enabled; never available in production.
+            There is no default account or password. Ask your organization administrator for access.
           </div>
         </Card>
       </section>

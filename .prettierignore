@@ -3,5 +3,7 @@ node_modules
 coverage
 playwright-report
 test-results
+backups
+release
 public/brand
 package-lock.json

@@ -1,0 +1,420 @@
+{
+  "status": "PASS",
+  "url": "https://pcfc.denizci.dev/",
+  "checkedAt": "2026-10-18T12:21:46.991Z",
+  "checks": 103,
+  "tests": [
+    {
+      "name": "index.html: live HTTPS bytes match the approved release",
+      "status": "PASS"
+    },
+    {
+      "name": "styles.css: live HTTPS bytes match the approved release",
+      "status": "PASS"
+    },
+    {
+      "name": "app.js: live HTTPS bytes match the approved release",
+      "status": "PASS"
+    },
+    {
+      "name": "model.js: live HTTPS bytes match the approved release",
+      "status": "PASS"
+    },
+    {
+      "name": "scenario-visuals.js: live HTTPS bytes match the approved release",
+      "status": "PASS"
+    },
+    {
+      "name": "lab.css: live HTTPS bytes match the approved release",
+      "status": "PASS"
+    },
+    {
+      "name": "data.js: live HTTPS bytes match the approved release",
+      "status": "PASS"
+    },
+    {
+      "name": "assets/pcfc-logo.png: live HTTPS bytes match the approved release",
+      "status": "PASS"
+    },
+    {
+      "name": "command/FY24/All calculations, scope, export and layout",
+      "status": "PASS"
+    },
+    {
+      "name": "finance/FY24/All calculations, scope, export and layout",
+      "status": "PASS"
+    },
+    {
+      "name": "commercial/FY24/All calculations, scope, export and layout",
+      "status": "PASS"
+    },
+    {
+      "name": "matchday/FY24/All calculations, scope, export and layout",
+      "status": "PASS"
+    },
+    {
+      "name": "programs/FY24/All calculations, scope, export and layout",
+      "status": "PASS"
+    },
+    {
+      "name": "scenarios/FY24/All calculations, scope, export and layout",
+      "status": "PASS"
+    },
+    {
+      "name": "decisions/FY24/All calculations, scope, export and layout",
+      "status": "PASS"
+    },
+    {
+      "name": "quality/FY24/All calculations, scope, export and layout",
+      "status": "PASS"
+    },
+    {
+      "name": "access/FY24/All calculations, scope, export and layout",
+      "status": "PASS"
+    },
+    {
+      "name": "command/FY24/Men calculations, scope, export and layout",
+      "status": "PASS"
+    },
+    {
+      "name": "finance/FY24/Men calculations, scope, export and layout",
+      "status": "PASS"
+    },
+    {
+      "name": "commercial/FY24/Men calculations, scope, export and layout",
+      "status": "PASS"
+    },
+    {
+      "name": "matchday/FY24/Men calculations, scope, export and layout",
+      "status": "PASS"
+    },
+    {
+      "name": "programs/FY24/Men calculations, scope, export and layout",
+      "status": "PASS"
+    },
+    {
+      "name": "scenarios/FY24/Men calculations, scope, export and layout",
+      "status": "PASS"
+    },
+    {
+      "name": "decisions/FY24/Men calculations, scope, export and layout",
+      "status": "PASS"
+    },
+    {
+      "name": "quality/FY24/Men calculations, scope, export and layout",
+      "status": "PASS"
+    },
+    {
+      "name": "access/FY24/Men calculations, scope, export and layout",
+      "status": "PASS"
+    },
+    {
+      "name": "command/FY24/Women calculations, scope, export and layout",
+      "status": "PASS"
+    },
+    {
+      "name": "finance/FY24/Women calculations, scope, export and layout",
+      "status": "PASS"
+    },
+    {
+      "name": "commercial/FY24/Women calculations, scope, export and layout",
+      "status": "PASS"
+    },
+    {
+      "name": "matchday/FY24/Women calculations, scope, export and layout",
+      "status": "PASS"
+    },
+    {
+      "name": "programs/FY24/Women calculations, scope, export and layout",
+      "status": "PASS"
+    },
+    {
+      "name": "scenarios/FY24/Women calculations, scope, export and layout",
+      "status": "PASS"
+    },
+    {
+      "name": "decisions/FY24/Women calculations, scope, export and layout",
+      "status": "PASS"
+    },
+    {
+      "name": "quality/FY24/Women calculations, scope, export and layout",
+      "status": "PASS"
+    },
+    {
+      "name": "access/FY24/Women calculations, scope, export and layout",
+      "status": "PASS"
+    },
+    {
+      "name": "command/FY25/All calculations, scope, export and layout",
+      "status": "PASS"
+    },
+    {
+      "name": "finance/FY25/All calculations, scope, export and layout",
+      "status": "PASS"
+    },
+    {
+      "name": "commercial/FY25/All calculations, scope, export and layout",
+      "status": "PASS"
+    },
+    {
+      "name": "matchday/FY25/All calculations, scope, export and layout",
+      "status": "PASS"
+    },
+    {
+      "name": "programs/FY25/All calculations, scope, export and layout",
+      "status": "PASS"
+    },
+    {
+      "name": "scenarios/FY25/All calculations, scope, export and layout",
+      "status": "PASS"
+    },
+    {
+      "name": "decisions/FY25/All calculations, scope, export and layout",
+      "status": "PASS"
+    },
+    {
+      "name": "quality/FY25/All calculations, scope, export and layout",
+      "status": "PASS"
+    },
+    {
+      "name": "access/FY25/All calculations, scope, export and layout",
+      "status": "PASS"
+    },
+    {
+      "name": "command/FY25/Men calculations, scope, export and layout",
+      "status": "PASS"
+    },
+    {
+      "name": "finance/FY25/Men calculations, scope, export and layout",
+      "status": "PASS"
+    },
+    {
+      "name": "commercial/FY25/Men calculations, scope, export and layout",
+      "status": "PASS"
+    },
+    {
+      "name": "matchday/FY25/Men calculations, scope, export and layout",
+      "status": "PASS"
+    },
+    {
+      "name": "programs/FY25/Men calculations, scope, export and layout",
+      "status": "PASS"
+    },
+    {
+      "name": "scenarios/FY25/Men calculations, scope, export and layout",
+      "status": "PASS"
+    },
+    {
+      "name": "decisions/FY25/Men calculations, scope, export and layout",
+      "status": "PASS"
+    },
+    {
+      "name": "quality/FY25/Men calculations, scope, export and layout",
+      "status": "PASS"
+    },
+    {
+      "name": "access/FY25/Men calculations, scope, export and layout",
+      "status": "PASS"
+    },
+    {
+      "name": "command/FY25/Women calculations, scope, export and layout",
+      "status": "PASS"
+    },
+    {
+      "name": "finance/FY25/Women calculations, scope, export and layout",
+      "status": "PASS"
+    },
+    {
+      "name": "commercial/FY25/Women calculations, scope, export and layout",
+      "status": "PASS"
+    },
+    {
+      "name": "matchday/FY25/Women calculations, scope, export and layout",
+      "status": "PASS"
+    },
+    {
+      "name": "programs/FY25/Women calculations, scope, export and layout",
+      "status": "PASS"
+    },
+    {
+      "name": "scenarios/FY25/Women calculations, scope, export and layout",
+      "status": "PASS"
+    },
+    {
+      "name": "decisions/FY25/Women calculations, scope, export and layout",
+      "status": "PASS"
+    },
+    {
+      "name": "quality/FY25/Women calculations, scope, export and layout",
+      "status": "PASS"
+    },
+    {
+      "name": "access/FY25/Women calculations, scope, export and layout",
+      "status": "PASS"
+    },
+    {
+      "name": "Negative monthly cash points remain inside the plotted axes",
+      "status": "PASS"
+    },
+    {
+      "name": "Search, program, sort, drill-down and downloaded sponsor/channel data agree",
+      "status": "PASS"
+    },
+    {
+      "name": "Priority filter matches decision export",
+      "status": "PASS"
+    },
+    {
+      "name": "Conservative preset: visible inputs and independent equation match export",
+      "status": "PASS"
+    },
+    {
+      "name": "Baseline preset: visible inputs and independent equation match export",
+      "status": "PASS"
+    },
+    {
+      "name": "Optimistic preset: visible inputs and independent equation match export",
+      "status": "PASS"
+    },
+    {
+      "name": "Scenario program change updates scope, export and preset state",
+      "status": "PASS"
+    },
+    {
+      "name": "Sponsorship allocation frequency changes the independently calculated scoped result",
+      "status": "PASS"
+    },
+    {
+      "name": "Scenario driver homeMatches: equation, visible input and export",
+      "status": "PASS"
+    },
+    {
+      "name": "Scenario driver expectedAttendance: equation, visible input and export",
+      "status": "PASS"
+    },
+    {
+      "name": "Scenario driver venueCapacity: equation, visible input and export",
+      "status": "PASS"
+    },
+    {
+      "name": "Scenario driver ticketPrice: equation, visible input and export",
+      "status": "PASS"
+    },
+    {
+      "name": "Scenario driver complimentaryPct: equation, visible input and export",
+      "status": "PASS"
+    },
+    {
+      "name": "Scenario driver concessionParticipationPct: equation, visible input and export",
+      "status": "PASS"
+    },
+    {
+      "name": "Scenario driver averageConcessionSpend: equation, visible input and export",
+      "status": "PASS"
+    },
+    {
+      "name": "Scenario driver merchandiseParticipationPct: equation, visible input and export",
+      "status": "PASS"
+    },
+    {
+      "name": "Scenario driver averageMerchandiseSpend: equation, visible input and export",
+      "status": "PASS"
+    },
+    {
+      "name": "Scenario driver sponsorIncome: equation, visible input and export",
+      "status": "PASS"
+    },
+    {
+      "name": "Scenario driver marketingSpend: equation, visible input and export",
+      "status": "PASS"
+    },
+    {
+      "name": "Scenario driver staffing: equation, visible input and export",
+      "status": "PASS"
+    },
+    {
+      "name": "Scenario driver security: equation, visible input and export",
+      "status": "PASS"
+    },
+    {
+      "name": "Scenario driver officials: equation, visible input and export",
+      "status": "PASS"
+    },
+    {
+      "name": "Scenario driver venueCosts: equation, visible input and export",
+      "status": "PASS"
+    },
+    {
+      "name": "Scenario driver transportation: equation, visible input and export",
+      "status": "PASS"
+    },
+    {
+      "name": "Scenario driver equipment: equation, visible input and export",
+      "status": "PASS"
+    },
+    {
+      "name": "Scenario driver variableCostPerAttendee: equation, visible input and export",
+      "status": "PASS"
+    },
+    {
+      "name": "Scenario driver communityAllocationPct: equation, visible input and export",
+      "status": "PASS"
+    },
+    {
+      "name": "Scenario driver weatherRiskPct: equation, visible input and export",
+      "status": "PASS"
+    },
+    {
+      "name": "Scenario driver operationalRiskPct: equation, visible input and export",
+      "status": "PASS"
+    },
+    {
+      "name": "Capacity cap applies to all receipts; negative contribution retains its sign",
+      "status": "PASS"
+    },
+    {
+      "name": "Evidence export and full-application policy reference match their source records",
+      "status": "PASS"
+    },
+    {
+      "name": "Command navigation, evidence boundary, themes and printable owner briefing",
+      "status": "PASS"
+    },
+    {
+      "name": "command: 390px touch-mobile navigation, export, accessible filters and no page overflow",
+      "status": "PASS"
+    },
+    {
+      "name": "finance: 390px touch-mobile navigation, export, accessible filters and no page overflow",
+      "status": "PASS"
+    },
+    {
+      "name": "commercial: 390px touch-mobile navigation, export, accessible filters and no page overflow",
+      "status": "PASS"
+    },
+    {
+      "name": "matchday: 390px touch-mobile navigation, export, accessible filters and no page overflow",
+      "status": "PASS"
+    },
+    {
+      "name": "programs: 390px touch-mobile navigation, export, accessible filters and no page overflow",
+      "status": "PASS"
+    },
+    {
+      "name": "scenarios: 390px touch-mobile navigation, export, accessible filters and no page overflow",
+      "status": "PASS"
+    },
+    {
+      "name": "decisions: 390px touch-mobile navigation, export, accessible filters and no page overflow",
+      "status": "PASS"
+    },
+    {
+      "name": "quality: 390px touch-mobile navigation, export, accessible filters and no page overflow",
+      "status": "PASS"
+    },
+    {
+      "name": "access: 390px touch-mobile navigation, export, accessible filters and no page overflow",
+      "status": "PASS"
+    }
+  ]
+}

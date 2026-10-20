@@ -33,6 +33,7 @@ function requestSecurity(request: NextRequest) {
   ].join("; ");
   const headers = new Headers(request.headers);
   headers.set("x-nonce", nonce);
+  headers.set("x-pcfc-pathname", request.nextUrl.pathname);
   headers.set("Content-Security-Policy", contentSecurityPolicy);
   return { headers, contentSecurityPolicy };
 }
@@ -47,12 +48,25 @@ export async function proxy(request: NextRequest) {
   const next = () =>
     secureResponse(NextResponse.next({ request: { headers } }), contentSecurityPolicy);
   const redirectToLogin = () =>
-    secureResponse(NextResponse.redirect(new URL("/login", request.url)), contentSecurityPolicy);
+    secureResponse(
+      request.nextUrl.pathname.startsWith("/api/")
+        ? NextResponse.json({ error: "Sign in is required" }, { status: 401 })
+        : NextResponse.redirect(new URL("/login", request.url)),
+      contentSecurityPolicy,
+    );
 
   if (isPublicPath(request.nextUrl.pathname)) return next();
   if (process.env.PUBLIC_DEMO_MODE === "true") {
     if (!request.nextUrl.pathname.startsWith("/api/")) return next();
-    if (publicDemoApiPaths.includes(request.nextUrl.pathname)) return next();
+    if (
+      publicDemoApiPaths.includes(request.nextUrl.pathname) ||
+      (request.method === "GET" && request.nextUrl.pathname.startsWith("/api/artifacts/"))
+    )
+      return next();
+    return secureResponse(
+      NextResponse.json({ error: "This public demonstration is read-only." }, { status: 403 }),
+      contentSecurityPolicy,
+    );
   }
   const loopbackHost =
     request.nextUrl.hostname === "127.0.0.1" || request.nextUrl.hostname === "localhost";

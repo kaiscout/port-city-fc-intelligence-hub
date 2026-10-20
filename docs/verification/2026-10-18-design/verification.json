@@ -1,0 +1,107 @@
+{
+  "status": "PASS",
+  "checkedAt": "2026-10-18T12:10:10.854Z",
+  "checks": [
+    {
+      "name": "1440×900/dark: nine workspaces, navigation alignment, no overflow or invalid values",
+      "status": "PASS"
+    },
+    {
+      "name": "1440×900/dark: visible sticky graph, numeric/slider sync, rapid input, free-entry explanation, validation and inspection",
+      "status": "PASS"
+    },
+    {
+      "name": "1440×900/dark: declining contribution and reduced motion remain explicit",
+      "status": "PASS"
+    },
+    {
+      "name": "1440×900/light: nine workspaces, navigation alignment, no overflow or invalid values",
+      "status": "PASS"
+    },
+    {
+      "name": "1440×900/light: visible sticky graph, numeric/slider sync, rapid input, free-entry explanation, validation and inspection",
+      "status": "PASS"
+    },
+    {
+      "name": "1440×900/light: declining contribution and reduced motion remain explicit",
+      "status": "PASS"
+    },
+    {
+      "name": "1280×800/dark: nine workspaces, navigation alignment, no overflow or invalid values",
+      "status": "PASS"
+    },
+    {
+      "name": "1280×800/dark: visible sticky graph, numeric/slider sync, rapid input, free-entry explanation, validation and inspection",
+      "status": "PASS"
+    },
+    {
+      "name": "1280×800/dark: declining contribution and reduced motion remain explicit",
+      "status": "PASS"
+    },
+    {
+      "name": "1280×800/light: nine workspaces, navigation alignment, no overflow or invalid values",
+      "status": "PASS"
+    },
+    {
+      "name": "1280×800/light: visible sticky graph, numeric/slider sync, rapid input, free-entry explanation, validation and inspection",
+      "status": "PASS"
+    },
+    {
+      "name": "1280×800/light: declining contribution and reduced motion remain explicit",
+      "status": "PASS"
+    },
+    {
+      "name": "1024×768/dark: nine workspaces, navigation alignment, no overflow or invalid values",
+      "status": "PASS"
+    },
+    {
+      "name": "1024×768/dark: visible sticky graph, numeric/slider sync, rapid input, free-entry explanation, validation and inspection",
+      "status": "PASS"
+    },
+    {
+      "name": "1024×768/dark: declining contribution and reduced motion remain explicit",
+      "status": "PASS"
+    },
+    {
+      "name": "1024×768/light: nine workspaces, navigation alignment, no overflow or invalid values",
+      "status": "PASS"
+    },
+    {
+      "name": "1024×768/light: visible sticky graph, numeric/slider sync, rapid input, free-entry explanation, validation and inspection",
+      "status": "PASS"
+    },
+    {
+      "name": "1024×768/light: declining contribution and reduced motion remain explicit",
+      "status": "PASS"
+    },
+    {
+      "name": "390×844/dark: nine workspaces, navigation alignment, no overflow or invalid values",
+      "status": "PASS"
+    },
+    {
+      "name": "390×844/dark: visible sticky graph, numeric/slider sync, rapid input, free-entry explanation, validation and inspection",
+      "status": "PASS"
+    },
+    {
+      "name": "390×844/dark: declining contribution and reduced motion remain explicit",
+      "status": "PASS"
+    },
+    {
+      "name": "390×844/light: nine workspaces, navigation alignment, no overflow or invalid values",
+      "status": "PASS"
+    },
+    {
+      "name": "390×844/light: visible sticky graph, numeric/slider sync, rapid input, free-entry explanation, validation and inspection",
+      "status": "PASS"
+    },
+    {
+      "name": "390×844/light: declining contribution and reduced motion remain explicit",
+      "status": "PASS"
+    },
+    {
+      "name": "Normal motion: marker transitions and keyboard slider updates remain responsive",
+      "status": "PASS"
+    }
+  ],
+  "consoleErrors": []
+}

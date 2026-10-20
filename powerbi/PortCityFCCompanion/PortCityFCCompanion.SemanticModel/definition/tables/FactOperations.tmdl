@@ -1,9 +1,9 @@
 table FactOperations
 
-	measure 'Average Attendance' = CALCULATE(MAX(FactOperations[Value]), DimMetric[MetricKey] = "AVG_ATT")
+	measure 'Average Attendance' = CALCULATE(SELECTEDVALUE(FactOperations[Value]), DimMetric[MetricKey] = "AVG_ATT")
 		formatString: #,##0
 
-	measure 'Ticket Price' = CALCULATE(MAX(FactOperations[Value]), DimMetric[MetricKey] = "TICKET_PRICE")
+	measure 'Ticket Price' = CALCULATE(SELECTEDVALUE(FactOperations[Value]), DimMetric[MetricKey] = "TICKET_PRICE")
 		formatString: $0.00
 
 	column DateKey

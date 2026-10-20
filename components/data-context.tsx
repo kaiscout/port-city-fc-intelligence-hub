@@ -3,6 +3,7 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { demoFixtures, scenarioPresets } from "@/lib/data/demo";
 import type { Fixture, ScenarioInput } from "@/lib/types";
+import type { WorkspaceSnapshot } from "@/lib/workspace";
 
 type Filters = {
   season: string;
@@ -13,6 +14,10 @@ type Filters = {
 };
 
 type HubData = {
+  privateMode: boolean;
+  workspace: WorkspaceSnapshot | null;
+  workspaceError: string | null;
+  refreshWorkspace: () => Promise<void>;
   filters: Filters;
   setFilters: React.Dispatch<React.SetStateAction<Filters>>;
   fixtures: Fixture[];
@@ -28,6 +33,7 @@ type HubData = {
   scenariosReady: boolean;
   scenariosReadOnly: boolean;
   scenarioError: string | null;
+  reloadScenarios: () => Promise<void>;
   saveScenario: (scenario: ScenarioInput) => Promise<void>;
   duplicateScenario: (id: string) => Promise<void>;
   deleteScenario: (id: string) => Promise<void>;
@@ -44,9 +50,29 @@ const defaultFilters: Filters = {
 
 const HubDataContext = createContext<HubData | null>(null);
 
-export function HubDataProvider({ children }: { children: React.ReactNode }) {
+export function HubDataProvider({
+  children,
+  privateMode = false,
+}: {
+  children: React.ReactNode;
+  privateMode?: boolean;
+}) {
+  const [workspace, setWorkspace] = useState<WorkspaceSnapshot | null>(null);
+  const [workspaceError, setWorkspaceError] = useState<string | null>(null);
+  const refreshWorkspace = useCallback(async () => {
+    if (!privateMode) return;
+    try {
+      const response = await fetch("/api/workspace", { cache: "no-store" });
+      const body = await response.json();
+      if (!response.ok) throw new Error(body.error ?? "Unable to load private records");
+      setWorkspace(body);
+      setWorkspaceError(null);
+    } catch (error) {
+      setWorkspaceError(error instanceof Error ? error.message : "Unable to load private records");
+    }
+  }, [privateMode]);
   const [filters, setFilters] = useState(defaultFilters);
-  const [scenarios, setScenarios] = useState<ScenarioInput[]>(scenarioPresets);
+  const [scenarios, setScenarios] = useState<ScenarioInput[]>(privateMode ? [] : scenarioPresets);
   const [scenarioAudit, setScenarioAudit] = useState<HubData["scenarioAudit"]>([]);
   const [scenariosReady, setScenariosReady] = useState(false);
   const [scenariosReadOnly, setScenariosReadOnly] = useState(true);
@@ -80,9 +106,12 @@ export function HubDataProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   useEffect(() => {
-    const timer = window.setTimeout(() => void loadScenarios(), 0);
+    const timer = window.setTimeout(() => {
+      void loadScenarios();
+      void refreshWorkspace();
+    }, 0);
     return () => window.clearTimeout(timer);
-  }, [loadScenarios]);
+  }, [loadScenarios, refreshWorkspace]);
 
   const mutate = async (url: string, init: RequestInit) => {
     const response = await fetch(url, {
@@ -96,27 +125,33 @@ export function HubDataProvider({ children }: { children: React.ReactNode }) {
 
   const filteredFixtures = useMemo(
     () =>
-      demoFixtures.filter(
+      (privateMode ? [] : demoFixtures).filter(
         (fixture) =>
+          (filters.season === "All seasons" || fixture.date.startsWith(filters.season)) &&
           (filters.team === "All" || fixture.program === filters.team) &&
           (filters.competition === "All competitions" ||
             fixture.competition === filters.competition) &&
           (filters.venue === "All venues" || fixture.venue === filters.venue) &&
           (filters.fixture === "All fixtures" || fixture.id === filters.fixture),
       ),
-    [filters],
+    [filters, privateMode],
   );
 
   const value: HubData = {
+    privateMode,
+    workspace,
+    workspaceError,
+    refreshWorkspace,
     filters,
     setFilters,
-    fixtures: demoFixtures,
+    fixtures: privateMode ? [] : demoFixtures,
     filteredFixtures,
     scenarios,
     scenarioAudit,
     scenariosReady,
     scenariosReadOnly,
     scenarioError,
+    reloadScenarios: loadScenarios,
     saveScenario: async (scenario) => {
       const saved = await mutate("/api/scenarios", {
         method: "POST",
@@ -133,12 +168,16 @@ export function HubDataProvider({ children }: { children: React.ReactNode }) {
           ...source,
           id: `new-${Date.now()}`,
           name: `${source.name} — copy`,
+          version: undefined,
         }),
       });
       if (saved) await loadScenarios();
     },
     deleteScenario: async (id) => {
-      await mutate(`/api/scenarios/${encodeURIComponent(id)}`, { method: "DELETE" });
+      await mutate(`/api/scenarios/${encodeURIComponent(id)}`, {
+        method: "DELETE",
+        body: JSON.stringify({ version: scenarios.find((s) => s.id === id)?.version }),
+      });
       await loadScenarios();
     },
     resetDemo: async () => {

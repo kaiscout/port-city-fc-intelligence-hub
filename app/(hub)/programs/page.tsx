@@ -31,7 +31,7 @@ export default function ProgramsPage() {
     <>
       <PageHeader
         eyebrow="Men’s & women’s programs"
-        title="Grow both programs on evidence."
+        title="Program Equity"
         description="Compare performance equitably, make shared costs visible, and test the women’s program business case as a first-class growth investment."
         actions={
           <Status tone="info">
@@ -114,7 +114,7 @@ export default function ProgramsPage() {
       <div className="grid-2 section-gap">
         <Card className="chart-card">
           <CardHeader
-            title="Normalized performance index"
+            title="Normalized Performance Index"
             description="100 equals combined club benchmark; synthetic dataset"
             action={<SourceBadge source="Calculated metric" />}
           />
@@ -137,7 +137,7 @@ export default function ProgramsPage() {
         </Card>
         <Card className="padded">
           <CardHeader
-            title="Comparable KPI ledger"
+            title="Comparable KPI Ledger"
             description="Absolute values and decision-relevant variance"
           />
           <div className="table-wrap">
@@ -170,7 +170,7 @@ export default function ProgramsPage() {
       </div>
       <Card className="padded section-gap radar-panel">
         <CardHeader
-          title="Women’s program investment case"
+          title="Women’s Program Investment Case"
           description="Choose an assumption set to compare the commercial and community case."
           action={
             <div className="preset-tabs" style={{ margin: 0 }}>

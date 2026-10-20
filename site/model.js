@@ -19,10 +19,11 @@ export function financeModel(data, periodId = "FY25") {
     coverage: ratio(period.inflow, period.outflow),
     netCashMarginPct: period.inflow ? (period.netCash / period.inflow) * 100 : null,
     changeInNet: prior ? period.netCash - prior.netCash : null,
-    inflowChangePct: prior ? (period.inflow / prior.inflow - 1) * 100 : null,
-    sponsorshipSharePct: income.length
-      ? ratio(income.find((row) => row.name === "Sponsorship")?.amount ?? 0, period.inflow) * 100
-      : null,
+    inflowChangePct: prior && prior.inflow > 0 ? (period.inflow / prior.inflow - 1) * 100 : null,
+    sponsorshipSharePct:
+      income.some((row) => row.name === "Sponsorship") && period.inflow > 0
+        ? (income.find((row) => row.name === "Sponsorship").amount / period.inflow) * 100
+        : null,
     scope: `${periodId} · club-wide synthetic cash model`,
     breakdownAvailable: Boolean(breakdown),
   };
@@ -99,6 +100,11 @@ export function sponsorRisk(row) {
 }
 
 export function calculateSeasonScenario(model) {
+  if (
+    model.sponsorFrequency !== undefined &&
+    !["Per fixture", "Per season"].includes(model.sponsorFrequency)
+  )
+    throw new Error("Invalid sponsor allocation frequency");
   const numericKeys = [
     "expectedAttendance",
     "venueCapacity",
@@ -155,7 +161,11 @@ export function calculateSeasonScenario(model) {
   const fixedSeasonCost = directCostPerMatch * model.homeMatches;
   const attendeeCost = attendance * model.variableCostPerAttendee * model.homeMatches;
   const seasonCost = fixedSeasonCost + attendeeCost;
-  const totalRevenue = variableSeasonRevenue + model.sponsorIncome;
+  const sponsorshipAllocation =
+    model.sponsorFrequency === "Per fixture"
+      ? model.sponsorIncome * model.homeMatches
+      : model.sponsorIncome;
+  const totalRevenue = variableSeasonRevenue + sponsorshipAllocation;
   const communityRate = model.communityAllocationPct / 100;
   const riskRate = (model.weatherRiskPct + model.operationalRiskPct) / 100;
   const community = totalRevenue * communityRate;
@@ -167,13 +177,41 @@ export function calculateSeasonScenario(model) {
     (model.merchandiseParticipationPct / 100) * model.averageMerchandiseSpend;
   const unitContribution =
     unitRevenue * (1 - communityRate - riskRate) - model.variableCostPerAttendee;
-  const unfundedFixedCost = fixedSeasonCost - model.sponsorIncome * (1 - communityRate);
+  const unfundedFixedCost = fixedSeasonCost - sponsorshipAllocation * (1 - communityRate);
   const breakEven =
     unfundedFixedCost <= 0
       ? 0
       : unitContribution > 0
-        ? Math.ceil(unfundedFixedCost / (model.homeMatches * unitContribution) - 1e-10)
+        ? Math.max(1, Math.ceil(unfundedFixedCost / (model.homeMatches * unitContribution)))
         : null;
+  const moneyInputs = numericKeys
+    .filter(
+      (key) =>
+        !key.endsWith("Pct") &&
+        !["expectedAttendance", "venueCapacity", "homeMatches"].includes(key),
+    )
+    .map((key) => model[key]);
+  const moneyResults = [
+    ...moneyInputs,
+    ticket,
+    concession,
+    merchandise,
+    variableSeasonRevenue,
+    fixedSeasonCost,
+    attendeeCost,
+    seasonCost,
+    totalRevenue,
+    community,
+    riskReserve,
+    contribution,
+  ];
+  if (
+    moneyResults.some(
+      (n) => !Number.isFinite(n) || Math.abs(n) > Number.MAX_SAFE_INTEGER / 10000,
+    ) ||
+    (breakEven !== null && !Number.isSafeInteger(breakEven))
+  )
+    throw new RangeError("Input combination exceeds supported calculation precision");
   return {
     attendance,
     paidAttendance,
@@ -185,6 +223,7 @@ export function calculateSeasonScenario(model) {
     fixedSeasonCost,
     attendeeCost,
     totalRevenue,
+    sponsorshipAllocation,
     seasonCost,
     community,
     riskReserve,
@@ -667,16 +706,16 @@ export function buildExport(
       [],
       [
         "Scenario scope",
-        "Independent season planning model; no connection to historical cash or contract records",
+        "Independent scoped planning model; no connection to historical cash or contract records",
       ],
     );
     section(
-      "Scenario inputs · monetary cost inputs per fixture except season sponsor allocation",
+      "Scenario inputs · costs per fixture; sponsorship at its stated frequency",
       ["Input", "Value"],
       Object.entries(context.scenarioModel),
     );
     section(
-      "Calculated season outputs",
+      "Calculated scoped planning outputs",
       ["Output", "Value"],
       Object.entries(calculateSeasonScenario(context.scenarioModel)),
     );

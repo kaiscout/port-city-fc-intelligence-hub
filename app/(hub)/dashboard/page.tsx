@@ -87,7 +87,7 @@ export default function DashboardPage() {
     <>
       <PageHeader
         eyebrow="Evidence detail · sanitized public model"
-        title="Reconciled cash model first; forecasting only after approval."
+        title="Command Center"
         description="This detailed view shows the synthetic financial baseline, generalized operating assumptions and the evidence gaps that prevent an illustrative scenario from being mistaken for an approved club forecast."
         actions={
           <>
@@ -167,7 +167,7 @@ export default function DashboardPage() {
       <div className="grid-2">
         <Card className="chart-card">
           <CardHeader
-            title="Monthly cash timing"
+            title="Monthly Cash Timing"
             description="The annual model reconciles to the financial controls."
             action={<Status tone="success">$0.00 difference</Status>}
           />
@@ -175,7 +175,7 @@ export default function DashboardPage() {
         </Card>
         <Card className="chart-card">
           <CardHeader
-            title="Income concentration"
+            title="Income Concentration"
             description="The mix makes the diversification question visible."
             action={<Status tone="warning">Decision input</Status>}
           />
@@ -187,7 +187,7 @@ export default function DashboardPage() {
 
       <Card className="padded section-gap">
         <CardHeader
-          title="Evidence-to-decision gate"
+          title="Evidence-to-decision Gate"
           description="A status is earned only when the public model has a control or an explicit owner assumption."
           action={<FileCheck2 size={18} />}
         />
@@ -207,7 +207,7 @@ export default function DashboardPage() {
       <div className="grid-2 section-gap">
         <Card className="padded">
           <CardHeader
-            title="Expense categories"
+            title="Expense Categories"
             description="Synthetic categories reconcile to total outflow."
           />
           <DataTable
@@ -222,7 +222,7 @@ export default function DashboardPage() {
         </Card>
         <Card className="padded">
           <CardHeader
-            title="Field-cost aggregates"
+            title="Field-cost Aggregates"
             description="Vendor, date and payment-channel details are intentionally excluded."
           />
           <DataTable
@@ -235,7 +235,7 @@ export default function DashboardPage() {
 
       <Card className="padded section-gap">
         <CardHeader
-          title="Planning boundary"
+          title="Planning Boundary"
           description="Generalized assumptions show what an owner must confirm before the model becomes a forecast."
           action={<TriangleAlert size={18} />}
         />

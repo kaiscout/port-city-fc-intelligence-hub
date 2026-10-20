@@ -23,7 +23,8 @@ export default defineConfig({
     env: {
       SESSION_SECRET: "playwright-session-secret-is-long-enough",
       DATABASE_URL: databaseUrl ?? "",
-      DEMO_MODE: "true",
+      DEMO_MODE: databaseUrl ? "false" : "true",
+      PUBLIC_DEMO_MODE: databaseUrl ? "false" : "true",
       LOCAL_PREVIEW_MODE: databaseUrl ? "false" : "true",
       APP_URL: baseURL,
     },
@@ -31,11 +32,23 @@ export default defineConfig({
   projects: [
     {
       name: "desktop",
-      use: { ...devices["Desktop Chrome"], viewport: { width: 1440, height: 900 } },
+      use: {
+        ...devices["Desktop Chrome"],
+        viewport: { width: 1440, height: 900 },
+        launchOptions: process.env.CHROMIUM_EXECUTABLE_PATH
+          ? { executablePath: process.env.CHROMIUM_EXECUTABLE_PATH }
+          : {},
+      },
     },
     {
       name: "tablet",
-      use: { ...devices["Desktop Chrome"], viewport: { width: 1024, height: 900 } },
+      use: {
+        ...devices["Desktop Chrome"],
+        viewport: { width: 1024, height: 900 },
+        launchOptions: process.env.CHROMIUM_EXECUTABLE_PATH
+          ? { executablePath: process.env.CHROMIUM_EXECUTABLE_PATH }
+          : {},
+      },
     },
     {
       name: "mobile",
@@ -44,6 +57,9 @@ export default defineConfig({
         viewport: { width: 390, height: 844 },
         isMobile: true,
         hasTouch: true,
+        launchOptions: process.env.CHROMIUM_EXECUTABLE_PATH
+          ? { executablePath: process.env.CHROMIUM_EXECUTABLE_PATH }
+          : {},
       },
     },
   ],

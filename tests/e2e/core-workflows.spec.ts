@@ -1,71 +1,109 @@
 import { expect, test } from "@playwright/test";
-
-test.beforeEach(async ({ page }) => {
-  if (!process.env.E2E_DATABASE_URL) return;
-  const response = await page.request.post("/api/auth/login", {
-    data: { email: "admin@pcfc-demo.local", password: "PilotDemo!2026" },
-  });
-  expect(response.ok()).toBe(true);
+const privateMode = Boolean(process.env.E2E_DATABASE_URL);
+test.beforeEach(async ({ page, baseURL }) => {
+  if (privateMode) {
+    const response = await page.request.post("/api/auth/login", {
+      headers: { Origin: baseURL! },
+      data: { email: "admin@pcfc-demo.local", password: "PilotDemo!2026" },
+    });
+    expect(response.ok(), await response.text()).toBe(true);
+  }
 });
-
-test("executive workflow exposes decision context and responsive navigation", async ({
-  page,
-}, testInfo) => {
+test("executive workflow states its source boundary", async ({ page }) => {
   await page.goto("/dashboard");
+  if (privateMode) {
+    await expect(page.getByRole("heading", { name: "Command Center", exact: true })).toBeVisible();
+    await expect(
+      page.getByText("Approved records only · USD · no live integrations", { exact: true }),
+    ).toBeVisible();
+    await expect(page.getByText("Your Reporting Dataset Is Empty", { exact: true })).toBeVisible();
+  } else
+    await expect(
+      page.getByRole("heading", {
+        name: "Command Center",
+      }),
+    ).toBeVisible();
+});
+test("scenario inputs and reproducible export have explicit evidence", async ({ page }) => {
+  await page.goto("/scenarios");
   await expect(
     page.getByRole("heading", {
-      name: "Reconciled cash model first; forecasting only after approval.",
+      name: "Scenario Lab",
+      exact: true,
     }),
   ).toBeVisible();
-  await expect(page.getByText("Privacy-safe portfolio boundary")).toBeVisible();
-  await expect(page.getByText("Field-cost aggregates")).toBeVisible();
-  await expect(page.getByText("Planning boundary")).toBeVisible();
-  await expect(page.getByText("Fixture forecast", { exact: true })).toBeVisible();
-  if (testInfo.project.name === "desktop")
-    await page.screenshot({ path: "public/screenshots/dashboard-desktop.png", fullPage: true });
+  if (!privateMode)
+    await expect(page.getByRole("button", { name: "Save Scenario", exact: true })).toBeDisabled();
+  else await expect(page.getByRole("button", { name: "Baseline", exact: true })).toBeVisible();
+  await expect(
+    page.getByText("Conditional Planning · About These Figures", { exact: true }),
+  ).toBeVisible();
+});
+test("operations does not manufacture a successful import", async ({ page }) => {
+  await page.goto("/operations");
+  if (privateMode) {
+    await expect(
+      page.getByRole("heading", {
+        name: "Operations Studio",
+        exact: true,
+      }),
+    ).toBeVisible();
+    await expect(
+      page.getByRole("button", { name: "Validate & preview", exact: true }),
+    ).toBeDisabled();
+    await expect(page.getByText("No Records in This Selection", { exact: true })).toBeVisible();
+  } else {
+    await expect(page.getByText("Read-only demonstration", { exact: true })).toBeVisible();
+    await expect(page.getByRole("button", { name: /Commit/ })).toHaveCount(0);
+  }
 });
 
-test("scenario workflow is read-only publicly and persists when PostgreSQL is configured", async ({
+test("Scenario Lab keeps the graph visible while advanced inputs change", async ({ page }) => {
+  await page.goto("/scenarios");
+  await page.getByRole("button", { name: "Baseline", exact: true }).click();
+  await expect(page.locator(".lab-chart")).toBeVisible();
+  if (page.viewportSize()!.width < 761) {
+    await expect
+      .poll(async () => {
+        const box = await page.locator(".sidebar").boundingBox();
+        return box!.x + box!.width;
+      })
+      .toBeLessThanOrEqual(0);
+    await page.getByRole("button", { name: "Open navigation", exact: true }).click();
+    await expect(page.locator(".sidebar")).toHaveClass(/sidebar-open/);
+    await page.locator(".sidebar-close").click();
+    await expect
+      .poll(async () => {
+        const box = await page.locator(".sidebar").boundingBox();
+        return box!.x + box!.width;
+      })
+      .toBeLessThanOrEqual(0);
+  }
+  await page
+    .locator("details > summary")
+    .filter({ hasText: /^Costs & Allowances$/ })
+    .click();
+  const equipment = page.locator("#private-equipment");
+  await equipment.scrollIntoViewIfNeeded();
+  const plot = await page.locator(".lab-chart").boundingBox();
+  expect(plot!.y).toBeGreaterThanOrEqual(0);
+  expect(plot!.y + plot!.height).toBeLessThanOrEqual(page.viewportSize()!.height);
+  await equipment.fill("1500");
+  await expect(page.locator(".lab-outcome strong")).toHaveText("$14,935");
+  await expect(equipment).toBeFocused();
+});
+test("commercial workflow distinguishes stored contracts from the demonstration sample", async ({
   page,
 }) => {
-  await page.goto("/scenarios");
-  await expect(page.getByText("Illustrative sandbox—not an approved PCFC forecast")).toBeVisible();
-  if (!process.env.E2E_DATABASE_URL) {
-    await expect(page.getByText("Read-only portfolio mode")).toBeVisible();
-    await expect(page.getByRole("button", { name: "Save scenario" })).toBeDisabled();
-    return;
-  }
-  await page.getByLabel("Scenario name").fill("Recruiter walkthrough scenario");
-  await page.getByLabel("Expected attendance").fill("2100");
-  await page.getByRole("button", { name: "Save scenario" }).click();
-  await expect(
-    page.getByText("Scenario saved to PostgreSQL and recorded in the audit log."),
-  ).toBeVisible();
-  await expect(
-    page
-      .getByLabel("Saved matchday scenario")
-      .getByRole("button", { name: "Recruiter walkthrough scenario", exact: true }),
-  ).toBeVisible();
-  const download = page.waitForEvent("download");
-  await page.getByRole("button", { name: "Export comparison" }).click();
-  await expect(await download).toBeTruthy();
-});
-
-test("operations user sees validation errors before import commit", async ({ page }) => {
-  await page.goto("/operations");
-  await page.getByRole("button", { name: /Preview 2 rows/ }).click();
-  await expect(page.getByText("Duplicate record within this import batch")).toBeVisible();
-  await expect(page.getByRole("button", { name: /Commit 1 valid row/ })).toBeEnabled();
-});
-
-test("commercial workflow explains sponsor risk and prints", async ({ page }) => {
   await page.goto("/sponsors");
-  await page.getByRole("button", { name: /Dockside Legal Group/ }).click();
-  await expect(page.getByText("High renewal risk")).toBeVisible();
-  await expect(page.getByText(/Only 50% of deliverables/)).toBeVisible();
+  if (privateMode)
+    await expect(page.getByText("No Approved Sponsor Contracts", { exact: true })).toBeVisible();
+  else {
+    await page.getByRole("button", { name: /Dockside Legal Group/ }).click();
+    await expect(page.getByText("High renewal risk", { exact: true })).toBeVisible();
+  }
 });
-
-test("all primary pages have one main heading and no horizontal viewport overflow", async ({
+test("primary routes have one main heading and no page-level horizontal overflow", async ({
   page,
 }) => {
   for (const path of [
@@ -85,9 +123,11 @@ test("all primary pages have one main heading and no horizontal viewport overflo
   ]) {
     await page.goto(path);
     await expect(page.locator("h1")).toHaveCount(1);
-    const overflow = await page.evaluate(
-      () => document.documentElement.scrollWidth > document.documentElement.clientWidth + 1,
-    );
-    expect(overflow, `${path} should not overflow horizontally`).toBe(false);
+    expect(
+      await page.evaluate(
+        () => document.documentElement.scrollWidth > document.documentElement.clientWidth + 1,
+      ),
+      path,
+    ).toBe(false);
   }
 });

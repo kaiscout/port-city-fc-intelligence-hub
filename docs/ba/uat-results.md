@@ -1,93 +1,64 @@
-# UAT and verification results
+# UAT and verification — candidate 6.0
 
-## Current stakeholder presentation release — 16 October 2026
+Execution date: 18 October 2026. Executor: project developer. This record supersedes the 14/16 October summaries; historical public evidence remains in the dated verification folders. Developer verification is not PCFC stakeholder acceptance.
 
-Environment: Dell Windows, Node.js 24.19 and Chromium. The task's automatic workhorse check returned Dell fallback because both trusted Pi aliases were unresolved. Verification is by the project developer; PCFC stakeholder acceptance remains pending.
+## Tested identity and environment
 
-| Gate                                      | Result | Current evidence                                                                                                                                                           |
-| ----------------------------------------- | ------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Public calculation and export regressions | Pass   | 77 independent numerical/export cases; period availability, weighted denominators, scenario equation/break-even, corrupted controls and export scope                       |
-| Public browser verification               | Pass   | 94 checks; 54 fiscal-period/program/workspace combinations, real downloaded CSV contents, all exposed scenario drivers and program, search/sort, labels and print workflow |
-| Mobile coverage                           | Pass   | All nine workspaces at 390 × 844; applicable filters visible, navigation usable, no horizontal page overflow                                                               |
-| Model controls                            | Pass   | 24 checks calculated from the published inputs, including agreement with pipeline controls                                                                                 |
-| Source-model pipeline                     | Pass   | Seven zero-difference controls; regeneration causes no processed-data drift                                                                                                |
-| Power BI source structure                 | Pass   | Seven model tables, nine relationships, two roles and six visuals; regeneration causes no source drift                                                                     |
-| Privacy                                   | Pass   | Repository scan; public bundle pattern check; no contact, bank-identifier, private-path or row-level financial export fields                                               |
-| Formatting / lint / strict types          | Pass   | Repository checks plus final focused lint of browser, model, build and test sources                                                                                        |
-| Native calculation regression             | Pass   | 21 unit/integration tests; baseline native break-even is 674 and the operating margin crosses zero between 673 and 674                                                     |
-| Production build                          | Pass   | Next.js 16.4 compiles all 25 routes/endpoints                                                                                                                              |
-| Production dependency audit               | Pass   | Zero production vulnerabilities                                                                                                                                            |
-| Visual review                             | Pass   | Rendered desktop, mobile and A4 briefing screenshots inspected; print body text is dark and at least 10.5pt                                                                |
+Base Git revision: `6330e24c2c0774cff36b53e0aacb853941705c3d`. Candidate changes remain uncommitted; no hosted CI or pushed-revision pass is claimed. The release manifest enumerates every runtime file and archive checksum.
 
-Machine-readable evidence is retained in [numerical verification](../verification/2026-10-16-v5/hub-numerical-verification.json) and [browser verification](../verification/2026-10-16-v5/hub-browser-verification.json). The Sites saved version records the exact source commit and deployment outcome separately.
+Runtime SHA-256 fingerprint: `951c82cb147ea18066f310ff03b92a8ab84715dec2b3aeb8acc771919876b3ca`. All 99 runtime inputs were hash-compared between the Dell editing checkout and isolated execution directory. Fingerprint inputs are app/components/lib/data/prisma/site plus package/lock/config/proxy/instrumentation, not documentation or generated media.
 
-| Acceptance scenario | Result | Evidence                                                                                                                                                                                     |
-| ------------------- | ------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| UAT-020             | Pass   | FY24 annual controls stay $63,200/$60,950/$2,250 with no invented breakdown; FY25 monthly/category totals agree; negative chart points stay within axes                                      |
-| UAT-021             | Pass   | Program AND search constrain accounts, cards and downloads; sorting is functional; empty delivery percentage is unavailable; club-wide accounts appear once                                  |
-| UAT-022             | Pass   | Every workspace exports substantive scoped data; all 54 combinations tested; inactive filters do not mislabel filenames                                                                      |
-| UAT-023             | Pass   | Each numeric driver and scenario program tested; all attendee receipts capacity capped; full cost/community/risk equation matches exported output; break-even boundary independently checked |
-| UAT-024             | Pass   | Source manifest and calculated model results are exported; missing/failed controls cannot become a passing assurance badge                                                                   |
-| UAT-025             | Pass   | Dated sparklines only, no mixed-unit index, weighted capacity/returning denominators, consistent category drill-down                                                                         |
-| UAT-026             | Pass   | Owner briefing contains three explicit approval requests and a printable, readable handout with the synthetic boundary retained                                                              |
+Final execution: Dell Windows, Node.js 24.19, Next.js 16.4, locked Playwright Chromium and loopback PostgreSQL 17.6. Both databases contained only explicit synthetic seed/UAT data. Three migrations were applied. The Pi was selected initially and used for baseline builds/tests; after connectivity was lost, verification continued in new isolated Dell staging without touching production or retrying a deployment.
 
-### Acceptance boundary
+## Observed product verification
 
-This release is technically verified for a guided stakeholder presentation and proposed validation pilot. All public figures remain synthetic or generalized. No test result establishes PCFC financial accuracy, actual current liquidity, an approved fixture schedule, production recovery capability or stakeholder sign-off.
+| Gate                                 | Result | Observed evidence                                                                                                                           |
+| ------------------------------------ | ------ | ------------------------------------------------------------------------------------------------------------------------------------------- |
+| Source generation and reconciliation | PASS   | 10 deterministic outputs; seven zero-difference controls; regeneration drift gate                                                           |
+| Financial controls                   | PASS   | FY25 67,500 / 63,700 / 3,800 USD; FY24 63,200 / 60,950 / 2,250 USD; FY24 annual-only                                                        |
+| Power BI source                      | PASS   | 28-file zero-drift regeneration; 13 JSON documents; seven tables, nine relationships, two roles, six visuals                                |
+| Unit/integration                     | PASS   | 39 tests in nine files; typed relations, CSV, permissions, missing values, shared scenario equation and precision limits                    |
+| Production build                     | PASS   | Optimized Next.js application compiled, typed and generated successfully                                                                    |
+| Private PostgreSQL browser suite     | PASS   | 36/36: 12 cases each at desktop, tablet and mobile; final run 5.4 minutes                                                                   |
+| Native public/no-database profile    | PASS   | Six applicable desktop cases; six database-only cases correctly not applicable here, already passed in all private profiles                 |
+| Static numerical/export suite        | PASS   | 78 independent cases and 24 calculated integrity controls                                                                                   |
+| Static browser suite                 | PASS   | 95 checks, 54 period/program/view export combinations, nine mobile views, zero console errors                                               |
+| Desktop/mobile/print review          | PASS   | Final rendered private summary/filter/source/action layouts and print report inspected; public desktop/mobile/owner-print evidence retained |
+| Reload and fresh browser             | PASS   | Server-confirmed operations, settings, scenario versions and account changes retained across new contexts                                   |
+| Separate-process restart             | PASS   | Different owned application PIDs, same database, fresh browser sign-ins; five business fingerprints identical                               |
+| Isolated logical restore             | PASS   | Checksummed backup read back, restored transactionally into the same migrated schema; all 33 application table hashes/counts matched        |
+| Production dependencies              | PASS   | npm audit with development dependencies omitted reports zero vulnerabilities                                                                |
+| Refreshed walkthrough                | PASS   | 180.711 seconds, 1280×720; playback and four seek captures; decoded 180-second stereo narration, non-silent RMS; rendered frames inspected  |
 
-The in-app browser automation service timed out during this task; browser behavior was verified with the independent Chromium suite and generated screenshot review. Native Power BI Desktop refresh/render/RLS interaction and a managed-host recovery drill remain conditional. Database-backed persistence and audit evidence below are the 14 October baseline; they were not rerun on 16 October because this release changes presentation calculations and the static adapter, not persistence or authorization.
+Current source formatting, lint, strict types, privacy and regeneration results are recorded in the accompanying [release verification record](../verification/2026-10-18-v6/release-verification.json). Public-bundle inventory is exactly six static assets, with no database, environment, private documents, contacts, credential exports or mutation server.
 
-Use [stakeholder-brief.md](stakeholder-brief.md) for the meeting route, decisions and proposed pilot acceptance criteria.
+## Actual operating-loop coverage
 
-## Historical technical baseline — 14 October 2026
+- UAT-027: a clean organization starts empty; typed approved season/program/competition/venue/fixture records, dates, capacity and references validate.
+- UAT-028: manual correction and quoted CSV preview/explicit atomic commit drive analytics. The synthetic example moves contribution from $10,740 to $9,830 after a cost correction. Invalid rows, repeat content, stale versions and commit-time duplicates cannot partially write.
+- UAT-029: sponsor face value remains distinct from receipts; deliverables and owner/due/status/rationale actions persist. Action scope is explicitly organization-wide.
+- UAT-030: settings/report ownership and user provision/deactivation are durable and audited. Actual routes exercise all six roles, entity read/write policies, last-admin protection, origin rejection, organization isolation and session revocation.
+- UAT-031: explicit scope/home count/sponsor frequency/provenance, capacity, complimentary attendance, costs/community/allowances; save/version/compare/reset/export/duplicate/restore-as-new-draft/archive all exercised.
+- UAT-032: restart compared 456 operational rows, 23 settings, 58 scenarios, 89 revisions and 733 non-sign-in audit events across the accumulated synthetic test database. These are test inventory counts, not club performance statistics.
 
-Execution date: 14 October 2026. Executor: portfolio project developer. Environment: Dell browser verification plus a hash-matched, isolated Raspberry Pi 5 ARM64 build and PostgreSQL 17.10 test evidence. This is portfolio verification, **not Port City FC stakeholder acceptance**.
+The shared after-allowance baseline threshold is 827, not the superseded before-allowance 674. Independent worked example: receipts $1,620, costs $784, community $162, allowance $304, contribution $370; 36 attendees produces −$4 and 37 produces $4.50. Oversized/nonfinite calculations are rejected rather than saved or displayed as infinity.
 
-## Automated gates
+## Evidence and reproduction
 
-| Gate                           | Result | Evidence                                                                                                      |
-| ------------------------------ | ------ | ------------------------------------------------------------------------------------------------------------- |
-| Privacy boundary               | Pass   | `npm run privacy:scan`; no unexpected contacts, banking identifiers, local paths, or row-level export columns |
-| Source-to-model pipeline       | Pass   | Nine generated outputs; seven reconciliation checks; every difference is zero                                 |
-| Power BI source structure      | Pass   | 13 JSON documents, seven model tables, nine relationships, two RLS roles, six report visuals                  |
-| Formatting and lint            | Pass   | Prettier and ESLint with zero warnings                                                                        |
-| Strict typecheck               | Pass   | `tsc --noEmit`                                                                                                |
-| Unit and integration tests     | Pass   | 8 files, 21 tests                                                                                             |
-| Production build               | Pass   | Next.js 16.4; 25 dynamic routes/endpoints compiled                                                            |
-| Dependency production audit    | Pass   | `npm audit --omit=dev --audit-level=high`; zero production vulnerabilities                                    |
-| PostgreSQL migrations and seed | Pass   | Two migrations applied; deterministic organization and three scenarios created                                |
-| Desktop Playwright E2E         | Pass   | 5/5 workflows, including persisted scenario and audit evidence                                                |
-| Static interaction suite       | Pass   | Nine workspaces; flow/net, scenario, search, drawer, theme, and 390-pixel responsive behaviors verified       |
-| Visual system review           | Pass   | Midnight football control-room shell, telemetry hierarchy, owner queue, desktop density, and mobile reflow    |
-| Public Sites deployment        | Pass   | Privacy-safe interactive executive workspace published in read-only static mode and visually reviewed         |
-| Narrated walkthrough           | Pass   | 3:02 WebM, four verified application views, narration source and reproducible recording scripts               |
+Sanitized machine records are in [2026-10-18-v6](../verification/2026-10-18-v6/): numerical/browser results, restart before/after/cycle, disposable restore and walkthrough verification. Raw traces, credential-bearing backup data and local execution logs are excluded from public/source/presentation archives.
 
-The full development dependency tree reports five high findings in the current Next.js ESLint toolchain through `fast-glob`/`micromatch`/`braces`; it has no runtime path, and the production dependency audit is clean. The repository does not apply an unsafe forced downgrade.
+Run the README gates. Database E2E requires the explicitly seeded disposable verification database; clean club setup must not use that seed. The bounded `scripts/check-restart-cycle.ts` owns and stops both loopback test application processes. The restore helper refuses occupied business targets and never restores over live data. The release manifest identifies exact archive/file hashes independently of the unchanged base Git revision.
 
-## Acceptance scenarios
+Verification found and corrected genuine issues before the final runs: canonical-origin handling, accessible password naming, scenario precision/zero-attendance behavior, compressed mobile filters and the recovery helper's JSON serialization. Failed restore attempts rolled back; the successful run did not require deleting target business records. A separate capture-selector ambiguity was corrected without changing application behavior.
 
-| ID      | Result      | Evidence / note                                                                                                                          |
-| ------- | ----------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
-| UAT-001 | Pass        | Command center presents four KPIs, interactive cash view, income mix, owner actions, and the evidence boundary                           |
-| UAT-002 | Pass        | Deterministic data pipeline regenerates dimensions, facts, hashes, and seven control checks                                              |
-| UAT-003 | Pass        | Privacy scan and manual review confirm role-only staffing data and no transaction/payee rows                                             |
-| UAT-004 | Pass        | Route policy tests cover exact paths, nested paths, invalid roles, and denied personas                                                   |
-| UAT-005 | Pass        | Entity policy tests prove each generic read/write route resolves a domain-specific permission                                            |
-| UAT-006 | Pass        | PostgreSQL scenario update survives server reload and appears in the saved scenario table                                                |
-| UAT-007 | Pass        | The same scenario transaction appends an organization-scoped audit event                                                                 |
-| UAT-008 | Pass        | Public no-database mode loads presets, exposes no audit events, and disables mutations                                                   |
-| UAT-009 | Pass        | Dashboard evidence, blocked forecast status, field aggregates, and planning boundary are visible                                         |
-| UAT-010 | Pass        | Operations import preview exposes row errors before any commit boundary                                                                  |
-| UAT-011 | Pass        | Sponsor risk explanation and print workflow complete in the browser test                                                                 |
-| UAT-012 | Pass        | Every primary route has one level-one heading and no horizontal viewport overflow at desktop width                                       |
-| UAT-013 | Pass        | Power BI project generator and validator confirm Power Query imports, DAX measures, star relationships, and RLS source                   |
-| UAT-014 | Conditional | Power BI Desktop native refresh/render and Service role assignment require a machine with Power BI Desktop and an authorized workspace   |
-| UAT-015 | Conditional | Backup procedure is documented; a managed-host restore drill remains an adoption prerequisite                                            |
-| UAT-016 | Pass        | Public deployment exposes nine sanitized workspaces and contains no database, credentials, private contacts, or mutation workflow        |
-| UAT-017 | Pass        | Walkthrough playback, opening frame, progress timeline, and audio track were visually verified in the browser                            |
-| UAT-018 | Pass        | Period/program filters, cash toggle, command search, sponsor/fixture/decision drill-down, live scenario outputs, theme, and exports work |
-| UAT-019 | Pass        | Chromium and in-app browser review at 390 × 844 confirm reflow, mobile navigation, usable scenario controls, and no horizontal overflow  |
+The walkthrough recorder initially received an indefinite audio duration. Media-length/range headers and fail-fast page-error handling were corrected before the successful playback/audio/seek verification.
 
-## Residual acceptance work
+## Companion and acceptance boundary
 
-Before organizational adoption, approved users must repeat UAT with authorized source data, real role accounts, production-like hosting, signed KPI definitions, assistive-technology coverage, and an executed backup/restore drill. The Power BI project must be opened in Desktop, refreshed, visually inspected, and tested with **View as** for both program roles. These conditions do not block the sanitized public portfolio demonstration.
+The XLSX retains eight sheets, recalculates linked reconciliation formulas with seven zero differences, has no detected formula errors, and was rendered/reviewed with the bundled artifact engine. This is not a native Microsoft Excel refresh. Power BI checks validate M/DAX/model/role/report source and generation; Desktop refresh/render and native View As have not been performed. Annual category measures explicitly retain year while ignoring a month/date filter; annual anchors do not become monthly transactions.
+
+The logical restore is an application-data rehearsal, not pg_dump/pg_restore, physical/PITR recovery, encrypted off-host storage or provider failover. Restart fingerprints exclude sign-in events because the check deliberately signs in again; ordinary write audit events and scenario revisions remain included.
+
+No public hosting, DNS, LinkedIn account, production database or live integration was changed. The public figures remain synthetic/generalized; net cash movement is not balance, profit or runway. Software checks do not certify real club figures, independent security/accessibility, load/SLA, endorsement, achieved benefits or stakeholder acceptance.
+
+Before adoption: club data/report owners and approved actual inputs, definition/exclusion sign-off, role-account approval, native companion acceptance where required, and an authorized private environment with TLS, managed secrets, upstream authentication throttling, monitoring, encrypted backups, recovery/support ownership and stakeholder UAT. Static publication and any LinkedIn post require Deniz's separate approval.

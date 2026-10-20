@@ -45,7 +45,7 @@ export default function AttendancePage() {
     <>
       <PageHeader
         eyebrow="Attendance & fan funnel"
-        title="See where attention becomes belonging."
+        title="Fan Funnel"
         description="Trace the supporter journey from reach to repeat attendance, identify conversion friction, and direct campaign spend to the channels that compound loyalty."
         actions={
           <button className="button button-primary" onClick={saveCsv}>
@@ -100,7 +100,7 @@ export default function AttendancePage() {
       <div className="grid-2">
         <Card className="padded">
           <CardHeader
-            title="Supporter conversion funnel"
+            title="Supporter Conversion Funnel"
             description="Stage-to-stage conversion and drop-off"
             action={<SourceBadge source="Synthetic demonstration data" />}
           />
@@ -131,7 +131,7 @@ export default function AttendancePage() {
         </Card>
         <Card className="chart-card">
           <CardHeader
-            title="Channel conversion"
+            title="Channel Conversion"
             description="Completed purchases divided by attributed visits"
           />
           <ChannelBars data={channels} />
@@ -144,7 +144,7 @@ export default function AttendancePage() {
       <div className="grid-2">
         <Card className="chart-card">
           <CardHeader
-            title="Attendance momentum"
+            title="Attendance Momentum"
             description="Monthly synthetic match attendance and revenue"
           />
           <PerformanceTrend data={monthlyTrend} />
@@ -155,7 +155,7 @@ export default function AttendancePage() {
         </Card>
         <Card className="padded">
           <CardHeader
-            title="Supporter cohorts"
+            title="Supporter Cohorts"
             description="First attendance month and subsequent return behavior"
           />
           <DataTable
@@ -186,7 +186,7 @@ export default function AttendancePage() {
       </div>
       <Card className="padded">
         <CardHeader
-          title="Fixture attendance detail"
+          title="Fixture Attendance Detail"
           description="New vs returning supporter mix, capacity use, and paid attendance."
         />
         <DataTable

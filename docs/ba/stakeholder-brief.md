@@ -1,6 +1,6 @@
 # Port City FC — stakeholder review briefing
 
-Purpose: agree a controlled validation pilot, data owners and decision definitions. Presentation version: 16 October 2026.
+Purpose: agree a controlled validation pilot, data owners and decision definitions. Presentation candidate: 6.0, 18 October 2026. The current live URL remains the previous release until publication is separately approved.
 
 ## Opening statement
 
@@ -22,10 +22,12 @@ These findings describe the demonstration and proposed controls. They are not as
 2. **Cash flow — 90 seconds.** Show FY25 inflow/outflow, negative monthly net movement and same-period category shares. Switch to FY24 to demonstrate honest annual-only reporting rather than invented detail. Explain why a bank balance is still needed.
 3. **Commercial exception — 90 seconds.** Select a program, search an account, sort by delivery and open the sponsor detail. Explain inclusion of unallocated club-wide accounts. Export the visible selection. Separate 2026 contract face value from FY25 cash receipts.
 4. **Fixture and program analysis — 75 seconds.** Open one synthetic fixture and show direct contribution. Compare programs using per-fixture measures, weighted capacity fill and paid-weighted returning share; do not claim full-season equivalence.
-5. **Scenario sensitivity — 90 seconds.** Start at Baseline. Explain per-fixture costs and the once-per-season sponsor allocation. Change attendance and a cost input, show break-even feasibility, then export the complete assumptions and output equation. Risk allowance is a planning deduction.
+5. **Scenario sensitivity — 90 seconds.** Start at the public Baseline preset. Explicitly select per-fixture or season scope, home count and sponsorship frequency; one fixture is the starting unit, not an approved schedule. Change attendance and a cost input, show after-allowance break-even feasibility, then export the complete assumptions and output equation. Risk allowance is a planning deduction.
 6. **Decision and next step — 90 seconds.** Open Owner briefing or Decision register. Agree the three requests, reviewers, a reporting-period pilot, and acceptance criteria.
 
 ## Proposed validation pilot
+
+For the separate private-application demonstration, use only the disposable synthetic test organization: show typed configuration, a quoted-field CSV preview, explicit atomic commit, an approved correction changing analytics, an accountable action, a saved scenario version and the audit trail. A newly provisioned club organization starts empty. Do not expose test credentials, raw traces or private records on the public screen.
 
 - Agree one reporting period, one fixture and a small sponsor population.
 - Authorize the source records and nominate the finance, operations and commercial reviewers.

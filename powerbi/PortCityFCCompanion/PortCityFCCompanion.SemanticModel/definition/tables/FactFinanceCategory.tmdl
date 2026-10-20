@@ -1,6 +1,6 @@
 table FactFinanceCategory
 
-	measure 'Category Amount' = SUM(FactFinanceCategory[Amount])
+	measure 'Annual Category Amount' = CALCULATE(SUM(FactFinanceCategory[Amount]), ALLEXCEPT(DimDate, DimDate[Year]))
 		formatString: $#,##0;($#,##0);-
 
 	column DateKey

@@ -4,6 +4,7 @@ import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import vm from "node:vm";
 import { setTimeout as delay } from "node:timers/promises";
+import { createHash } from "node:crypto";
 import { chromium } from "@playwright/test";
 
 const root = path.resolve("dist");
@@ -30,8 +31,11 @@ const server = createServer(async (request, response) => {
     response.writeHead(404).end("Not found");
   }
 });
-await new Promise((resolve) => server.listen(0, "127.0.0.1", resolve));
-const url = "http://127.0.0.1:" + server.address().port;
+const liveUrl = process.env.PCFC_VERIFY_URL;
+if (liveUrl && new URL(liveUrl).origin !== "https://pcfc.denizci.dev")
+  throw new Error("Live verification is restricted to the approved public domain.");
+if (!liveUrl) await new Promise((resolve) => server.listen(0, "127.0.0.1", resolve));
+const url = liveUrl || "http://127.0.0.1:" + server.address().port;
 let browser;
 const checks = [];
 const mark = (name) => checks.push({ name, status: "PASS" });
@@ -93,7 +97,7 @@ try {
   await context.addInitScript(() => {
     window.print = () => {};
   });
-  const page = await context.newPage();
+  let page = await context.newPage();
   const errors = [];
   const warnings = [];
   page.on("pageerror", (error) => errors.push(error.message));
@@ -101,7 +105,31 @@ try {
     if (message.type() === "error") errors.push(message.text());
     if (message.type() === "warning") warnings.push(message.text());
   });
-  await page.goto(url, { waitUntil: "networkidle" });
+  const response = await page.goto(url, { waitUntil: "networkidle" });
+  assert.equal(response.status(), 200);
+  if (liveUrl) {
+    for (const file of [
+      "index.html",
+      "styles.css",
+      "app.js",
+      "model.js",
+      "scenario-visuals.js",
+      "lab.css",
+      "data.js",
+      "assets/pcfc-logo.png",
+    ]) {
+      const result = await context.request.get(new URL(file, url).href);
+      assert.equal(result.status(), 200, file + " live HTTP response");
+      const hash = (bytes) => createHash("sha256").update(bytes).digest("hex");
+      assert.equal(
+        hash(await result.body()),
+        hash(await readFile(path.join(root, file))),
+        file + " live bytes",
+      );
+      mark(file + ": live HTTPS bytes match the approved release");
+    }
+    assert.equal(await page.evaluate(() => window.PCFC_DATA.meta.release), data.meta.release);
+  }
   await mkdir("test-results", { recursive: true });
   const navigate = async (view) => {
     await page.locator('.nav-item[data-view="' + view + '"]').click();
@@ -112,8 +140,7 @@ try {
   let lastDownloadAt = 0;
   let downloadCount = 0;
   const download = async (action) => {
-    // Exercise each real CSV download without turning this correctness suite
-    // into a burst-download stress test on fast CI runners.
+    // Preserve the real-download assertions without a burst-download stress test.
     await delay(Math.max(0, 250 - (performance.now() - lastDownloadAt)));
     lastDownloadAt = performance.now();
     downloadCount++;
@@ -156,6 +183,12 @@ try {
       for (const view of views) {
         await navigate(view);
         assert.equal(await page.locator("h1").count(), 1);
+        assert.ok((await page.title()).endsWith(" | " + data.meta.product));
+        assert.ok(
+          (await page.locator(".brand-lockup").innerText()).includes(
+            "Business Intelligence & Analytics",
+          ),
+        );
         assert.equal(
           await page.locator("#period-filter").isDisabled(),
           !["command", "finance"].includes(view),
@@ -313,7 +346,9 @@ try {
         ((attendance * input.concessionParticipationPct) / 100) * input.averageConcessionSpend +
         ((attendance * input.merchandiseParticipationPct) / 100) * input.averageMerchandiseSpend) *
       input.homeMatches;
-    const revenue = variable + input.sponsorIncome;
+    const revenue =
+      variable +
+      input.sponsorIncome * (input.sponsorFrequency === "Per fixture" ? input.homeMatches : 1);
     const fixed =
       [
         "marketingSpend",
@@ -338,7 +373,10 @@ try {
       .evaluateAll((nodes) =>
         Object.fromEntries(nodes.map((node) => [node.dataset.scenarioInput, Number(node.value)])),
       );
-    const expected = independent(inputs);
+    const expected = independent({
+      ...inputs,
+      sponsorFrequency: await page.locator("#scenario-sponsor-frequency").inputValue(),
+    });
     assert.equal(await page.locator("#scenario-revenue").innerText(), money(expected.revenue));
     assert.equal(
       await page.locator("#scenario-contribution").innerText(),
@@ -347,14 +385,11 @@ try {
     assert.equal(await page.locator("#scenario-risk").innerText(), money(expected.reserve));
     const rows = await download("export-scenario");
     const exportedInputs = Object.fromEntries(
-      section(
-        rows,
-        "Scenario inputs · monetary cost inputs per fixture except season sponsor allocation",
-      ),
+      section(rows, "Scenario inputs · costs per fixture; sponsorship at its stated frequency"),
     );
     for (const [key, value] of Object.entries(inputs))
       assert.equal(Number(exportedInputs[key]), value);
-    const outputs = Object.fromEntries(section(rows, "Calculated season outputs"));
+    const outputs = Object.fromEntries(section(rows, "Calculated scoped planning outputs"));
     assert.ok(Math.abs(Number(outputs.contribution) - expected.contribution) < 1e-7);
   };
   for (const preset of data.scenarioPresets) {
@@ -372,13 +407,27 @@ try {
   assert.equal(await page.locator("[data-preset].active").count(), 0);
   const programExport = section(
     await download("export-scenario"),
-    "Scenario inputs · monetary cost inputs per fixture except season sponsor allocation",
+    "Scenario inputs · costs per fixture; sponsorship at its stated frequency",
   );
   assert.equal(programExport.find((row) => row[0] === "program")[1], "Men");
   assert.equal(programExport.find((row) => row[0] === "id")[1], "custom");
   mark("Scenario program change updates scope, export and preset state");
   await page.locator('[data-preset="baseline"]').click();
-  await page.locator("details.assumption-details").evaluate((node) => (node.open = true));
+  await page.locator('[data-scenario-input="homeMatches"]').fill("2");
+  await page.locator('[data-scenario-input="homeMatches"]').dispatchEvent("input");
+  await page
+    .locator("details.assumption-details > summary")
+    .filter({ hasText: /^Sponsorship$/ })
+    .click();
+  for (const frequency of ["Per season", "Per fixture"]) {
+    await page.locator("#scenario-sponsor-frequency").selectOption(frequency);
+    await verifyScenario();
+  }
+  mark("Sponsorship allocation frequency changes the independently calculated scoped result");
+  await page.locator('[data-preset="baseline"]').click();
+  await page
+    .locator("details.assumption-details")
+    .evaluateAll((nodes) => nodes.forEach((node) => (node.open = true)));
   const inputKeys = await page
     .locator("[data-scenario-input]")
     .evaluateAll((nodes) => nodes.map((node) => node.dataset.scenarioInput));
@@ -398,6 +447,7 @@ try {
   assert.equal(await page.locator("#scenario-revenue").innerText(), capped);
   await page.locator('[data-scenario-input="expectedAttendance"]').fill("0");
   assert.ok((await page.locator("#scenario-contribution").innerText()).startsWith("-"));
+  await page.locator(".lab-method > summary").click();
   assert.ok((await page.locator(".waterfall-column.total b").innerText()).startsWith("-"));
   await verifyScenario();
   mark("Capacity cap applies to all receipts; negative contribution retains its sign");
@@ -451,27 +501,52 @@ try {
   await page.locator("#drawer-close").click();
   mark("Command navigation, evidence boundary, themes and printable owner briefing");
 
-  await page.setViewportSize({ width: 390, height: 844 });
+  const mobileContext = await browser.newContext({
+    viewport: { width: 390, height: 844 },
+    deviceScaleFactor: 3,
+    isMobile: true,
+    hasTouch: true,
+    reducedMotion: "reduce",
+    acceptDownloads: true,
+  });
+  page = await mobileContext.newPage();
+  page.on("pageerror", (error) => errors.push(error.message));
+  page.on("console", (message) => {
+    if (message.type() === "error") errors.push(message.text());
+  });
+  assert.equal((await page.goto(url, { waitUntil: "networkidle" })).status(), 200);
   for (const view of views) {
     await page.locator("#mobile-menu").click();
     await page.locator('.nav-item[data-view="' + view + '"]').click();
-    assert.equal(await page.locator("#period-filter").isVisible(), true);
-    assert.equal(await page.locator("#program-filter").isVisible(), true);
+    assert.equal(await page.locator("#period-filter").isVisible(), view !== "scenarios");
+    assert.equal(await page.locator("#program-filter").isVisible(), view !== "scenarios");
+    await download("export-view");
     assert.equal(
       await page.evaluate(
         () => document.documentElement.scrollWidth > document.documentElement.clientWidth + 1,
       ),
       false,
     );
-    mark(view + ": 390px mobile navigation, filter accessibility and no page overflow");
+    mark(view + ": 390px touch-mobile navigation, export, accessible filters and no page overflow");
   }
   await page.locator("#mobile-menu").click();
   await page.locator('.nav-item[data-view="command"]').click();
+  await page.waitForFunction(() => !document.querySelector(".toast"));
   await page.screenshot({ path: "test-results/pcfc-sites-demo-mobile.png", fullPage: true });
   assert.deepEqual(errors, []);
   await writeFile(
     "test-results/hub-browser-verification.json",
-    JSON.stringify({ status: "PASS", checks: checks.length, tests: checks }, null, 2) + "\n",
+    JSON.stringify(
+      {
+        status: "PASS",
+        url,
+        checkedAt: new Date().toISOString(),
+        checks: checks.length,
+        tests: checks,
+      },
+      null,
+      2,
+    ) + "\n",
   );
   console.log(
     JSON.stringify(
@@ -488,7 +563,8 @@ try {
   );
 } finally {
   if (browser) await browser.close();
-  await new Promise((resolve, reject) =>
-    server.close((error) => (error ? reject(error) : resolve())),
-  );
+  if (server.listening)
+    await new Promise((resolve, reject) =>
+      server.close((error) => (error ? reject(error) : resolve())),
+    );
 }

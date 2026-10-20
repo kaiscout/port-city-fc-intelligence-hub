@@ -126,6 +126,13 @@ export const demoFixtures: Fixture[] = [
 export const scenarioPresets: ScenarioInput[] = [
   {
     id: "conservative",
+    scope: "Per fixture",
+    homeMatches: 1,
+    sponsorFrequency: "Per fixture",
+    variableCostPerAttendee: 2.4,
+    provenance:
+      "Existing conservative synthetic planning preset; lib/data/demo.ts; attendee cost from the original native calculation. Not a club forecast.",
+    referenceDate: "2026-10-12",
     name: "Conservative",
     program: "Men",
     ticketPrice: 17,
@@ -150,6 +157,13 @@ export const scenarioPresets: ScenarioInput[] = [
   },
   {
     id: "baseline",
+    scope: "Per fixture",
+    homeMatches: 1,
+    sponsorFrequency: "Per fixture",
+    variableCostPerAttendee: 2.4,
+    provenance:
+      "Existing baseline synthetic planning preset; lib/data/demo.ts; attendee cost from the original native calculation. Not a club forecast.",
+    referenceDate: "2026-10-12",
     name: "Baseline",
     program: "Women",
     ticketPrice: 19,
@@ -174,6 +188,13 @@ export const scenarioPresets: ScenarioInput[] = [
   },
   {
     id: "optimistic",
+    scope: "Per fixture",
+    homeMatches: 1,
+    sponsorFrequency: "Per fixture",
+    variableCostPerAttendee: 2.4,
+    provenance:
+      "Existing optimistic synthetic planning preset; lib/data/demo.ts; attendee cost from the original native calculation. Not a club forecast.",
+    referenceDate: "2026-10-12",
     name: "Optimistic",
     program: "Women",
     ticketPrice: 21,

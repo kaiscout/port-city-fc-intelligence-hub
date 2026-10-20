@@ -80,7 +80,7 @@ export default function ReportsPage() {
     <>
       <PageHeader
         eyebrow="Reports & exports"
-        title="Put the decision in a portable form."
+        title="Reports & Exports"
         description="Generate current, filtered outputs from application data—with provenance, methodology, filters, and report date attached."
         actions={
           <button className="button button-primary" onClick={() => window.print()}>
@@ -90,7 +90,7 @@ export default function ReportsPage() {
       />
       <Card className="padded radar-panel">
         <CardHeader
-          title="Executive summary"
+          title="Executive Summary"
           description={`Generated ${generated}`}
           action={<SourceBadge source="Calculated metric" />}
         />
@@ -159,7 +159,7 @@ export default function ReportsPage() {
       </div>
       <Card className="padded">
         <CardHeader
-          title="Accessible table alternative"
+          title="Accessible Table Alternative"
           description="The executive chart data is available below without relying on color, shape, or interaction."
         />
         <DataTable

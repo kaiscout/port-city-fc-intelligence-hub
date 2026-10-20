@@ -1,0 +1,26 @@
+[
+  {
+    "id": "FY24",
+    "label": "Synthetic prior-year benchmark",
+    "startDate": "2024-01-01",
+    "endDate": "2024-12-31",
+    "transactions": 340,
+    "inflow": 63200,
+    "outflow": 60950,
+    "netCash": 2250,
+    "referenceDate": "2026-10-12",
+    "evidence": "Synthetic demonstration data"
+  },
+  {
+    "id": "FY25",
+    "label": "Synthetic current-year portfolio ledger",
+    "startDate": "2025-01-01",
+    "endDate": "2025-12-31",
+    "transactions": 312,
+    "inflow": 67500,
+    "outflow": 63700,
+    "netCash": 3800,
+    "referenceDate": "2026-10-12",
+    "evidence": "Synthetic demonstration data"
+  }
+]

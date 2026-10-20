@@ -1,10 +1,18 @@
 import { z } from "zod";
 import type { ScenarioInput } from "@/lib/types";
+import { calculateSeasonScenario } from "../site/model.js";
 
-export const scenarioInputSchema = z.object({
+export const scenarioBaseSchema = z.object({
   id: z.string().min(1).max(80),
   name: z.string().min(2).max(80),
   program: z.enum(["Men", "Women"]),
+  scope: z.enum(["Per fixture", "Season"]),
+  homeMatches: z.number().int().min(1).max(1000),
+  sponsorFrequency: z.enum(["Per fixture", "Per season"]),
+  variableCostPerAttendee: z.number().min(0).max(1_000_000),
+  provenance: z.string().trim().min(5).max(2000),
+  referenceDate: z.iso.date(),
+  version: z.number().int().positive().optional(),
   ticketPrice: z.number().min(0),
   expectedAttendance: z.number().int().min(0),
   venueCapacity: z.number().int().positive(),
@@ -25,14 +33,32 @@ export const scenarioInputSchema = z.object({
   weatherRiskPct: z.number().min(0).max(100),
   operationalRiskPct: z.number().min(0).max(100),
 });
+export const scenarioInputSchema = scenarioBaseSchema
+  .refine(
+    (v) => v.scope !== "Per fixture" || v.homeMatches === 1,
+    "Per-fixture scope requires exactly one fixture",
+  )
+  .refine(
+    (v) => v.weatherRiskPct + v.operationalRiskPct <= 100,
+    "Combined risk allowance cannot exceed 100%",
+  )
+  .refine((v) => {
+    try {
+      calculateSeasonScenario(v);
+      return true;
+    } catch {
+      return false;
+    }
+  }, "Input combination is invalid or exceeds supported calculation precision");
 
-export const persistedScenarioSchema = scenarioInputSchema.omit({ id: true });
+export const persistedScenarioSchema = scenarioBaseSchema.omit({ id: true, version: true });
 
 export type ScenarioRow = {
   id: string;
   name: string;
   program: "MEN" | "WOMEN" | "CLUB_WIDE";
   assumptions: unknown;
+  version?: number;
 };
 
 export function toScenarioRowInput(input: ScenarioInput) {
@@ -52,5 +78,6 @@ export function fromScenarioRow(row: ScenarioRow): ScenarioInput {
     name: row.name,
     program: row.program === "MEN" ? "Men" : "Women",
     ...persistedScenarioSchema.omit({ name: true, program: true }).parse(row.assumptions),
+    ...(row.version ? { version: row.version } : {}),
   });
 }

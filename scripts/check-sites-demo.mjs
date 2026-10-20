@@ -7,6 +7,8 @@ const requiredFiles = [
   "styles.css",
   "app.js",
   "model.js",
+  "scenario-visuals.js",
+  "lab.css",
   "data.js",
   "assets/pcfc-logo.png",
 ];
@@ -22,6 +24,14 @@ const [html, script, dataset] = await Promise.all([
   readFile(path.join(root, "dist", "app.js"), "utf8"),
   readFile(path.join(root, "dist", "data.js"), "utf8"),
 ]);
+
+if (
+  !html.includes("<title>Port City FC Business Intelligence &amp; Analytics</title>") ||
+  !html.includes('property="og:title"') ||
+  !dataset.includes('"product":"Port City FC Business Intelligence & Analytics"')
+) {
+  throw new Error("Public product branding or sharing metadata is inconsistent.");
+}
 
 const requiredViews = [
   "command",

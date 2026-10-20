@@ -70,7 +70,7 @@ export default function SponsorsPage() {
     <>
       <PageHeader
         eyebrow="Sponsorship performance"
-        title="Start with a reconciled receipt model. Build the contract view next."
+        title="Sponsorship"
         description="The public dataset provides synthetic sponsorship totals and generalized receipt groups. Contract value, deliverables, contacts and renewal risk remain a separate illustrative workflow."
         actions={
           <>
@@ -119,7 +119,7 @@ export default function SponsorsPage() {
       </div>
       <Card className="padded">
         <CardHeader
-          title="Sanitized sponsorship receipt model"
+          title="Sanitized Sponsorship Receipt Model"
           description="Generalized receipt groups demonstrate reconciliation without publishing payer-level evidence"
           action={<FileCheck2 size={18} />}
         />
@@ -206,7 +206,7 @@ export default function SponsorsPage() {
       <div className="grid-3">
         <Card className="padded">
           <CardHeader
-            title="Illustrative partner portfolio"
+            title="Illustrative Partner Portfolio"
             description="Synthetic records for workflow demonstration"
           />
           <label className="field">
@@ -358,7 +358,7 @@ export default function SponsorsPage() {
       </div>
       <Card className="padded">
         <CardHeader
-          title="Illustrative deliverable control board"
+          title="Illustrative Deliverable Control Board"
           description={`Synthetic delivery register shown for ${selected.name}. Status updates demonstrate the intended audit workflow.`}
         />
         <DataTable

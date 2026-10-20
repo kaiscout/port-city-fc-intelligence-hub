@@ -169,7 +169,7 @@ async function main() {
     { x: 650, y: 170, z: 6000, height: 500, width: 610 },
     {
       Category: { projections: [columnProjection("DimCategory", "Category")] },
-      Y: { projections: [measureProjection("FactFinanceCategory", "Category Amount")] },
+      Y: { projections: [measureProjection("FactFinanceCategory", "Annual Category Amount")] },
     },
   );
 
@@ -269,11 +269,11 @@ async function main() {
   );
   await write(
     `${tableDir}/FactFinanceCategory.tmdl`,
-    `table FactFinanceCategory\n\n\tmeasure 'Category Amount' = SUM(FactFinanceCategory[Amount])\n\t\tformatString: $#,##0;($#,##0);-\n\n\tcolumn DateKey\n\t\tdataType: int64\n\t\tisHidden\n\t\tsourceColumn: DateKey\n\t\tsummarizeBy: none\n\n\tcolumn ProgramKey\n\t\tdataType: string\n\t\tisHidden\n\t\tsourceColumn: ProgramKey\n\t\tsummarizeBy: none\n\n\tcolumn CategoryKey\n\t\tdataType: string\n\t\tisHidden\n\t\tsourceColumn: CategoryKey\n\t\tsummarizeBy: none\n\n\tcolumn Amount\n\t\tdataType: double\n\t\tsourceColumn: Amount\n\t\tformatString: $#,##0.00;($#,##0.00);-\n\n\tcolumn SourceClass\n\t\tdataType: string\n\t\tsourceColumn: SourceClass\n\t\tsummarizeBy: none\n\n\tpartition FactFinanceCategory = m\n\t\tmode: import\n\t\tsource =\n\t\t\tlet\n\t\t\t\tSource = Csv.Document(File.Contents(DataRoot & "fact_finance_category.csv"), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),\n\t\t\t\tHeaders = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),\n\t\t\t\tTyped = Table.TransformColumnTypes(Headers, {{"DateKey", Int64.Type}, {"ProgramKey", type text}, {"CategoryKey", type text}, {"Amount", type number}, {"SourceClass", type text}}, "en-US")\n\t\t\tin\n\t\t\t\tTyped\n`,
+    `table FactFinanceCategory\n\n\tmeasure 'Annual Category Amount' = CALCULATE(SUM(FactFinanceCategory[Amount]), ALLEXCEPT(DimDate, DimDate[Year]))\n\t\tformatString: $#,##0;($#,##0);-\n\n\tcolumn DateKey\n\t\tdataType: int64\n\t\tisHidden\n\t\tsourceColumn: DateKey\n\t\tsummarizeBy: none\n\n\tcolumn ProgramKey\n\t\tdataType: string\n\t\tisHidden\n\t\tsourceColumn: ProgramKey\n\t\tsummarizeBy: none\n\n\tcolumn CategoryKey\n\t\tdataType: string\n\t\tisHidden\n\t\tsourceColumn: CategoryKey\n\t\tsummarizeBy: none\n\n\tcolumn Amount\n\t\tdataType: double\n\t\tsourceColumn: Amount\n\t\tformatString: $#,##0.00;($#,##0.00);-\n\n\tcolumn SourceClass\n\t\tdataType: string\n\t\tsourceColumn: SourceClass\n\t\tsummarizeBy: none\n\n\tpartition FactFinanceCategory = m\n\t\tmode: import\n\t\tsource =\n\t\t\tlet\n\t\t\t\tSource = Csv.Document(File.Contents(DataRoot & "fact_finance_category.csv"), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),\n\t\t\t\tHeaders = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),\n\t\t\t\tTyped = Table.TransformColumnTypes(Headers, {{"DateKey", Int64.Type}, {"ProgramKey", type text}, {"CategoryKey", type text}, {"Amount", type number}, {"SourceClass", type text}}, "en-US")\n\t\t\tin\n\t\t\t\tTyped\n`,
   );
   await write(
     `${tableDir}/FactOperations.tmdl`,
-    `table FactOperations\n\n\tmeasure 'Average Attendance' = CALCULATE(MAX(FactOperations[Value]), DimMetric[MetricKey] = "AVG_ATT")\n\t\tformatString: #,##0\n\n\tmeasure 'Ticket Price' = CALCULATE(MAX(FactOperations[Value]), DimMetric[MetricKey] = "TICKET_PRICE")\n\t\tformatString: $0.00\n\n\tcolumn DateKey\n\t\tdataType: int64\n\t\tisHidden\n\t\tsourceColumn: DateKey\n\t\tsummarizeBy: none\n\n\tcolumn ProgramKey\n\t\tdataType: string\n\t\tisHidden\n\t\tsourceColumn: ProgramKey\n\t\tsummarizeBy: none\n\n\tcolumn MetricKey\n\t\tdataType: string\n\t\tisHidden\n\t\tsourceColumn: MetricKey\n\t\tsummarizeBy: none\n\n\tcolumn Value\n\t\tdataType: double\n\t\tsourceColumn: Value\n\n\tcolumn SourceClass\n\t\tdataType: string\n\t\tsourceColumn: SourceClass\n\t\tsummarizeBy: none\n\n\tpartition FactOperations = m\n\t\tmode: import\n\t\tsource =\n\t\t\tlet\n\t\t\t\tSource = Csv.Document(File.Contents(DataRoot & "fact_operations.csv"), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),\n\t\t\t\tHeaders = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),\n\t\t\t\tTyped = Table.TransformColumnTypes(Headers, {{"DateKey", Int64.Type}, {"ProgramKey", type text}, {"MetricKey", type text}, {"Value", type number}, {"SourceClass", type text}}, "en-US")\n\t\t\tin\n\t\t\t\tTyped\n`,
+    `table FactOperations\n\n\tmeasure 'Average Attendance' = CALCULATE(SELECTEDVALUE(FactOperations[Value]), DimMetric[MetricKey] = "AVG_ATT")\n\t\tformatString: #,##0\n\n\tmeasure 'Ticket Price' = CALCULATE(SELECTEDVALUE(FactOperations[Value]), DimMetric[MetricKey] = "TICKET_PRICE")\n\t\tformatString: $0.00\n\n\tcolumn DateKey\n\t\tdataType: int64\n\t\tisHidden\n\t\tsourceColumn: DateKey\n\t\tsummarizeBy: none\n\n\tcolumn ProgramKey\n\t\tdataType: string\n\t\tisHidden\n\t\tsourceColumn: ProgramKey\n\t\tsummarizeBy: none\n\n\tcolumn MetricKey\n\t\tdataType: string\n\t\tisHidden\n\t\tsourceColumn: MetricKey\n\t\tsummarizeBy: none\n\n\tcolumn Value\n\t\tdataType: double\n\t\tsourceColumn: Value\n\n\tcolumn SourceClass\n\t\tdataType: string\n\t\tsourceColumn: SourceClass\n\t\tsummarizeBy: none\n\n\tpartition FactOperations = m\n\t\tmode: import\n\t\tsource =\n\t\t\tlet\n\t\t\t\tSource = Csv.Document(File.Contents(DataRoot & "fact_operations.csv"), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),\n\t\t\t\tHeaders = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),\n\t\t\t\tTyped = Table.TransformColumnTypes(Headers, {{"DateKey", Int64.Type}, {"ProgramKey", type text}, {"MetricKey", type text}, {"Value", type number}, {"SourceClass", type text}}, "en-US")\n\t\t\tin\n\t\t\t\tTyped\n`,
   );
 
   const roleDir = `${projectName}.SemanticModel/definition/roles`;
@@ -307,9 +307,9 @@ Cash Inflow := CALCULATE(SUM(FactFinance[Amount]), DimMetric[MetricKey] = "FIN_I
 Cash Outflow := CALCULATE(SUM(FactFinance[Amount]), DimMetric[MetricKey] = "FIN_OUT")
 Net Cash := [Cash Inflow] - [Cash Outflow]
 Cash Margin % := DIVIDE([Net Cash], [Cash Inflow])
-Category Amount := SUM(FactFinanceCategory[Amount])
-Average Attendance := CALCULATE(MAX(FactOperations[Value]), DimMetric[MetricKey] = "AVG_ATT")
-Ticket Price := CALCULATE(MAX(FactOperations[Value]), DimMetric[MetricKey] = "TICKET_PRICE")
+Annual Category Amount := CALCULATE(SUM(FactFinanceCategory[Amount]), ALLEXCEPT(DimDate, DimDate[Year]))
+Average Attendance := CALCULATE(SELECTEDVALUE(FactOperations[Value]), DimMetric[MetricKey] = "AVG_ATT")
+Ticket Price := CALCULATE(SELECTEDVALUE(FactOperations[Value]), DimMetric[MetricKey] = "TICKET_PRICE")
 `,
   );
   await write(
@@ -324,6 +324,25 @@ The project contains a source-controlled PBIR report, TMDL semantic model, Power
 parameterized CSV imports, DAX measures, one-to-many star-schema relationships and two
 program RLS roles. All loaded data is synthetic. Power BI Desktop is required for the
 final native render; this repository's CI validates the generated file structure and JSON.
+
+Source reference: 2026-10-12. Candidate prepared 2026-10-18. Finance facts contain
+FY25 monthly synthetic cash only; FY24 annual totals are in the web hub/workbook,
+not manufactured into monthly facts. Net Cash means inflow minus outflow, never a
+bank balance, profit or runway. Category and operating facts use 31 December as a
+period anchor for annual assumptions, not the date of a transaction or fixture.
+The Annual Category Amount measure deliberately removes month/date context while
+retaining the DimDate Year filter. It never represents December-only or monthly
+spend. Club/program security filters are not removed. See Microsoft's
+[ALLEXCEPT definition](https://learn.microsoft.com/en-us/dax/allexcept-function-dax).
+
+Operating attendance and price measures use SELECTEDVALUE: conflicting assumptions
+return blank instead of selecting a flattering maximum. These are planning inputs,
+not averages calculated from actual fixtures. RLS includes CLUB plus one program;
+club-wide finance is visible and unallocated in each role, and must not be summed
+across role views. Configure service identity-to-role membership before publication.
+No private application records or organization authorization is supplied by this model.
+Native Desktop refresh, visual rendering and View As role testing remain required
+on the recipient's Power BI Desktop installation; source validation is not a native test.
 `,
   );
 

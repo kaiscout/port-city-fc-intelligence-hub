@@ -9,6 +9,8 @@ const ignoredDirectories = new Set([
   "outputs",
   "playwright-report",
   "test-results",
+  "backups",
+  "release",
 ]);
 const scannedExtensions = new Set([
   ".css",

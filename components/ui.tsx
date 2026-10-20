@@ -98,9 +98,12 @@ export function KpiCard({
     <Card className="kpi-card" interactive>
       <div className="kpi-label">
         <span>{label}</span>
-        <button className="icon-button" title={definition} aria-label={`${label}: ${definition}`}>
-          <Info size={14} />
-        </button>
+        <details className="kpi-definition">
+          <summary className="icon-button" aria-label={`Definition for ${label}`}>
+            <Info size={14} />
+          </summary>
+          <p>{definition}</p>
+        </details>
       </div>
       <strong className="kpi-value">{value}</strong>
       <div className="kpi-foot">

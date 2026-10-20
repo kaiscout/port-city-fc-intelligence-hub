@@ -1,22 +1,13 @@
 import { createHash } from "node:crypto";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
+import { parseCsv } from "../lib/csv";
 
 type Row = Record<string, string>;
 
 const root = process.cwd();
 const rawDir = path.join(root, "data", "raw");
 const outputDir = path.join(root, "data", "processed");
-
-function parseCsv(content: string): Row[] {
-  const [headerLine, ...lines] = content.trim().split(/\r?\n/);
-  if (!headerLine) return [];
-  const headers = headerLine.split(",");
-  return lines.filter(Boolean).map((line) => {
-    const cells = line.split(",");
-    return Object.fromEntries(headers.map((header, index) => [header, cells[index] ?? ""]));
-  });
-}
 
 function escapeCsv(value: string | number) {
   const text = String(value);
@@ -28,7 +19,9 @@ function toCsv(headers: string[], rows: (string | number)[][]) {
 }
 
 function number(row: Row, key: string) {
-  const value = Number(cell(row, key));
+  const raw = cell(row, key).trim();
+  if (!raw) throw new Error(`Missing numeric value in ${key}`);
+  const value = Number(raw);
   if (!Number.isFinite(value)) throw new Error(`Invalid numeric value in ${key}`);
   return value;
 }
@@ -60,6 +53,25 @@ async function main() {
   const categorySource = await readFile(path.join(rawDir, "finance_categories.csv"), "utf8");
   const operatingSource = await readFile(path.join(rawDir, "operating_assumptions.csv"), "utf8");
   const staffingSource = await readFile(path.join(rawDir, "staffing_roles.csv"), "utf8");
+  const annualSource = await readFile(path.join(rawDir, "financial_periods.json"), "utf8");
+  const annual = JSON.parse(annualSource) as {
+    id: string;
+    label: string;
+    startDate: string;
+    endDate: string;
+    transactions: number;
+    inflow: number;
+    outflow: number;
+    netCash: number;
+    referenceDate: string;
+    evidence: string;
+  }[];
+  if (
+    annual.length !== 2 ||
+    new Set(annual.map((r) => r.id)).size !== 2 ||
+    annual.some((r) => r.netCash !== r.inflow - r.outflow)
+  )
+    throw new Error("Annual controls are invalid");
   const controls = JSON.parse(
     await readFile(path.join(rawDir, "control_totals.json"), "utf8"),
   ) as Record<string, number | string>;
@@ -77,6 +89,8 @@ async function main() {
   const categories = parseCsv(categorySource);
   const operating = parseCsv(operatingSource);
   const staffing = parseCsv(staffingSource);
+  if (new Set(monthly.map((r) => r.MonthStart)).size !== monthly.length)
+    throw new Error("Duplicate cash month");
 
   const dimDate = toCsv(
     ["DateKey", "Date", "Month", "MonthNumber", "Quarter", "Year"],
@@ -195,6 +209,39 @@ async function main() {
     .reduce((sum, row) => sum + number(row, "Amount"), 0);
 
   const outputs = {
+    "public-reference.json":
+      JSON.stringify(
+        {
+          referenceDate: annual[0]!.referenceDate,
+          financialPeriods: annual,
+          incomeCategories: categories
+            .filter((r) => r.Direction === "Inflow")
+            .map((r) => ({ name: r.Category, amount: Number(r.Amount) })),
+          expenseCategories: categories
+            .filter((r) => r.Direction === "Outflow")
+            .map((r) => ({ name: r.Category, amount: Number(r.Amount) })),
+          monthly: monthly.map((r) => ({
+            month:
+              new Date(`${r.MonthStart}T00:00:00Z`).toLocaleString("en-US", {
+                month: "short",
+                timeZone: "UTC",
+              }) + " 25",
+            inflow: Number(r.Inflow),
+            outflow: Number(r.Outflow),
+            net: Number(r.Inflow) - Number(r.Outflow),
+          })),
+          operating: operating.map((r) => ({
+            program: r.Program,
+            averageAttendance: Number(r.AverageAttendance),
+            ticketPrice: Number(r.TicketPrice),
+            baseMatches: Number(r.BaseMatches),
+            playoffMatches: Number(r.PlayoffMatches),
+            concessionSpend: Number(r.ConcessionSpend),
+          })),
+        },
+        null,
+        2,
+      ) + "\n",
     "dim_date.csv": dimDate,
     "dim_program.csv": dimProgram,
     "dim_metric.csv": dimMetric,
@@ -222,6 +269,9 @@ async function main() {
     difference: Number(check.actual) - Number(check.expected),
     status: Number(check.actual) === Number(check.expected) ? "PASS" : "FAIL",
   }));
+  const current = annual.find((r) => r.id === "FY25");
+  if (!current || current.inflow !== monthlyInflow || current.outflow !== monthlyOutflow)
+    throw new Error("Annual source does not reconcile to monthly inputs");
 
   if (checks.some((check) => check.status === "FAIL")) {
     throw new Error(`Reconciliation failed: ${JSON.stringify(checks)}`);
@@ -234,6 +284,16 @@ async function main() {
 
   const reconciliation = {
     generatedAt: "2026-10-12T00:00:00.000Z",
+    referenceDate: annual[0]!.referenceDate,
+    timestampMeaning:
+      "generatedAt is the retained deterministic input-snapshot timestamp, not the execution/build date",
+    sourceSha256: {
+      "financial_periods.json": sha256(annualSource),
+      "finance_monthly.csv": sha256(monthlySource),
+      "finance_categories.csv": sha256(categorySource),
+      "operating_assumptions.csv": sha256(operatingSource),
+      "staffing_roles.csv": sha256(staffingSource),
+    },
     classification: "Synthetic demonstration data",
     privacyBoundary:
       "No staff contacts, source payees, bank transactions, private filenames or interview attribution.",

@@ -6,6 +6,13 @@ describe("CSV controls", () => {
     expect(protectSpreadsheetCell('=HYPERLINK("bad")')).toBe('\'=HYPERLINK("bad")');
     expect(toCsv([{ name: "+SUM(A1:A2)" }])).toContain("'+SUM");
   });
+  it("preserves signed numeric results and optional columns without evaluating text", () => {
+    const csv = toCsv([{ amount: -4.5 }, { amount: 0, reference: "=FORMULA()" }]);
+    expect(csv).toContain('"-4.5"');
+    expect(csv).toContain('"reference"');
+    expect(csv).toContain("'=FORMULA()");
+    expect(protectSpreadsheetCell("-cmd")).toBe("'-cmd");
+  });
 
   it("returns row-level errors and detects in-batch duplicates", () => {
     const rows = validateRows("fixtures", [

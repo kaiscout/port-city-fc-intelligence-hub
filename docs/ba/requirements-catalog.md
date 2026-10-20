@@ -1,52 +1,24 @@
-# Requirements Catalog
+# Completion requirements — candidate 6.0
 
-## Business requirements
+The task requires an honest public demonstration and a persistent private reporting loop. Unsupported integrations, tracked customer cohorts, measured community outcomes and financial impact claims are excluded, not represented as implemented.
 
-| ID     | Requirement                                                                                              | Measure                        |
-| ------ | -------------------------------------------------------------------------------------------------------- | ------------------------------ |
-| BR-001 | Leadership can connect program growth to profitability, retention, sponsor value, readiness, and impact. | One filtered command center    |
-| BR-002 | Matchday choices use transparent break-even and downside evidence.                                       | Reproducible formulas          |
-| BR-003 | Sponsor delivery risk is visible before renewal decisions.                                               | Explainable rule output        |
-| BR-004 | Men’s and women’s programs are compared on equivalent definitions.                                       | Shared/program cost visibility |
-| BR-005 | Community claims distinguish official context from operational evidence.                                 | Six provenance classes         |
-| BR-006 | The pilot can operate without replacing current platforms.                                               | Manual/CSV path complete       |
+| ID     | Observable requirement                                                                  | Implementation                                                |
+| ------ | --------------------------------------------------------------------------------------- | ------------------------------------------------------------- |
+| FR-001 | Correct fiscal/program/search scope and matching exports                                | Public selectors; approved private selectors                  |
+| FR-002 | Source/evidence/formula/unit/date and missing-input meaning visible                     | Definitions, methodology, record evidence, exports            |
+| FR-003 | Configure season/program/competition/venue and enter fixtures/attendance/receipts/costs | Typed Operations studio, API and database                     |
+| FR-004 | Preview and explicitly commit CSV atomically; reject duplicates/changed references      | Templates, parser, preview, commit, history                   |
+| FR-005 | Correct record versions and resulting analytics, without fake success                   | Optimistic versions, transactional save/audit, workspace feed |
+| FR-006 | Maintain sponsor contracts/deliverables and accountable actions                         | Explicit owner/status/due/evidence                            |
+| FR-007 | Save/revise/compare/reset/export/restore-copy/archive scenarios                         | Shared equation, inputs, immutable versions                   |
+| FR-008 | Persist settings and controlled user administration                                     | Transactions, session revocation, last-admin protection       |
+| FR-009 | Enforce actual route/entity permissions and organization isolation                      | Current session, origin checks and scoped SQL                 |
+| FR-010 | Clean private organization contains no samples or assumed targets                       | Clean setup and empty analytical states                       |
+| FR-011 | Usable desktop/tablet/mobile/keyboard/print                                             | Responsive components, definitions, tables and reports        |
+| FR-012 | Reproducible source controls and companions                                             | Manifest, XLSX and PBIP/M/DAX/RLS sources                     |
+| FR-013 | Retain data after restart and isolated backup/restore                                   | Current disposable-environment evidence                       |
+| FR-014 | Accurate handover and recruiter assets without publishing                               | README, UAT, traceability, walkthrough and drafts             |
 
-## Functional requirements
+Nonfunctional controls: Argon2id; signed HTTP-only same-site sessions secure in production; revocation; validated configuration; bounded request bodies; formula-safe text exports with signed numbers preserved; null-safe denominators; parameterized SQL; atomic audit; current verification gates.
 
-| ID     | Requirement                                                                                                                                | Priority | Implementation                     |
-| ------ | ------------------------------------------------------------------------------------------------------------------------------------------ | -------- | ---------------------------------- |
-| FR-001 | Applicable period/program filters constrain supported measures and exports consistently; unsupported dimensions are explicit and disabled. | Must     | Public Hub scope contract          |
-| FR-002 | KPI cards expose definition and evidence class; comparisons and time trends appear only when a valid same-grain source is available.       | Must     | KPI dictionary and model selectors |
-| FR-003 | Users create, name, save, edit, duplicate, compare, delete, and export scenarios.                                                          | Must     | Scenario lab                       |
-| FR-004 | Scenario formulas calculate all specified revenue, cost, margin, break-even, utilization, and downside outputs.                            | Must     | `calculateScenario`                |
-| FR-005 | Funnel views expose stage conversion/drop-off, channel performance, cohorts, and fixtures.                                                 | Must     | Fan funnel                         |
-| FR-006 | Sponsor profiles store contacts, package, value, dates, program, delivery, exposure, reach, risk, notes, and action.                       | Must     | Sponsorship workspace              |
-| FR-007 | Renewal risk is rules-based and explains contributing signals.                                                                             | Must     | `assessSponsorRisk`                |
-| FR-008 | Program comparison exposes equivalent metrics and a women’s investment case.                                                               | Must     | Program equity                     |
-| FR-009 | Community records show participation, attendance, partners, hours, giving, reach, initiative, and trend.                                   | Must     | Community impact                   |
-| FR-010 | Reports export active application data and carry filters/date/methodology/source notes.                                                    | Must     | Reports & exports                  |
-| FR-011 | Administrator can maintain every named data domain.                                                                                        | Must     | Operations studio + CRUD API       |
-| FR-012 | CSV imports provide template, preview, row errors, duplicates, and transactional boundary.                                                 | Must     | CSV controls + import API          |
-| FR-013 | Onboarding configures org, season, teams, venue, categories, targets, users, and mode.                                                     | Must     | First-run onboarding               |
-| FR-014 | Administrator provisions users and assigns one of six roles.                                                                               | Must     | User management + schema           |
-| FR-015 | Important writes append an audit event.                                                                                                    | Must     | Transactional server handlers      |
-| FR-016 | Demonstration seed is deterministic; clean organization contains no synthetic records.                                                     | Must     | Seed/clean scripts                 |
-| FR-017 | Sponsor and executive reports are print optimized.                                                                                         | Must     | Print CSS and report views         |
-| FR-018 | In-app help exposes calculations, operating guidance, and integration boundaries.                                                          | Should   | Help section                       |
-
-## Non-functional requirements
-
-| ID      | Requirement                                                                                   | Verification                      |
-| ------- | --------------------------------------------------------------------------------------------- | --------------------------------- |
-| NFR-001 | Server enforces role authorization on protected writes.                                       | RBAC/unit/integration tests       |
-| NFR-002 | Passwords use Argon2id; session cookie is signed, HTTP-only, secure in production, same-site. | Password/session review           |
-| NFR-003 | State-changing APIs reject cross-origin requests.                                             | Guard review/integration coverage |
-| NFR-004 | Login is rate-limited and returns generic errors.                                             | Auth route review                 |
-| NFR-005 | Inputs use Zod and database constraints; SQL is parameterized.                                | Code/schema review                |
-| NFR-006 | CSV size, type, schema, duplicate, and formula-injection risks are controlled.                | CSV tests                         |
-| NFR-007 | UI meets WCAG AA intent, keyboard/focus/reduced-motion/table alternatives.                    | E2E/manual accessibility QA       |
-| NFR-008 | Layout is intentionally responsive at 1440×900, 1024, and 390×844.                            | Screenshot/E2E QA                 |
-| NFR-009 | Structured logs exclude secrets and sensitive request bodies.                                 | Logger review                     |
-| NFR-010 | PostgreSQL migration and recovery procedures are reproducible.                                | Migration/backup docs             |
-| NFR-011 | Environment values are validated; production rejects demo mode.                               | Env unit/build checks             |
-| NFR-012 | Production build, lint, format, typecheck, unit, integration, and E2E gates pass.             | CI-equivalent command record      |
+Automated tests do not establish WCAG certification, independent penetration testing, an SLA, distributed authentication throttling, actual-data assurance or stakeholder acceptance.

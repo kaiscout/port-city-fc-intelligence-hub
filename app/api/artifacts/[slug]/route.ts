@@ -1,6 +1,9 @@
 import { readFile } from "node:fs/promises";
 import path from "node:path";
 import { NextResponse } from "next/server";
+import { requirePermission } from "@/lib/auth/guards";
+import { env } from "@/lib/env";
+import { apiResult } from "@/lib/server/api";
 
 const allowed = new Set([
   "business-case",
@@ -24,15 +27,34 @@ const allowed = new Set([
   "product-roadmap",
   "production-readiness-assessment",
 ]);
+const operatingGuides = new Set([
+  "club-handover",
+  "calculation-methodology",
+  "permission-matrix",
+  "backup-restore",
+]);
 
 export async function GET(_: Request, context: { params: Promise<{ slug: string }> }) {
-  const { slug } = await context.params;
-  if (!allowed.has(slug)) return NextResponse.json({ error: "Not found" }, { status: 404 });
-  const file = await readFile(path.join(process.cwd(), "docs", "ba", `${slug}.md`), "utf8");
-  return new NextResponse(file, {
-    headers: {
-      "Content-Type": "text/markdown; charset=utf-8",
-      "Content-Disposition": `inline; filename="${slug}.md"`,
-    },
+  return apiResult(async () => {
+    if (env.DATABASE_URL && env.PUBLIC_DEMO_MODE !== "true")
+      await requirePermission("dashboard:read");
+    const { slug } = await context.params;
+    if (!allowed.has(slug) && !operatingGuides.has(slug))
+      return NextResponse.json({ error: "Not found" }, { status: 404 });
+    const file = await readFile(
+      path.join(
+        process.cwd(),
+        "docs",
+        operatingGuides.has(slug) ? "operations" : "ba",
+        `${slug}.md`,
+      ),
+      "utf8",
+    );
+    return new NextResponse(file, {
+      headers: {
+        "Content-Type": "text/markdown; charset=utf-8",
+        "Content-Disposition": `inline; filename="${slug}.md"`,
+      },
+    });
   });
 }

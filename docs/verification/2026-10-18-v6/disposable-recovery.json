@@ -1,0 +1,265 @@
+{
+  "status": "PASS",
+  "kind": "Application-data logical backup + isolated migrated-schema restore; not pg_dump or physical/PITR recovery",
+  "backupSha256": "ac41a2a32958e59f20ff6c252804e4878448dc2f94e963b92c653a7f0956bac8",
+  "tables": 33,
+  "preservedIdenticalMigrationReferences": ["permission"],
+  "checks": [
+    {
+      "table": "application_setting",
+      "rows": 23,
+      "sha256": "aed4e9dbe9e9e869f5c4fd3c847a2c0b7398991650f2ff9c0d2b089e8490bd59",
+      "match": true
+    },
+    {
+      "table": "attendance_record",
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "match": true
+    },
+    {
+      "table": "audit_event",
+      "rows": 984,
+      "sha256": "4f33ea2786ac76ef5ba847d5e4f0ef4cf98f22cd3169c6132b8e200ee565d9b7",
+      "match": true
+    },
+    {
+      "table": "campaign",
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "match": true
+    },
+    {
+      "table": "community_impact_record",
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "match": true
+    },
+    {
+      "table": "community_program",
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "match": true
+    },
+    {
+      "table": "competition",
+      "rows": 2,
+      "sha256": "addda65f1a383e86c626091f0d52eaabbe6adf8f05e4cf57bb0007ff73f6ba53",
+      "match": true
+    },
+    {
+      "table": "cost_item",
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "match": true
+    },
+    {
+      "table": "fixture",
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "match": true
+    },
+    {
+      "table": "funnel_metric",
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "match": true
+    },
+    {
+      "table": "import_batch",
+      "rows": 39,
+      "sha256": "ede1fd030acafa59f676f38e666fb2e4f9457d917702a7dca10d1e26a6b15efb",
+      "match": true
+    },
+    {
+      "table": "kpi_target",
+      "rows": 3,
+      "sha256": "2088202c07de64320008db1c9fff6bbe1da89d4709cdde88b21693e9e6ea81f5",
+      "match": true
+    },
+    {
+      "table": "operational_record",
+      "rows": 456,
+      "sha256": "b9fddf7124c6ca982d8bc7d97946d469888e3f55ccac98bd0d1a993c2d9c298b",
+      "match": true
+    },
+    {
+      "table": "organization",
+      "rows": 173,
+      "sha256": "94199c66c60a4c26fb201eac8f6c9b078d25d205c268fdf9277dc7db384d6c84",
+      "match": true
+    },
+    {
+      "table": "permission",
+      "rows": 22,
+      "sha256": "e7c7f5fe32c3692f903363949e8ae040290d79d0e2e96cc45abb76574f367179",
+      "match": true
+    },
+    {
+      "table": "recommendation",
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "match": true
+    },
+    {
+      "table": "revenue_item",
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "match": true
+    },
+    {
+      "table": "risk",
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "match": true
+    },
+    {
+      "table": "role_permission",
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "match": true
+    },
+    {
+      "table": "scenario",
+      "rows": 58,
+      "sha256": "664d43261191a8887c161ab45ea4a8390041217e954c0c617bdec1cb9501ed04",
+      "match": true
+    },
+    {
+      "table": "scenario_revision",
+      "rows": 89,
+      "sha256": "79098a89b0b00620b14e3901a6c98043aacac04ce25323934b9b4c0f49e1eebb",
+      "match": true
+    },
+    {
+      "table": "season",
+      "rows": 1,
+      "sha256": "fc0c22f03c612ad026684169ca171f84ecaba49bf4163b8daa5aa4368b43f3dc",
+      "match": true
+    },
+    {
+      "table": "session",
+      "rows": 251,
+      "sha256": "2524ca4cf81f44640e990ea46051628cbb85cb17394631bd95e437361c365310",
+      "match": true
+    },
+    {
+      "table": "sponsor",
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "match": true
+    },
+    {
+      "table": "sponsor_contact",
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "match": true
+    },
+    {
+      "table": "sponsor_deliverable",
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "match": true
+    },
+    {
+      "table": "sponsor_package",
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "match": true
+    },
+    {
+      "table": "supporter_cohort",
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "match": true
+    },
+    {
+      "table": "team",
+      "rows": 2,
+      "sha256": "5b2ab5597c9dbaa756f2d3be0c13a258537b8caeaf1b5edc9a9a06d8ea7f4de0",
+      "match": true
+    },
+    {
+      "table": "ticket_category",
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "match": true
+    },
+    {
+      "table": "ticket_channel",
+      "rows": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "match": true
+    },
+    {
+      "table": "user_account",
+      "rows": 311,
+      "sha256": "b2a9f0b293f1bca1453f5a49a2df9305af8d399e6561c093b046872863ed511b",
+      "match": true
+    },
+    {
+      "table": "venue",
+      "rows": 2,
+      "sha256": "f7333ffadbd73172d13ca2232792aced3429985915e481122afdc77d9415aaa0",
+      "match": true
+    }
+  ],
+  "operationalSums": [
+    {
+      "entity_type": "attendance",
+      "records": 33,
+      "amount": "0"
+    },
+    {
+      "entity_type": "competitions",
+      "records": 63,
+      "amount": "0"
+    },
+    {
+      "entity_type": "costs",
+      "records": 33,
+      "amount": "960250"
+    },
+    {
+      "entity_type": "fixtures",
+      "records": 46,
+      "amount": "0"
+    },
+    {
+      "entity_type": "recommendations",
+      "records": 25,
+      "amount": "0"
+    },
+    {
+      "entity_type": "revenue",
+      "records": 33,
+      "amount": "1302840"
+    },
+    {
+      "entity_type": "seasons",
+      "records": 63,
+      "amount": "0"
+    },
+    {
+      "entity_type": "sponsor-deliverables",
+      "records": 12,
+      "amount": "0"
+    },
+    {
+      "entity_type": "sponsors",
+      "records": 22,
+      "amount": "0"
+    },
+    {
+      "entity_type": "teams",
+      "records": 63,
+      "amount": "0"
+    },
+    {
+      "entity_type": "venues",
+      "records": 63,
+      "amount": "0"
+    }
+  ],
+  "executedAt": "2026-10-18T04:19:38.811Z"
+}

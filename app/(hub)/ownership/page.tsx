@@ -50,7 +50,7 @@ export default function OwnershipPage() {
     <div className="ownership-snapshot">
       <PageHeader
         eyebrow="Ownership snapshot · public portfolio"
-        title="One screen for the decisions that need an owner."
+        title="Ownership Snapshot"
         description="A sanitized executive view of cash resilience, income concentration and forecast readiness. Every number is synthetic; the analytical controls and decision logic are production-oriented."
         actions={
           <Link className="button button-primary" href="/dashboard">
@@ -97,7 +97,7 @@ export default function OwnershipPage() {
       <div className="ownership-main-grid">
         <Card className="ownership-chart-card">
           <CardHeader
-            title="Cash timing"
+            title="Cash Timing"
             description="Monthly synthetic inflow, outflow and net cash; annual control totals reconcile to $0.00."
             action={<Status tone="success">Reconciled</Status>}
           />
@@ -105,7 +105,7 @@ export default function OwnershipPage() {
         </Card>
         <Card className="ownership-chart-card">
           <CardHeader
-            title="Income mix"
+            title="Income Mix"
             description="Concentration is visible before any growth case is approved."
             action={<Status tone="warning">Watch</Status>}
           />
@@ -118,7 +118,7 @@ export default function OwnershipPage() {
       <div className="ownership-bottom-grid">
         <Card className="padded ownership-decisions">
           <CardHeader
-            title="Decisions and owner asks"
+            title="Decisions and Owner Asks"
             description="The screen ends in action—not another chart."
           />
           <div className="decision-list">
@@ -133,7 +133,7 @@ export default function OwnershipPage() {
         </Card>
         <Card className="padded ownership-evidence">
           <CardHeader
-            title="Evidence boundary"
+            title="Evidence Boundary"
             description="What this view can and cannot claim."
           />
           <ul className="evidence-list">

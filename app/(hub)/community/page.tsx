@@ -50,7 +50,7 @@ export default function CommunityPage() {
     <>
       <PageHeader
         eyebrow="Community impact"
-        title="Make local impact visible—carefully."
+        title="Community Impact"
         description="Connect participation, partner effort, volunteering, and ticket-linked giving without presenting demonstration figures as verified club outcomes."
         actions={
           <button className="button button-primary" onClick={exportData}>
@@ -116,7 +116,7 @@ export default function CommunityPage() {
       <div className="grid-2">
         <Card className="chart-card">
           <CardHeader
-            title="Impact trend"
+            title="Impact Trend"
             description="Cumulative synthetic participation and estimated reach"
             action={<SourceBadge source="Synthetic demonstration data" />}
           />
@@ -128,7 +128,7 @@ export default function CommunityPage() {
         </Card>
         <Card className="padded radar-panel">
           <CardHeader
-            title="Impact by initiative"
+            title="Impact By Initiative"
             description="Investment and measured participation"
           />
           <div className="metric-list">
@@ -168,7 +168,7 @@ export default function CommunityPage() {
       </div>
       <Card className="padded">
         <CardHeader
-          title="Community impact register"
+          title="Community Impact Register"
           description="Operational records retain program attribution, partner counts, hours, contribution, and reporting period."
         />
         <DataTable

@@ -22,17 +22,19 @@
     "test:integration": "vitest run tests/integration",
     "test:e2e": "npm run build && playwright test",
     "data:build": "tsx scripts/build-public-dataset.ts",
-    "data:check": "npm run data:build && git diff --exit-code -- data/processed",
+    "data:check": "node scripts/check-generated.mjs data",
     "powerbi:build": "tsx scripts/build-powerbi-companion.ts",
     "powerbi:validate": "tsx scripts/validate-powerbi-project.ts",
-    "powerbi:check": "npm run powerbi:build && npm run powerbi:validate && git diff --exit-code -- powerbi",
+    "powerbi:check": "node scripts/check-generated.mjs powerbi && npm run powerbi:validate",
     "privacy:scan": "tsx scripts/privacy-scan.ts",
     "db:migrate": "tsx --env-file-if-exists=.env.local scripts/migrate.ts",
     "db:seed": "tsx --env-file-if-exists=.env.local scripts/seed.ts",
     "db:clean-org": "tsx --env-file-if-exists=.env.local scripts/create-clean-org.ts",
     "db:backup": "tsx --env-file-if-exists=.env.local scripts/backup.ts",
+    "db:test-recovery": "tsx scripts/test-disposable-recovery.ts",
     "security:audit": "npm audit --omit=dev --audit-level=high",
-    "verify": "npm run privacy:scan && npm run data:check && npm run powerbi:check && npm run format:check && npm run lint && npm run typecheck && npm run test && npm run build"
+    "verify": "npm run privacy:scan && npm run data:check && npm run powerbi:check && npm run format:check && npm run lint && npm run typecheck && npm run test && npm run build",
+    "site:test:polish": "npm run site:build && node scripts/test-ui-polish.mjs"
   },
   "dependencies": {
     "@node-rs/argon2": "^2.0.2",

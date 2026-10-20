@@ -13,8 +13,10 @@ const destination = path.join(
 await new Promise<void>((resolve, reject) => {
   const child = spawn("pg_dump", ["--format=custom", "--file", destination], {
     stdio: "inherit",
+    windowsHide: true,
     env: { ...process.env, PGDATABASE: env.DATABASE_URL },
   });
+  child.on("error", reject);
   child.on("exit", (code) =>
     code === 0 ? resolve() : reject(new Error(`pg_dump exited ${code}`)),
   );

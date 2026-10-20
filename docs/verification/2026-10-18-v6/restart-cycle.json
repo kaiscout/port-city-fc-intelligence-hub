@@ -1,0 +1,8 @@
+{
+  "status": "PASS",
+  "kind": "Separate owned application process restart; same disposable database; fresh browser contexts",
+  "beforePid": 68156,
+  "afterPid": 70468,
+  "bothProcessesStopped": true,
+  "checkedAt": "2026-10-18T04:29:08.035Z"
+}

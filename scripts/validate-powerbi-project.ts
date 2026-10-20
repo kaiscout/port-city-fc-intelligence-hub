@@ -79,6 +79,15 @@ for (const measure of ["Cash Inflow", "Cash Outflow", "Net Cash", "Cash Margin %
   assert(finance.includes(`measure '${measure}'`), `Missing DAX measure: ${measure}`);
 }
 const operations = await readFile(path.join(modelRoot, "tables", "FactOperations.tmdl"), "utf8");
+const annualCategories = await readFile(
+  path.join(modelRoot, "tables", "FactFinanceCategory.tmdl"),
+  "utf8",
+);
+assert(
+  annualCategories.includes("measure 'Annual Category Amount'") &&
+    annualCategories.includes("ALLEXCEPT(DimDate, DimDate[Year])"),
+  "Annual categories must not masquerade as monthly data",
+);
 for (const measure of ["Average Attendance", "Ticket Price"]) {
   assert(operations.includes(`measure '${measure}'`), `Missing DAX measure: ${measure}`);
 }

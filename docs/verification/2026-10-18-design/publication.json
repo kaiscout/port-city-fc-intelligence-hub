@@ -1,0 +1,17 @@
+{
+  "project_id": "appgprj_6acd37bc6b948191a2e872d0abafc6ab",
+  "version_number": 7,
+  "version_id": "appgprj_6acd37bc6b948191a2e872d0abafc6ab~appgver_53198c3cb6188191b5ce7551f89b2d6b",
+  "deployment_id": "appgdep_6ad4b96501c88191bd378b9858a9663e",
+  "status": "succeeded",
+  "source_commit": "3d54745e52589142cc8be48488486b1aec5e6e60",
+  "deployed_at_utc": "2026-10-18T12:20:04.824990+00:00",
+  "public_url": "https://pcfc.denizci.dev",
+  "provider_url": "https://port-city-fc-intelligence-hub.deniropro.chatgpt.site",
+  "audience": "public",
+  "public_asset_count": 8,
+  "archive_file_count": 9,
+  "archive_sha256": "fa86029dbf86cbb388f79595659fc48d503fc6b8e7fc2430a27a00f731f2a4cb",
+  "normalized_archive_hash": "sha256:326a77688de53239f3d9bc74b8921dce1907e8ffd79375d6d11cdd4b29fd0e7f",
+  "scope": "Static public UI only; private application and database were not deployed"
+}

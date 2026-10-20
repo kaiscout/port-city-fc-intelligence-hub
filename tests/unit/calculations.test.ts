@@ -14,12 +14,13 @@ describe("matchday economics", () => {
     expect(result.concessionRevenue).toBeCloseTo(7_043.4, 1);
     expect(result.merchandiseRevenue).toBeCloseTo(6_249.6, 1);
     expect(result.fixedCosts).toBe(26_550);
-    expect(result.variableCosts).toBeCloseTo(6_212.84, 1);
+    // 4,032 attendee costs + 2,180.84 community + 6,723.36 attendee-receipt allowance.
+    expect(result.variableCosts).toBeCloseTo(12_936.2, 1);
     expect(result.totalRevenue).toBeCloseTo(54_521, 1);
-    expect(result.operatingMargin).toBeCloseTo(21_758.16, 1);
-    expect(result.breakEvenAttendance).toBe(674);
-    const atBreakEven = calculateScenario({ ...scenarioPresets[1]!, expectedAttendance: 674 });
-    const belowBreakEven = calculateScenario({ ...scenarioPresets[1]!, expectedAttendance: 673 });
+    expect(result.operatingMargin).toBeCloseTo(15_034.8, 1);
+    expect(result.breakEvenAttendance).toBe(827);
+    const atBreakEven = calculateScenario({ ...scenarioPresets[1]!, expectedAttendance: 827 });
+    const belowBreakEven = calculateScenario({ ...scenarioPresets[1]!, expectedAttendance: 826 });
     expect(atBreakEven.operatingMargin).toBeGreaterThanOrEqual(0);
     expect(belowBreakEven.operatingMargin).toBeLessThan(0);
   });

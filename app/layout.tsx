@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { headers } from "next/headers";
 import "./globals.css";
+import "../site/lab.css";
 
 export const metadata: Metadata = {
   title: {

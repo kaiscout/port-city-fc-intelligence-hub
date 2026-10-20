@@ -1,0 +1,512 @@
+{
+  "status": "PASS",
+  "cases": 78,
+  "modelChecks": [
+    {
+      "name": "FY24 net cash arithmetic",
+      "expected": 2250,
+      "actual": 2250,
+      "difference": 0,
+      "status": "PASS",
+      "scope": "Synthetic finance"
+    },
+    {
+      "name": "FY25 net cash arithmetic",
+      "expected": 3800,
+      "actual": 3800,
+      "difference": 0,
+      "status": "PASS",
+      "scope": "Synthetic finance"
+    },
+    {
+      "name": "FY25 monthly inflow",
+      "expected": 67500,
+      "actual": 67500,
+      "difference": 0,
+      "status": "PASS",
+      "scope": "Synthetic finance"
+    },
+    {
+      "name": "FY25 monthly outflow",
+      "expected": 63700,
+      "actual": 63700,
+      "difference": 0,
+      "status": "PASS",
+      "scope": "Synthetic finance"
+    },
+    {
+      "name": "FY25 monthly net",
+      "expected": 3800,
+      "actual": 3800,
+      "difference": 0,
+      "status": "PASS",
+      "scope": "Synthetic finance"
+    },
+    {
+      "name": "FY25 income categories",
+      "expected": 67500,
+      "actual": 67500,
+      "difference": 0,
+      "status": "PASS",
+      "scope": "Synthetic finance"
+    },
+    {
+      "name": "FY25 expense categories",
+      "expected": 63700,
+      "actual": 63700,
+      "difference": 0,
+      "status": "PASS",
+      "scope": "Synthetic finance"
+    },
+    {
+      "name": "FY25 monthly row arithmetic",
+      "expected": 0,
+      "actual": 0,
+      "difference": 0,
+      "status": "PASS",
+      "scope": "Synthetic finance"
+    },
+    {
+      "name": "FY25 inflow to pipeline manifest",
+      "expected": 67500,
+      "actual": 67500,
+      "difference": 0,
+      "status": "PASS",
+      "scope": "Published bundle to source-model control"
+    },
+    {
+      "name": "FY25 outflow to pipeline manifest",
+      "expected": 63700,
+      "actual": 63700,
+      "difference": 0,
+      "status": "PASS",
+      "scope": "Published bundle to source-model control"
+    },
+    {
+      "name": "FY25 netCash to pipeline manifest",
+      "expected": 3800,
+      "actual": 3800,
+      "difference": 0,
+      "status": "PASS",
+      "scope": "Published bundle to source-model control"
+    },
+    {
+      "name": "Pipeline manifest check count",
+      "expected": 7,
+      "actual": 7,
+      "difference": 0,
+      "status": "PASS",
+      "scope": "Pipeline manifest contract"
+    },
+    {
+      "name": "Pipeline result consistency",
+      "expected": 0,
+      "actual": 0,
+      "difference": 0,
+      "status": "PASS",
+      "scope": "Pipeline manifest contract"
+    },
+    {
+      "name": "Channel visits to funnel visits",
+      "expected": 28400,
+      "actual": 28400,
+      "difference": 0,
+      "status": "PASS",
+      "scope": "2026 club-wide acquisition sample"
+    },
+    {
+      "name": "Channel purchases to funnel purchases",
+      "expected": 3214,
+      "actual": 3214,
+      "difference": 0,
+      "status": "PASS",
+      "scope": "2026 club-wide acquisition sample"
+    },
+    {
+      "name": "Sponsor receipts to FY25 sponsorship",
+      "expected": 38000,
+      "actual": 38000,
+      "difference": 0,
+      "status": "PASS",
+      "scope": "FY25 synthetic cash receipts"
+    },
+    {
+      "name": "Fixture bounds and revenue",
+      "expected": 0,
+      "actual": 0,
+      "difference": 0,
+      "status": "PASS",
+      "scope": "2026 fixture sample"
+    },
+    {
+      "name": "Sponsor deliverable bounds",
+      "expected": 0,
+      "actual": 0,
+      "difference": 0,
+      "status": "PASS",
+      "scope": "2026 sponsor sample"
+    },
+    {
+      "name": "All fixture contribution",
+      "expected": 120050,
+      "actual": 120050,
+      "difference": 0,
+      "status": "PASS",
+      "scope": "2026 fixture sample"
+    },
+    {
+      "name": "Men fixture contribution",
+      "expected": 57370,
+      "actual": 57370,
+      "difference": 0,
+      "status": "PASS",
+      "scope": "2026 fixture sample"
+    },
+    {
+      "name": "Women fixture contribution",
+      "expected": 62680,
+      "actual": 62680,
+      "difference": 0,
+      "status": "PASS",
+      "scope": "2026 fixture sample"
+    },
+    {
+      "name": "Fixture program partition",
+      "expected": 8,
+      "actual": 8,
+      "difference": 0,
+      "status": "PASS",
+      "scope": "2026 fixture sample"
+    },
+    {
+      "name": "Distinct fixture IDs",
+      "expected": 8,
+      "actual": 8,
+      "difference": 0,
+      "status": "PASS",
+      "scope": "2026 fixture sample"
+    },
+    {
+      "name": "Distinct sponsor IDs",
+      "expected": 6,
+      "actual": 6,
+      "difference": 0,
+      "status": "PASS",
+      "scope": "2026 sponsor sample"
+    }
+  ],
+  "tests": [
+    {
+      "name": "FY24 annual controls; missing breakdown stays missing",
+      "status": "PASS"
+    },
+    {
+      "name": "FY25 months, categories and annual values reconcile independently",
+      "status": "PASS"
+    },
+    {
+      "name": "Unknown periods cannot silently fall back",
+      "status": "PASS"
+    },
+    {
+      "name": "Missing sponsorship and zero cash denominators stay unavailable",
+      "status": "PASS"
+    },
+    {
+      "name": "Fixture totals and opportunity-weighted denominators",
+      "status": "PASS"
+    },
+    {
+      "name": "Empty fixture denominator does not become zero percent",
+      "status": "PASS"
+    },
+    {
+      "name": "Sponsor sample totals, weighted delivery and renewal count",
+      "status": "PASS"
+    },
+    {
+      "name": "Sponsor search preserves All scope",
+      "status": "PASS"
+    },
+    {
+      "name": "Sponsor search preserves Men scope",
+      "status": "PASS"
+    },
+    {
+      "name": "Sponsor search preserves Women scope",
+      "status": "PASS"
+    },
+    {
+      "name": "Excluded-program searches return no accounts",
+      "status": "PASS"
+    },
+    {
+      "name": "Empty sponsor selection has no invented delivery percentage",
+      "status": "PASS"
+    },
+    {
+      "name": "Sponsor ordering and all account risks are deterministic",
+      "status": "PASS"
+    },
+    {
+      "name": "Independent worked season example caps every attendee-linked revenue",
+      "status": "PASS"
+    },
+    {
+      "name": "Impossible break-even, zero attendance and sponsor-funded zero threshold",
+      "status": "PASS"
+    },
+    {
+      "name": "Invalid or non-finite scenario values fail explicitly",
+      "status": "PASS"
+    },
+    {
+      "name": "Conservative break-even satisfies the contribution equation",
+      "status": "PASS"
+    },
+    {
+      "name": "Baseline break-even satisfies the contribution equation",
+      "status": "PASS"
+    },
+    {
+      "name": "Optimistic break-even satisfies the contribution equation",
+      "status": "PASS"
+    },
+    {
+      "name": "Passing controls are derived; missing or failing controls never pass",
+      "status": "PASS"
+    },
+    {
+      "name": "command/FY24/All: export contains scoped data and evidence",
+      "status": "PASS"
+    },
+    {
+      "name": "finance/FY24/All: export contains scoped data and evidence",
+      "status": "PASS"
+    },
+    {
+      "name": "commercial/FY24/All: export contains scoped data and evidence",
+      "status": "PASS"
+    },
+    {
+      "name": "matchday/FY24/All: export contains scoped data and evidence",
+      "status": "PASS"
+    },
+    {
+      "name": "programs/FY24/All: export contains scoped data and evidence",
+      "status": "PASS"
+    },
+    {
+      "name": "scenarios/FY24/All: export contains scoped data and evidence",
+      "status": "PASS"
+    },
+    {
+      "name": "decisions/FY24/All: export contains scoped data and evidence",
+      "status": "PASS"
+    },
+    {
+      "name": "quality/FY24/All: export contains scoped data and evidence",
+      "status": "PASS"
+    },
+    {
+      "name": "access/FY24/All: export contains scoped data and evidence",
+      "status": "PASS"
+    },
+    {
+      "name": "command/FY24/Men: export contains scoped data and evidence",
+      "status": "PASS"
+    },
+    {
+      "name": "finance/FY24/Men: export contains scoped data and evidence",
+      "status": "PASS"
+    },
+    {
+      "name": "commercial/FY24/Men: export contains scoped data and evidence",
+      "status": "PASS"
+    },
+    {
+      "name": "matchday/FY24/Men: export contains scoped data and evidence",
+      "status": "PASS"
+    },
+    {
+      "name": "programs/FY24/Men: export contains scoped data and evidence",
+      "status": "PASS"
+    },
+    {
+      "name": "scenarios/FY24/Men: export contains scoped data and evidence",
+      "status": "PASS"
+    },
+    {
+      "name": "decisions/FY24/Men: export contains scoped data and evidence",
+      "status": "PASS"
+    },
+    {
+      "name": "quality/FY24/Men: export contains scoped data and evidence",
+      "status": "PASS"
+    },
+    {
+      "name": "access/FY24/Men: export contains scoped data and evidence",
+      "status": "PASS"
+    },
+    {
+      "name": "command/FY24/Women: export contains scoped data and evidence",
+      "status": "PASS"
+    },
+    {
+      "name": "finance/FY24/Women: export contains scoped data and evidence",
+      "status": "PASS"
+    },
+    {
+      "name": "commercial/FY24/Women: export contains scoped data and evidence",
+      "status": "PASS"
+    },
+    {
+      "name": "matchday/FY24/Women: export contains scoped data and evidence",
+      "status": "PASS"
+    },
+    {
+      "name": "programs/FY24/Women: export contains scoped data and evidence",
+      "status": "PASS"
+    },
+    {
+      "name": "scenarios/FY24/Women: export contains scoped data and evidence",
+      "status": "PASS"
+    },
+    {
+      "name": "decisions/FY24/Women: export contains scoped data and evidence",
+      "status": "PASS"
+    },
+    {
+      "name": "quality/FY24/Women: export contains scoped data and evidence",
+      "status": "PASS"
+    },
+    {
+      "name": "access/FY24/Women: export contains scoped data and evidence",
+      "status": "PASS"
+    },
+    {
+      "name": "command/FY25/All: export contains scoped data and evidence",
+      "status": "PASS"
+    },
+    {
+      "name": "finance/FY25/All: export contains scoped data and evidence",
+      "status": "PASS"
+    },
+    {
+      "name": "commercial/FY25/All: export contains scoped data and evidence",
+      "status": "PASS"
+    },
+    {
+      "name": "matchday/FY25/All: export contains scoped data and evidence",
+      "status": "PASS"
+    },
+    {
+      "name": "programs/FY25/All: export contains scoped data and evidence",
+      "status": "PASS"
+    },
+    {
+      "name": "scenarios/FY25/All: export contains scoped data and evidence",
+      "status": "PASS"
+    },
+    {
+      "name": "decisions/FY25/All: export contains scoped data and evidence",
+      "status": "PASS"
+    },
+    {
+      "name": "quality/FY25/All: export contains scoped data and evidence",
+      "status": "PASS"
+    },
+    {
+      "name": "access/FY25/All: export contains scoped data and evidence",
+      "status": "PASS"
+    },
+    {
+      "name": "command/FY25/Men: export contains scoped data and evidence",
+      "status": "PASS"
+    },
+    {
+      "name": "finance/FY25/Men: export contains scoped data and evidence",
+      "status": "PASS"
+    },
+    {
+      "name": "commercial/FY25/Men: export contains scoped data and evidence",
+      "status": "PASS"
+    },
+    {
+      "name": "matchday/FY25/Men: export contains scoped data and evidence",
+      "status": "PASS"
+    },
+    {
+      "name": "programs/FY25/Men: export contains scoped data and evidence",
+      "status": "PASS"
+    },
+    {
+      "name": "scenarios/FY25/Men: export contains scoped data and evidence",
+      "status": "PASS"
+    },
+    {
+      "name": "decisions/FY25/Men: export contains scoped data and evidence",
+      "status": "PASS"
+    },
+    {
+      "name": "quality/FY25/Men: export contains scoped data and evidence",
+      "status": "PASS"
+    },
+    {
+      "name": "access/FY25/Men: export contains scoped data and evidence",
+      "status": "PASS"
+    },
+    {
+      "name": "command/FY25/Women: export contains scoped data and evidence",
+      "status": "PASS"
+    },
+    {
+      "name": "finance/FY25/Women: export contains scoped data and evidence",
+      "status": "PASS"
+    },
+    {
+      "name": "commercial/FY25/Women: export contains scoped data and evidence",
+      "status": "PASS"
+    },
+    {
+      "name": "matchday/FY25/Women: export contains scoped data and evidence",
+      "status": "PASS"
+    },
+    {
+      "name": "programs/FY25/Women: export contains scoped data and evidence",
+      "status": "PASS"
+    },
+    {
+      "name": "scenarios/FY25/Women: export contains scoped data and evidence",
+      "status": "PASS"
+    },
+    {
+      "name": "decisions/FY25/Women: export contains scoped data and evidence",
+      "status": "PASS"
+    },
+    {
+      "name": "quality/FY25/Women: export contains scoped data and evidence",
+      "status": "PASS"
+    },
+    {
+      "name": "access/FY25/Women: export contains scoped data and evidence",
+      "status": "PASS"
+    },
+    {
+      "name": "Sponsor export obeys search and program together",
+      "status": "PASS"
+    },
+    {
+      "name": "Export filenames use applicable scope, not stale disabled filters",
+      "status": "PASS"
+    },
+    {
+      "name": "Decision export obeys priority",
+      "status": "PASS"
+    },
+    {
+      "name": "CSV quoting, numeric losses and formula-like text",
+      "status": "PASS"
+    }
+  ]
+}

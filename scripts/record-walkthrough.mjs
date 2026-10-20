@@ -1,5 +1,6 @@
 import { createReadStream } from "node:fs";
-import { stat } from "node:fs/promises";
+import { stat, copyFile, rm } from "node:fs/promises";
+import { execFileSync } from "node:child_process";
 import { createServer } from "node:http";
 import path from "node:path";
 
@@ -11,6 +12,7 @@ const mimeTypes = new Map([
   [".html", "text/html; charset=utf-8"],
   [".png", "image/png"],
   [".wav", "audio/wav"],
+  [".webm", "video/webm"],
 ]);
 
 const server = createServer(async (request, response) => {
@@ -25,10 +27,20 @@ const server = createServer(async (request, response) => {
   try {
     const file = await stat(filename);
     if (!file.isFile()) throw new Error("Not a file");
-    response.writeHead(200, {
+    const range = /^bytes=(\d+)-(\d*)$/.exec(request.headers.range ?? "");
+    const start = range ? Number(range[1]) : 0;
+    const end = range?.[2] ? Math.min(Number(range[2]), file.size - 1) : file.size - 1;
+    if (start > end || start >= file.size) {
+      response.writeHead(416).end();
+      return;
+    }
+    response.writeHead(range ? 206 : 200, {
       "Content-Type": mimeTypes.get(path.extname(filename)) ?? "application/octet-stream",
+      "Content-Length": end - start + 1,
+      "Accept-Ranges": "bytes",
+      ...(range ? { "Content-Range": `bytes ${start}-${end}/${file.size}` } : {}),
     });
-    createReadStream(filename).pipe(response);
+    createReadStream(filename, { start, end }).pipe(response);
   } catch {
     response.writeHead(404).end();
   }
@@ -40,17 +52,56 @@ if (!address || typeof address === "string") throw new Error("Unable to start re
 
 const browser = await chromium.launch({
   headless: true,
+  ...(process.env.CHROMIUM_EXECUTABLE_PATH
+    ? { executablePath: process.env.CHROMIUM_EXECUTABLE_PATH }
+    : {}),
   args: ["--autoplay-policy=no-user-gesture-required"],
 });
 try {
   const page = await browser.newPage({ viewport: { width: 1280, height: 720 } });
+  const errors = [];
+  page.on("pageerror", (error) => errors.push(error.message));
   await page.goto(`http://127.0.0.1:${address.port}/`, { waitUntil: "domcontentloaded" });
   await page.getByRole("button", { name: "Record walkthrough" }).waitFor({ state: "visible" });
-  const downloadPromise = page.waitForEvent("download", { timeout: 300_000 });
-  await page.getByRole("button", { name: "Record walkthrough" }).click();
-  const download = await downloadPromise;
-  await download.saveAs(output);
-  console.log(JSON.stringify({ output, status: "PASS" }));
+  if (process.env.WALKTHROUGH_DIAGNOSTIC === "true") {
+    await page.getByRole("button", { name: "Record walkthrough" }).click();
+    await page.waitForFunction(() => document.title === "Recording", null, { timeout: 30_000 });
+    await page.waitForTimeout(1500);
+    console.log(
+      JSON.stringify({
+        errors,
+        state: await page.evaluate(() => {
+          const element = document.querySelector("audio");
+          return {
+            title: document.title,
+            time: element.currentTime,
+            duration: element.duration,
+            paused: element.paused,
+            ready: element.readyState,
+            rate: element.playbackRate,
+            error: element.error?.message,
+          };
+        }),
+      }),
+    );
+  } else {
+    const pageFailure = new Promise((_resolve, reject) => page.once("pageerror", reject));
+    const [download] = await Promise.all([
+      Promise.race([page.waitForEvent("download", { timeout: 300_000 }), pageFailure]),
+      page.getByRole("button", { name: "Record walkthrough" }).click(),
+    ]);
+    await download.saveAs(output);
+    if (process.env.FFMPEG_PATH) {
+      const indexed = output.replace(/\.webm$/, ".indexed.webm");
+      execFileSync(process.env.FFMPEG_PATH, ["-y", "-i", output, "-c", "copy", indexed], {
+        windowsHide: true,
+        stdio: "pipe",
+      });
+      await copyFile(indexed, output);
+      await rm(indexed);
+    }
+    console.log(JSON.stringify({ output, status: "PASS" }));
+  }
 } finally {
   await browser.close();
   server.close();

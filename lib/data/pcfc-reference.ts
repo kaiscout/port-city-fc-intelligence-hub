@@ -6,6 +6,9 @@
  * transaction rows are never copied into this repository.
  */
 
+import reference from "../../data/processed/public-reference.json";
+import reconciliation from "../../data/processed/reconciliation.json";
+
 export type FinancialPeriod = {
   id: "FY24" | "FY25";
   label: string;
@@ -37,89 +40,38 @@ export type ManagementSeasonCommitment = {
   confidence: "Synthetic fixed assumption" | "Approximate — confirm";
 };
 
-export const financialPeriods: FinancialPeriod[] = [
-  {
-    id: "FY24",
-    label: "Synthetic prior-year benchmark",
-    startDate: "2024-01-01",
-    endDate: "2024-12-31",
-    transactions: 340,
-    inflow: 63200,
-    outflow: 60950,
-    netCash: 2250,
-    sourceFile: "portfolio_financial_periods.csv",
-    sha256: "generated-by-public-pipeline",
-  },
-  {
-    id: "FY25",
-    label: "Synthetic current-year portfolio ledger",
-    startDate: "2025-01-01",
-    endDate: "2025-12-31",
-    transactions: 312,
-    inflow: 67500,
-    outflow: 63700,
-    netCash: 3800,
-    sourceFile: "portfolio_financial_periods.csv",
-    sha256: "generated-by-public-pipeline",
-  },
-];
-
-export const fy25IncomeCategories: CashCategory[] = [
-  { name: "Sponsorship", amount: 38000 },
-  { name: "Ticket sales", amount: 15400 },
-  { name: "Concessions", amount: 6400 },
-  { name: "Memberships", amount: 4200 },
-  { name: "Merchandise", amount: 2100 },
-  { name: "Other income", amount: 1400 },
-];
-
-export const fy25ExpenseCategories: CashCategory[] = [
-  { name: "Travel and lodging", amount: 14200 },
-  { name: "Coaching, staff and officials", amount: 13600 },
-  { name: "Operations and supplies", amount: 9400 },
-  { name: "Venue and fields", amount: 8100 },
-  { name: "Media and marketing", amount: 6800 },
-  { name: "League and registration", amount: 6200 },
-  { name: "Gear and merchandise", amount: 3400 },
-  { name: "Community programs", amount: 2000 },
-];
-
-export const fy25MonthlyCashFlow = [
-  ["Jan 25", 6000, 2500],
-  ["Feb 25", 5000, 3200],
-  ["Mar 25", 7500, 3800],
-  ["Apr 25", 8000, 4200],
-  ["May 25", 7000, 5200],
-  ["Jun 25", 6000, 6100],
-  ["Jul 25", 6500, 7400],
-  ["Aug 25", 7500, 8200],
-  ["Sep 25", 5000, 7600],
-  ["Oct 25", 4500, 6000],
-  ["Nov 25", 2500, 5100],
-  ["Dec 25", 2000, 4400],
-].map(([month, inflow, outflow]) => ({
-  month: month as string,
-  inflow: inflow as number,
-  outflow: outflow as number,
-  net: (inflow as number) - (outflow as number),
+export const financialPeriods: FinancialPeriod[] = reference.financialPeriods.map((row) => ({
+  ...row,
+  id: row.id as "FY24" | "FY25",
+  netCash: row.inflow - row.outflow,
+  sourceFile: "data/raw/financial_periods.json",
+  sha256: reconciliation.sourceSha256["financial_periods.json"],
 }));
+export const fy25IncomeCategories: CashCategory[] = reference.incomeCategories;
+export const fy25ExpenseCategories: CashCategory[] = reference.expenseCategories;
+export const fy25MonthlyCashFlow = reference.monthly;
 
 export const fy25FieldCosts: FieldCostCategory[] = [
   { name: "Match fields", amount: 720, evidence: "Synthetic monthly aggregates" },
   { name: "Practice fields", amount: 2800, evidence: "Synthetic category total" },
 ];
 
+const menBaseline = reference.operating.find((r) => r.program === "Men")!;
+const womenBaseline = reference.operating.find((r) => r.program === "Women")!;
 export const managementOperatingBaseline = {
   evidenceLabel: "Sanitized operating assumptions",
   appliesTo: "Men and Women",
-  averageAttendance: 800,
-  ticketPrice: 12,
+  averageAttendance: menBaseline.averageAttendance,
+  ticketPrice: menBaseline.ticketPrice,
   concessionSaleMinimum: 8,
   concessionSaleMaximum: 9,
   seasonStart: "May 1",
   seasonEnd: "July 15",
-  baseMatchesPerProgram: 10,
-  matchesIncludingPlayoffs: { Men: 12, Women: 12 },
+  baseMatchesPerProgram: menBaseline.baseMatches,
+  matchesIncludingPlayoffs: {
+    Men: menBaseline.playoffMatches,
+    Women: womenBaseline.playoffMatches,
+  },
   homeAwaySplit: "Not established in the public dataset",
 } as const;
 
@@ -255,7 +207,8 @@ export const sourceDocuments = [
   {
     name: "Sanitized financial model",
     file: "data/processed/fact_finance.csv",
-    coverage: "Two synthetic fiscal periods; no bank rows or payees",
+    coverage:
+      "FY25 monthly facts; FY24/FY25 annual metadata in data/raw/financial_periods.json. No bank rows or payees",
     sha256: "Produced in data/processed/reconciliation.json",
   },
   {

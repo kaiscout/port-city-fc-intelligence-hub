@@ -16,7 +16,8 @@ export function isRole(value: unknown): value is Role {
 
 const pagePolicies: { prefix: string; anyOf: string[] }[] = [
   { prefix: "/settings", anyOf: ["settings:read"] },
-  { prefix: "/operations", anyOf: ["operations:read"] },
+  { prefix: "/operations", anyOf: ["operations:read", "sponsors:write", "governance:write"] },
+  { prefix: "/onboarding", anyOf: ["settings:write"] },
   { prefix: "/scenarios", anyOf: ["scenarios:read"] },
   { prefix: "/attendance", anyOf: ["analytics:read", "funnel:read", "fixtures:read"] },
   { prefix: "/sponsors", anyOf: ["sponsors:read"] },
@@ -48,8 +49,8 @@ export const entityPolicies = {
   fixtures: { read: "fixtures:read", write: "fixtures:write" },
   attendance: { read: "analytics:read", write: "attendance:write" },
   "ticket-channels": { read: "analytics:read", write: "imports:write" },
-  revenue: { read: "analytics:read", write: "imports:write" },
-  costs: { read: "analytics:read", write: "imports:write" },
+  revenue: { read: "analytics:read", write: "revenue:write" },
+  costs: { read: "analytics:read", write: "costs:write" },
   sponsors: { read: "sponsors:read", write: "sponsors:write" },
   "sponsor-packages": { read: "sponsors:read", write: "sponsors:write" },
   "sponsor-deliverables": { read: "sponsors:read", write: "sponsors:write" },
@@ -67,7 +68,7 @@ export const entityPolicies = {
 export type EntityName = keyof typeof entityPolicies;
 
 export function isEntityName(value: string): value is EntityName {
-  return value in entityPolicies;
+  return Object.hasOwn(entityPolicies, value);
 }
 
 export function permissionForEntity(entity: EntityName, operation: "read" | "write") {

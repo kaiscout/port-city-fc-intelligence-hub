@@ -108,7 +108,7 @@ const data = {
     mode: "Public portfolio simulation",
     snapshotAt: reconciliation.generatedAt,
     builtAt: new Date().toISOString(),
-    release: "Stakeholder review 5.0",
+    release: "Design Refinement · October 2026 · public portfolio simulation",
     operationsScope: "2026 synthetic operational sample",
     acquisitionScope: "2026 club-wide acquisition sample; no program-level attribution",
     evidenceBoundary:
@@ -136,8 +136,9 @@ const data = {
   channelPerformance,
   scenarioPresets: scenarioPresets.map((preset) => ({
     ...preset,
-    homeMatches: 10,
-    variableCostPerAttendee: 2.4,
+    homeMatches: 1,
+    scope: "Per fixture",
+    sponsorFrequency: "Per fixture",
   })),
   communityRecords,
   staffing: { covered: staffRoles, open: openStaffRoles },
@@ -221,6 +222,8 @@ await Promise.all([
   cp(path.join(source, "styles.css"), path.join(output, "styles.css")),
   cp(path.join(source, "app.js"), path.join(output, "app.js")),
   cp(path.join(source, "model.js"), path.join(output, "model.js")),
+  cp(path.join(source, "scenario-visuals.js"), path.join(output, "scenario-visuals.js")),
+  cp(path.join(source, "lab.css"), path.join(output, "lab.css")),
   cp(
     path.join(root, "public", "brand", "port-city-fc-logo.png"),
     path.join(output, "assets", "pcfc-logo.png"),
@@ -235,7 +238,7 @@ await writeFile(
 console.log(
   JSON.stringify({
     output,
-    files: 6,
+    files: 8,
     views: 9,
     integrityChecks: modelChecks.length,
     status: "PASS",

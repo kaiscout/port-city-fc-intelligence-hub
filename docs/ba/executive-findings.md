@@ -1,6 +1,6 @@
 # Executive findings and proposed decisions
 
-Presentation revision: 16 October 2026. All findings below describe synthetic/generalized public data. They do not establish PCFC's actual financial or operating position.
+Presentation candidate: 6.0, 18 October 2026. All findings below describe synthetic/generalized public data. They do not establish PCFC's actual financial or operating position.
 
 ## Findings supported by the demonstration
 

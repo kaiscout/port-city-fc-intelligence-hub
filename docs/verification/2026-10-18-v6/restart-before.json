@@ -1,0 +1,31 @@
+{
+  "phase": "before",
+  "status": "PASS",
+  "fingerprints": {
+    "operational_record": {
+      "rows": 456,
+      "sha256": "c519f7b42db73128a99f8a66bc6035e184c6d0dddb4c429fa2220fd28418da1b"
+    },
+    "application_setting": {
+      "rows": 23,
+      "sha256": "7a364d119fd42f34a63235c4d56434cdb0f925c1dfd0901d2fd055ff24ecf2c1"
+    },
+    "scenario": {
+      "rows": 58,
+      "sha256": "e42d0fb593266809447740256979081c69633ea5b8992b9cc0454cba0f07ca67"
+    },
+    "scenario_revision": {
+      "rows": 89,
+      "sha256": "f484f59806d8bc7b21de392b4408841dd93e7d854b0ec84924748b142a4c1800"
+    },
+    "audit_event": {
+      "rows": 733,
+      "sha256": "d88159ead37b3b348871d09abe59b34ba2769bce1949dacdaeab482e9f917fc6"
+    }
+  },
+  "contribution": 9830,
+  "settingsOwnerPersisted": true,
+  "scenarioPersisted": true,
+  "freshBrowserContext": true,
+  "checkedAt": "2026-10-18T04:28:41.395Z"
+}

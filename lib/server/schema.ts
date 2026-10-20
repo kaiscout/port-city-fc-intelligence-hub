@@ -41,6 +41,7 @@ export const users = pgTable(
     passwordHash: text("password_hash").notNull(),
     role: roleEnum("role").notNull(),
     active: boolean("active").notNull().default(true),
+    version: integer("version").notNull().default(1),
     failedSignIns: integer("failed_sign_ins").notNull().default(0),
     lockedUntil: timestamp("locked_until", { withTimezone: true }),
     createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
@@ -282,6 +283,7 @@ export const scenarios = pgTable("scenario", {
     .notNull()
     .references(() => users.id),
   version: integer("version").notNull().default(1),
+  archived: boolean("archived").notNull().default(false),
   assumptions: jsonb("assumptions").notNull(),
   createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
   updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
@@ -343,6 +345,10 @@ export const importBatches = pgTable(
     acceptedCount: integer("accepted_count").notNull(),
     rejectedCount: integer("rejected_count").notNull(),
     status: text("status").notNull(),
+    previewRows: jsonb("preview_rows").notNull().default([]),
+    validation: jsonb("validation").notNull().default([]),
+    completedAt: timestamp("completed_at", { withTimezone: true }),
+    version: integer("version").notNull().default(1),
     createdById: uuid("created_by_id")
       .notNull()
       .references(() => users.id),
@@ -373,6 +379,7 @@ export const applicationSettings = pgTable(
       .references(() => organization.id),
     key: text("key").notNull(),
     value: jsonb("value").notNull(),
+    version: integer("version").notNull().default(1),
     updatedById: uuid("updated_by_id")
       .notNull()
       .references(() => users.id),
@@ -392,6 +399,7 @@ export const operationalRecords = pgTable(
     name: text("name").notNull(),
     status: text("status").notNull().default("ACTIVE"),
     payload: jsonb("payload").notNull().default({}),
+    version: integer("version").notNull().default(1),
     createdById: uuid("created_by_id")
       .notNull()
       .references(() => users.id),

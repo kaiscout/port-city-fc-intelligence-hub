@@ -1,0 +1,22 @@
+import type { ScenarioInput } from "../lib/types";
+export function calculateSeasonScenario(model: ScenarioInput): {
+  attendance: number;
+  paidAttendance: number;
+  ticket: number;
+  concession: number;
+  merchandise: number;
+  variableSeasonRevenue: number;
+  directCostPerMatch: number;
+  fixedSeasonCost: number;
+  attendeeCost: number;
+  totalRevenue: number;
+  sponsorshipAllocation: number;
+  seasonCost: number;
+  community: number;
+  riskReserve: number;
+  contribution: number;
+  unitContribution: number;
+  breakEven: number | null;
+  feasible: boolean;
+  margin: number | null;
+};

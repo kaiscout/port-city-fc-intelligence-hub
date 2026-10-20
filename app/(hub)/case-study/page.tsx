@@ -41,7 +41,7 @@ export default function CaseStudyPage() {
     <>
       <PageHeader
         eyebrow="Business analysis case study"
-        title="From a broad ambition to an operable system."
+        title="BA Case Study"
         description="A recruiter-facing account of the analysis, prioritization, controls, data model, testing, and recommendations behind the pilot."
         actions={
           <Link className="button button-primary" href="/api/artifacts/requirements-catalog">
@@ -285,7 +285,7 @@ export default function CaseStudyPage() {
       </Card>
       <Card className="padded section-gap">
         <CardHeader
-          title="Business Analysis artifact index"
+          title="Business Analysis Artifact Index"
           description="Twenty professional artifacts are stored in /docs/ba and are accessible here as plain text."
           action={<SourceBadge source="Documented assumption" />}
         />

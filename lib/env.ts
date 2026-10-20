@@ -12,8 +12,8 @@ const envSchema = z.object({
 });
 
 export const env = envSchema.parse({
-  DATABASE_URL: process.env.DATABASE_URL,
-  SESSION_SECRET: process.env.SESSION_SECRET,
+  DATABASE_URL: process.env.DATABASE_URL || undefined,
+  SESSION_SECRET: process.env.SESSION_SECRET || undefined,
   APP_URL: process.env.APP_URL,
   DEMO_MODE: process.env.DEMO_MODE,
   PUBLIC_DEMO_MODE: process.env.PUBLIC_DEMO_MODE,
@@ -30,6 +30,11 @@ export function requireProductionEnv() {
     }
     if (!env.DATABASE_URL) throw new Error("DATABASE_URL is required in production");
     if (!env.SESSION_SECRET) throw new Error("SESSION_SECRET is required in production");
+    if (env.SESSION_SECRET === "replace-with-at-least-32-random-characters")
+      throw new Error("Replace the example SESSION_SECRET before private production use");
+    const app = new URL(env.APP_URL);
+    if (!["127.0.0.1", "localhost"].includes(app.hostname) && app.protocol !== "https:")
+      throw new Error("Private non-loopback production APP_URL requires HTTPS");
     if (env.DEMO_MODE === "true" && env.LOCAL_PREVIEW_MODE !== "true")
       throw new Error("DEMO_MODE must be false in production");
     if (env.LOCAL_PREVIEW_MODE === "true") {

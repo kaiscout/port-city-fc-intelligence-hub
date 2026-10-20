@@ -1,0 +1,37 @@
+{
+  "release": "6.0",
+  "url": "https://pcfc.denizci.dev/",
+  "status": "succeeded",
+  "publishedAt": "2026-10-18T08:35:46.491869+00:00",
+  "projectId": "appgprj_6acd37bc6b948191a2e872d0abafc6ab",
+  "versionId": "appgprj_6acd37bc6b948191a2e872d0abafc6ab~appgver_9291db039ec481918bcd837970b38d23",
+  "deploymentId": "appgdep_6ad484d4eda88191945b1fa231cebea9",
+  "commitSha": "20fbc815343ef26331365288c96525b9555f3e13",
+  "compressedArchiveSha256": "42e8905dc1d226c1ae795a830b403039c27f2cfa874544e0e8e9ad42ba486d4d",
+  "providerNormalizedArchiveSha256": "81cc3bb56bef48a90c9287a20af02bcf17e057fb6f51f784d0e245124958f2b2",
+  "publicAudiencePreserved": true,
+  "privateApplicationDeployed": false,
+  "privateDataTransferred": false,
+  "linkedInPosted": false,
+  "parentDomainChanged": false,
+  "assets": {
+    "index.html": "d8f5fe7aea87eb985fffe7dc0219b406c5d681b2f973ba15bf89256e2c832e5d",
+    "styles.css": "0af733756df967da1276b8f0f20eace340f6a002c9f7a12ae7319b52e5e30c11",
+    "app.js": "c04c21b4894302f189c483a92017382cbf42fec20ff0e16ec04593e80852c8b8",
+    "model.js": "914531b83563a279731a3e3611f88031e09cff9bbf8a31636750297421787e73",
+    "data.js": "fea53b5decdf72b3c5c1851f1cfffb41d9c9e8b4bf29f6d9c4722bfb60fa9874",
+    "assets/pcfc-logo.png": "a0f9265004ab74f48fd6bf6d07458d173e4693c4160a316f6dab3a95c160d325"
+  },
+  "verification": {
+    "status": "PASS",
+    "checkedAt": "2026-10-18T08:39:55.779Z",
+    "browserChecks": 101,
+    "filterExportCombinations": 54,
+    "mobileWorkspaces": 9,
+    "consoleErrors": 0,
+    "numericalAndExportCases": 78,
+    "modelControls": 24,
+    "physicalDeviceOrWebKitTested": false
+  },
+  "rollbackVersionId": "appgprj_6acd37bc6b948191a2e872d0abafc6ab~appgver_29ee8d525bf8819190ac6787a719e193"
+}

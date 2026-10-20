@@ -1,4 +1,30 @@
 import {
+  mountScenarioChart,
+  freeEntryExplanation,
+  scenarioExplanation,
+  scenarioOutcomeMarkup,
+} from "./scenario-visuals.js";
+function polishTitles() {
+  const minor = new Set(["and", "or", "of", "the", "to", "per", "for", "in", "as", "at", "vs"]);
+  document
+    .querySelectorAll(
+      ".card h2,.card h3,.panel-title,.metric-top > span:first-child,.drawer-section h3,#drawer-title,.primary-button,.secondary-button,.ghost-button,.segmented button,#evidence-button",
+    )
+    .forEach((el) => {
+      if (el.children.length) return;
+      el.textContent = el.textContent
+        .split(" ")
+        .map((w, i) =>
+          !w || /^[A-Z0-9$%/·–—]+$/.test(w)
+            ? w
+            : i && minor.has(w.toLowerCase())
+              ? w.toLowerCase()
+              : w.charAt(0).toUpperCase() + w.slice(1),
+        )
+        .join(" ");
+    });
+}
+import {
   EVIDENCE,
   financeModel,
   selectFixtures,
@@ -21,67 +47,67 @@ const $ = (selector, parent = document) => parent.querySelector(selector);
 
 const views = [
   {
-    group: "Decision workspace",
+    group: "Club Workspace",
     id: "command",
-    label: "Command center",
+    label: "Command Center",
     icon: "gauge",
     hint: "Executive priorities",
   },
   {
-    group: "Decision workspace",
+    group: "Club Workspace",
     id: "finance",
-    label: "Finance & cash",
+    label: "Finance & Cash",
     icon: "finance",
     hint: "Cash and categories",
   },
   {
-    group: "Decision workspace",
+    group: "Club Workspace",
     id: "commercial",
     label: "Commercial",
     icon: "commercial",
     hint: "Sponsors and funnel",
   },
   {
-    group: "Decision workspace",
+    group: "Club Workspace",
     id: "matchday",
-    label: "Matchday operations",
+    label: "Matchday Operations",
     icon: "calendar",
     hint: "Fixtures and readiness",
   },
   {
-    group: "Decision workspace",
+    group: "Club Workspace",
     id: "programs",
-    label: "Program equity",
+    label: "Program Equity",
     icon: "balance",
     hint: "Men and Women",
   },
   {
-    group: "Plan & decide",
+    group: "Plan & Decide",
     id: "scenarios",
-    label: "Scenario lab",
+    label: "Scenario Lab",
     icon: "scenario",
     hint: "Sensitivity testing",
     badge: "Sandbox",
   },
   {
-    group: "Plan & decide",
+    group: "Plan & Decide",
     id: "decisions",
-    label: "Decision register",
+    label: "Decision Register",
     icon: "decision",
     hint: "Owners and due dates",
     badge: "4",
   },
   {
-    group: "Govern & trust",
+    group: "Govern & Trust",
     id: "quality",
-    label: "Data quality",
+    label: "Data Quality",
     icon: "quality",
     hint: "Controls and lineage",
   },
   {
-    group: "Govern & trust",
+    group: "Govern & Trust",
     id: "access",
-    label: "Access & audit",
+    label: "Access & Audit",
     icon: "access",
     hint: "Policy and events",
   },
@@ -92,7 +118,7 @@ const viewCopy = {
     kicker: "Module 01 / Executive control",
     title: "Club operating picture",
     description:
-      "Financial resilience, commercial momentum, supporter demand and accountable actions on one decision surface.",
+      "Cash receipts, fixture economics, sponsor delivery and accountable actions—with clear source limits.",
   },
   finance: {
     kicker: "Module 02 / Finance intelligence",
@@ -144,27 +170,6 @@ const viewCopy = {
   },
 };
 
-const viewSignals = {
-  command:
-    "Use the synthetic cash model to discuss reserve policy and income concentration. Validate current balances and the home/away split before approving a club operating plan.",
-  finance:
-    "An inflow-to-outflow ratio measures period cash movement, not available liquidity. A 1.05× policy threshold is a proposal for discussion, not an approved club rule.",
-  commercial:
-    "The 2026 sponsor sample illustrates delivery recovery and renewal ownership. Contract face value is not cash received and does not reconcile to FY25 income.",
-  matchday:
-    "Attendance upside is meaningful, but contribution should be judged after direct staffing, field and concession costs—not gate revenue alone.",
-  programs:
-    "Equivalent definitions expose the real difference between programs; opportunity, capacity and fixture volume must be normalized before allocation.",
-  scenarios:
-    "Test attendance, price and costs against the same contribution equation. Break-even includes attendee costs, community allocation and the explicit risk allowance.",
-  decisions:
-    "Three decisions affect the operating plan now. Each needs one accountable owner, a due date and evidence that can close the loop.",
-  quality:
-    "Control results are calculated from the public model and its pipeline manifest. Passing arithmetic controls does not validate PCFC source records or imply stakeholder approval.",
-  access:
-    "Public access is intentionally read-only. The full application repeats authorization at the route, entity and organization-query boundaries.",
-};
-
 const icons = {
   gauge:
     '<svg viewBox="0 0 24 24"><path d="M4 14a8 8 0 1 1 16 0"/><path d="m12 14 4-4"/><path d="M7 18h10"/></svg>',
@@ -206,6 +211,8 @@ if (!["light", "dark"].includes(state.theme)) state.theme = "dark";
 const baseline =
   data.scenarioPresets.find((scenario) => scenario.id === "baseline") || data.scenarioPresets[0];
 let scenarioModel = { ...baseline };
+let scenarioReference = { ...baseline };
+let scenarioChart = null;
 const modelChecks = validateHubModel(data);
 const integrity = controlSummary(modelChecks);
 const pipelineControls = controlSummary(data.reconciliation.checks);
@@ -303,7 +310,8 @@ function renderNav() {
 
 function viewHeader(actions = true) {
   const copy = viewCopy[state.view];
-  return `<header class="view-header"><div class="view-identity"><div class="view-label-row"><span class="section-kicker">${copy.kicker}</span><span class="live-module">Synthetic model</span></div><h1>${copy.title}</h1><p>${copy.description}</p></div>${`<div class="view-actions"><button class="secondary-button" data-action="export-view">Export intelligence</button>${actions ? '<button class="primary-button" data-action="open-decisions">Review actions <span>→</span></button>' : ""}</div>`}</header>${evidenceNote()}<section class="intelligence-brief"><div class="signal-orb" aria-hidden="true"><span></span><i></i></div><div><small>Discussion signal</small><p>${viewSignals[state.view]}</p></div><div class="brief-score"><small>Model checks</small><b>${integrity.passed}<span>/${integrity.total}</span></b><em>${integrity.allPass ? "PASS" : "REVIEW"}</em></div></section>`;
+  const title = views.find((view) => view.id === state.view)?.label || copy.title;
+  return `<header class="view-header"><div class="view-identity"><span class="section-kicker">Port City FC · Business Intelligence &amp; Analytics</span><h1>${title}</h1><p>${copy.description}</p></div><div class="view-actions"><button class="secondary-button" data-action="export-view">Export Data</button>${actions ? '<button class="primary-button" data-action="open-decisions">Review Actions <span>→</span></button>' : ""}</div></header>${evidenceNote()}`;
 }
 
 function sparkline(values, tone = "primary") {
@@ -471,7 +479,7 @@ function commandView() {
       )}
       ${panel(
         "Owner attention queue",
-        "The three items most likely to change the operating plan.",
+        "Three proposed review questions; priority awaits club validation.",
         `<div class="decision-list">${data.decisions
           .slice(0, 3)
           .map(
@@ -481,7 +489,7 @@ function commandView() {
           .join(
             "",
           )}</div><button class="ghost-button" data-view="decisions" type="button">View decision register →</button>`,
-        { action: '<span class="status-pill risk">3 need attention</span>' },
+        { action: '<span class="status-pill risk">3 review questions</span>' },
       )}
     </section>
     <section class="dashboard-grid">
@@ -602,47 +610,164 @@ function scenarioCalculation(model = scenarioModel) {
   return calculateSeasonScenario(model);
 }
 
-function rangeControl(name, label, minimum, maximum, step, formatter = number) {
+const scenarioFields = {
+  expectedAttendance: [
+    "Expected Fans per Home Match",
+    0,
+    8000,
+    1,
+    "",
+    "Demand is capped at venue capacity in every calculation.",
+  ],
+  venueCapacity: [
+    "Venue Capacity",
+    1,
+    10000,
+    100,
+    "",
+    "The maximum number of attendees at one home match.",
+  ],
+  ticketPrice: [
+    "Average Ticket Price",
+    0,
+    40,
+    1,
+    "$",
+    "Average price paid by guests who buy a ticket.",
+  ],
+  homeMatches: [
+    "Home Matches",
+    1,
+    16,
+    1,
+    "",
+    "Use the home-match count for this plan, not the full home-and-away schedule.",
+  ],
+  complimentaryPct: [
+    "Guests Admitted Free",
+    0,
+    100,
+    1,
+    "%",
+    "The percentage of attendees who enter without paying for a ticket.",
+  ],
+  concessionParticipationPct: [
+    "Fans Buying Food or Drink",
+    0,
+    100,
+    1,
+    "%",
+    "Share of all attendees who buy food or drink, including free-entry guests.",
+  ],
+  averageConcessionSpend: [
+    "Spend per Food or Drink Buyer",
+    0,
+    25,
+    0.25,
+    "$",
+    "Average amount spent by each participating guest.",
+  ],
+  merchandiseParticipationPct: [
+    "Fans Buying Merchandise",
+    0,
+    100,
+    1,
+    "%",
+    "Share of all attendees who buy merchandise.",
+  ],
+  averageMerchandiseSpend: [
+    "Spend per Merchandise Buyer",
+    0,
+    100,
+    1,
+    "$",
+    "Average merchandise spending by each buyer.",
+  ],
+  sponsorIncome: [
+    "Sponsorship Amount",
+    0,
+    50000,
+    500,
+    "$",
+    "Choose whether this funding applies per home match or once to the season.",
+  ],
+  variableCostPerAttendee: [
+    "Cost per Attendee",
+    0,
+    20,
+    0.1,
+    "$",
+    "Extra consumables or operating costs for each guest, paid or free.",
+  ],
+  communityAllocationPct: [
+    "Community Funding",
+    0,
+    100,
+    1,
+    "%",
+    "Percentage of all receipts, including sponsorship, set aside for community activity.",
+  ],
+  weatherRiskPct: [
+    "Weather Buffer",
+    0,
+    50,
+    1,
+    "%",
+    "Planning deduction from ticket, food, drink and merchandise receipts. This is not a probability.",
+  ],
+  operationalRiskPct: [
+    "Operations Buffer",
+    0,
+    50,
+    1,
+    "%",
+    "An additional planning deduction from attendee-linked receipts, excluding sponsorship.",
+  ],
+};
+for (const [key, label] of [
+  ["marketingSpend", "Marketing"],
+  ["staffing", "Staffing"],
+  ["security", "Security"],
+  ["officials", "Officials"],
+  ["venueCosts", "Venue"],
+  ["transportation", "Transport"],
+  ["equipment", "Equipment"],
+])
+  scenarioFields[key] = [label, 0, 30000, 50, "$", "Cost per home match."];
+function rangeControl(name) {
+  const [label, min, max, step, unit, help] = scenarioFields[name];
   const value = scenarioModel[name];
-  return `<div class="range-control"><label for="scenario-${name}">${label}</label><output id="output-${name}">${formatter(value)}</output><input id="scenario-${name}" data-scenario-input="${name}" type="range" min="${minimum}" max="${maximum}" step="${step}" value="${value}"><div class="range-scale"><span>${formatter(minimum)}</span><span>${formatter(maximum)}</span></div></div>`;
+  return `<div class="lab-control"><label for="scenario-${name}">${label}${unit === "%" ? " (%)" : ""}</label><div class="lab-value-wrap">${unit === "$" ? "<span>$</span>" : ""}<input id="scenario-${name}" data-scenario-input="${name}" type="number" min="${min}" max="${Math.max(max, value)}" step="${step}" value="${value}" aria-describedby="help-${name}">${unit === "%" ? "<span>%</span>" : ""}<output id="output-${name}" hidden>${value}</output></div><input data-scenario-range="${name}" style="--range-fill:${((value - min) / (Math.max(max, value) - min)) * 100}%" type="range" min="${min}" max="${Math.max(max, value)}" step="${step}" value="${value}" aria-label="${label} slider"><small id="help-${name}">${help}</small>${name === "complimentaryPct" ? '<small id="free-entry-explanation">' + freeEntryExplanation(scenarioModel) + "</small>" : ""}<span class="lab-number-error" id="error-${name}" hidden></span></div>`;
 }
-
 function scenariosView() {
   const result = scenarioCalculation();
-  return `${viewHeader(false)}
-    <div class="callout info" style="margin-bottom:14px"><b>Illustrative sandbox—not an approved club forecast.</b> Inputs are synthetic planning assumptions. Nothing is written to a server; exports remain on your device.</div>
-    <section class="scenario-layout">
-      ${panel(
-        "Scenario assumptions",
-        "All costs below are per home fixture except sponsor funding, which is a single season allocation.",
-        `<div class="segmented" style="margin-bottom:16px">${data.scenarioPresets.map((preset) => `<button data-preset="${preset.id}" class="${preset.id === scenarioModel.id ? "active" : ""}">${preset.name}</button>`).join("")}</div><div class="scenario-controls"><label>Scenario program<select id="scenario-program" aria-label="Scenario program"><option ${scenarioModel.program === "Men" ? "selected" : ""}>Men</option><option ${scenarioModel.program === "Women" ? "selected" : ""}>Women</option></select></label>${rangeControl("expectedAttendance", "Demand per home fixture", 0, 8000, 1)}${rangeControl("venueCapacity", "Venue capacity", 500, 10000, 100)}${rangeControl("ticketPrice", "Average paid ticket price", 0, 40, 1, preciseMoney)}${rangeControl("homeMatches", "Assumed home matches", 1, 16, 1)}${rangeControl("complimentaryPct", "Complimentary share of attendance", 0, 100, 1, (value) => percent(value, 0))}${rangeControl("concessionParticipationPct", "Concession participation", 0, 100, 1, (value) => percent(value, 0))}${rangeControl("averageConcessionSpend", "Average concession spend", 0, 25, 0.25, preciseMoney)}${rangeControl("sponsorIncome", "Season sponsor allocation", 0, 50000, 500, preciseMoney)}</div><details class="assumption-details"><summary>All cost, allocation and risk assumptions</summary><div class="scenario-controls">${[
-          ["marketingSpend", "Marketing / fixture"],
-          ["staffing", "Staffing / fixture"],
-          ["security", "Security / fixture"],
-          ["officials", "Officials / fixture"],
-          ["venueCosts", "Venue / fixture"],
-          ["transportation", "Transport / fixture"],
-          ["equipment", "Equipment / fixture"],
-        ]
-          .map(([key, label]) => rangeControl(key, label, 0, 30000, 50, preciseMoney))
-          .join(
-            "",
-          )}${rangeControl("variableCostPerAttendee", "Consumables cost / attendee", 0, 20, 0.1, preciseMoney)}${rangeControl("merchandiseParticipationPct", "Merchandise participation", 0, 100, 1, (value) => percent(value, 0))}${rangeControl("averageMerchandiseSpend", "Average merchandise spend", 0, 100, 1, preciseMoney)}${rangeControl("communityAllocationPct", "Community allocation / total revenue", 0, 100, 1, (value) => percent(value, 0))}${rangeControl("weatherRiskPct", "Weather allowance / variable receipts", 0, 50, 1, (value) => percent(value, 0))}${rangeControl("operationalRiskPct", "Operational allowance / variable receipts", 0, 50, 1, (value) => percent(value, 0))}</div></details><div style="display:flex;gap:8px;margin-top:18px"><button class="secondary-button" data-action="reset-scenario">Reset</button><button class="primary-button" data-action="export-scenario">Export full scenario</button></div>`,
-        { action: '<span class="status-pill warn">Planning assumptions</span>' },
-      )}
-      ${panel("Season scenario outcome", "Attendance and all attendee-linked receipts are capped at venue capacity. Expected paid attendance may be fractional in the planning equation.", `<div class="scenario-output-grid"><div class="scenario-output"><small>Season revenue</small><b id="scenario-revenue">${money(result.totalRevenue)}</b><span>Tickets + concessions + merchandise + sponsor funding</span></div><div class="scenario-output"><small>Contribution after risk allowance</small><b id="scenario-contribution">${money(result.contribution)}</b><span id="scenario-margin">${percent(result.margin)} of scenario revenue</span></div><div class="scenario-output"><small>Break-even total attendance</small><b id="scenario-break-even">${breakEvenLabel(result)}</b><span id="scenario-feasibility">${result.feasible ? "Per home fixture · within capacity" : "Not achievable within current capacity"}</span></div><div class="scenario-output"><small>Season risk allowance</small><b id="scenario-risk">${money(result.riskReserve)}</b><span>Planning deduction, not an observed expense</span></div></div><div class="scenario-waterfall" id="scenario-waterfall">${waterfall(result)}</div><div id="scenario-detail">${scenarioDetail(result)}</div><div class="callout ${result.contribution >= 0 ? "info" : "warn"}" id="scenario-callout"><b>${result.contribution >= 0 ? "Positive scenario contribution." : "Negative scenario contribution."}</b> Validate assumptions, funding and an authorized cash balance before any approval.</div>`, { action: '<span class="status-pill" id="scenario-status">Calculated from assumptions</span>' })}
-    </section>`;
+  return `<div class="lab-shell"><header class="lab-header"><div><span class="lab-eyebrow">Port City FC · Planning</span><h1>Scenario Lab</h1><p>Adjust matchday assumptions. See what changes, and why.</p></div><div class="lab-evidence">Synthetic demonstration · public sandbox <button class="ghost-button" data-detail="evidence">About the Data ↗</button><button class="secondary-button" data-action="export-view">Export Scenario</button></div></header>
+ <p id="lab-input-status" class="lab-validation" role="status" hidden></p><div class="lab-layout"><div class="lab-inputs">
+ <div class="lab-presets">${data.scenarioPresets.map((p) => `<button data-preset="${p.id}" class="${p.id === scenarioModel.id ? "active" : ""}">${p.name}</button>`).join("")}</div>
+ <section class="lab-input-group"><h2 class="lab-group-heading">${icons.calendar} Match Setup</h2><div class="lab-select-grid"><label class="lab-field"><span>Program</span><select id="scenario-program" aria-label="Scenario program"><option ${scenarioModel.program === "Men" ? "selected" : ""}>Men</option><option ${scenarioModel.program === "Women" ? "selected" : ""}>Women</option></select></label><div>${rangeControl("homeMatches")}</div></div></section>
+ <section class="lab-input-group"><h2 class="lab-group-heading">${icons.access} Attendance & Tickets</h2>${["expectedAttendance", "venueCapacity", "ticketPrice", "complimentaryPct"].map((k) => rangeControl(k)).join("")}</section>
+ <details class="assumption-details"><summary>Food, Drink & Merchandise</summary><section class="lab-input-group">${["concessionParticipationPct", "averageConcessionSpend", "merchandiseParticipationPct", "averageMerchandiseSpend"].map((k) => rangeControl(k)).join("")}</section></details>
+ <details class="assumption-details"><summary>Sponsorship</summary><section class="lab-input-group">${rangeControl("sponsorIncome")}<label class="lab-field"><span>Funding Applies</span><select id="scenario-sponsor-frequency" aria-label="Sponsor frequency"><option ${scenarioModel.sponsorFrequency === "Per fixture" ? "selected" : ""}>Per fixture</option><option ${scenarioModel.sponsorFrequency === "Per season" ? "selected" : ""}>Per season</option></select><small>Per fixture means once per home match. Per season means once across this plan.</small></label></section></details>
+ <details class="assumption-details"><summary>Costs & Allowances</summary><section class="lab-input-group">${["marketingSpend", "staffing", "security", "officials", "venueCosts", "transportation", "equipment", "variableCostPerAttendee", "communityAllocationPct", "weatherRiskPct", "operationalRiskPct"].map((k) => rangeControl(k)).join("")}</section></details>
+ <div class="lab-input-footer"><button class="secondary-button" data-action="reset-scenario">Reset Inputs</button><button class="primary-button" data-action="export-scenario">Export Scenario</button></div></div>
+ <aside class="lab-results" aria-label="Live scenario results"><button class="lab-mobile-expand" data-action="expand-chart" aria-expanded="false">Expand Graph</button><div class="lab-outcome" id="lab-outcome">${scenarioOutcomeMarkup(scenarioModel, scenarioReference)}</div><div class="lab-chart-host" id="scenario-live-chart"></div>
+ <div class="lab-stat-grid"><div class="lab-stat"><small>Money Coming In</small><b id="scenario-revenue">${money(result.totalRevenue)}</b><span>All receipts in this plan</span></div><div class="lab-stat"><small>Costs & Allowances</small><b id="scenario-costs">${money(result.seasonCost + result.community + result.riskReserve)}</b><span>Includes <span id="scenario-risk">${money(result.riskReserve)}</span> buffer</span></div><div class="lab-stat"><small>Fans to Break Even</small><b id="scenario-break-even">${breakEvenLabel(result)}</b><span id="scenario-feasibility">${result.feasible ? "Per home match" : "Above venue capacity"}</span></div></div>
+ <p class="lab-verdict" id="scenario-callout">${scenarioExplanation(scenarioModel)}</p><details class="lab-method"><summary>View the Calculation & Breakdown</summary><div class="lab-method-body"><p>Conditional planning, not an approved club forecast. Shared overhead and taxes are excluded. Free-entry guests can still buy food, drink or merchandise. Changes stay in this browser; exports contain the complete input and output record.</p><div class="scenario-waterfall" id="scenario-waterfall">${waterfall(result)}</div><div id="scenario-detail">${scenarioDetail(result)}</div></div></details></aside></div>
+ <div id="view-scope" class="lab-evidence lab-scope-footer">${viewScope()} · synthetic demonstration · assumptions require confirmation</div></div>`;
 }
 
 function breakEvenLabel(result) {
   return result.breakEven === null ? "No finite solution" : number(result.breakEven);
 }
 function scenarioDetail(result) {
-  return `<div class="data-table-wrap"><table class="data-table"><thead><tr><th>Season equation component</th><th>Amount</th></tr></thead><tbody>${[
+  return `<div class="data-table-wrap"><table class="data-table"><thead><tr><th>Scoped equation component</th><th>Amount</th></tr></thead><tbody>${[
     ["Ticket receipts", result.ticket],
     ["Concession receipts", result.concession],
     ["Merchandise receipts", result.merchandise],
-    ["Sponsor allocation (once per season)", scenarioModel.sponsorIncome],
+    [
+      `Sponsor allocation (${scenarioModel.sponsorFrequency.toLowerCase()})`,
+      result.sponsorshipAllocation,
+    ],
     ["Fixed direct costs × home matches", -result.fixedSeasonCost],
     ["Attendance-linked consumables cost", -result.attendeeCost],
     ["Community allocation", -result.community],
@@ -714,7 +839,7 @@ function accessView() {
   return `${viewHeader(false)}
     <section class="section-grid">
       <div class="span-8">${panel("Full-application permission reference", "Derived from lib/rbac.ts at build time. These are local application roles, not authenticated roles in this public website.", `<div class="data-table-wrap"><table class="data-table"><thead><tr><th>Capability</th>${roleColumns.map(([label]) => `<th>${label}</th>`).join("")}</tr></thead><tbody>${rows.map(([label, permission]) => `<tr><td>${label}<br><small>${permission}</small></td>${roleColumns.map(([, role]) => `<td>${data.permissions[role].includes("*") || data.permissions[role].includes(permission) ? "Yes" : "No"}</td>`).join("")}</tr>`).join("")}</tbody></table></div>`, { action: '<span class="status-pill">Implementation reference</span>' })}</div>
-      <div class="span-4">${panel("Public demonstration", "Anyone with the public URL can inspect these synthetic records.", `<div class="scenario-output-grid"><div class="scenario-output"><small>Views</small><b>${views.length}</b><span>Decision workspaces</span></div><div class="scenario-output"><small>Server writes</small><b>0</b><span>Static local calculations only</span></div></div><div class="callout info" style="margin-top:10px">This deployment has no club database or role-based sign-in. The repository's PostgreSQL and transactional audit workflow is demonstrated separately. Local filters are a convenience, not access control.</div>`, { action: '<span class="status-pill">Public read-only</span>' })}</div>
+      <div class="span-4">${panel("Public demonstration", "Anyone with the public URL can inspect these synthetic records.", `<div class="scenario-output-grid"><div class="scenario-output"><small>Views</small><b>${views.length}</b><span>Club Workspaces</span></div><div class="scenario-output"><small>Server writes</small><b>0</b><span>Static local calculations only</span></div></div><div class="callout info" style="margin-top:10px">This deployment has no club database or role-based sign-in. The repository's PostgreSQL and transactional audit workflow is demonstrated separately. Local filters are a convenience, not access control.</div>`, { action: '<span class="status-pill">Public read-only</span>' })}</div>
       <div class="span-12">${panel("Audit evidence", "Synthetic examples show the shape of an accountable operating trail.", `<div class="data-table-wrap"><table class="data-table"><thead><tr><th>Time</th><th>Actor role</th><th>Action</th><th>Object</th><th>Result</th></tr></thead><tbody>${data.auditEvents.map((event) => `<tr><td>${event.time}</td><td><strong>${event.actor}</strong></td><td>${event.action}</td><td>${event.object}</td><td><span class="status-pill good">${event.result}</span></td></tr>`).join("")}</tbody></table></div>`, { action: '<button class="secondary-button" data-action="export-audit">Export audit</button>' })}</div>
     </section>`;
 }
@@ -732,10 +857,13 @@ const renderers = {
 };
 
 function render() {
+  scenarioChart?.destroy();
+  scenarioChart = null;
+  document.body.dataset.view = state.view;
   document.documentElement.dataset.theme = state.theme;
   renderNav();
   $("#breadcrumb-view").textContent =
-    views.find((view) => view.id === state.view)?.label || "Command center";
+    views.find((view) => view.id === state.view)?.label || "Command Center";
   $("#filter-summary").textContent = viewScope();
   $("#period-filter").value = state.period;
   $("#program-filter").value = state.program;
@@ -755,6 +883,9 @@ function render() {
     ? `${state.period} finance · 2026 sample`
     : "Synthetic demonstration";
   $("#workspace").innerHTML = renderers[state.view]();
+  if (state.view === "scenarios")
+    scenarioChart = mountScenarioChart($("#scenario-live-chart"), scenarioModel, scenarioReference);
+  polishTitles();
   document.title = `${views.find((view) => view.id === state.view)?.label || "Workspace"} | ${data.meta.product}`;
   $("#tooltip").classList.remove("visible");
   window.scrollTo({ top: 0, behavior: "auto" });
@@ -775,6 +906,7 @@ function openDrawer(kicker, title, body) {
   $("#drawer-kicker").textContent = kicker;
   $("#drawer-title").textContent = title;
   $("#drawer-body").innerHTML = body;
+  polishTitles();
   $("#detail-drawer").classList.add("open");
   $("#detail-drawer").setAttribute("aria-hidden", "false");
   $("#drawer-scrim").classList.add("open");
@@ -933,28 +1065,31 @@ function exportFor(action) {
 
 function resetScenario(preset = baseline) {
   scenarioModel = { ...preset };
+  scenarioReference = { ...preset };
   render();
   showToast("Scenario reset", `${scenarioModel.name} assumptions restored.`);
 }
 
 function updateScenario() {
   const result = scenarioCalculation();
+  $("#lab-outcome").innerHTML = scenarioOutcomeMarkup(scenarioModel, scenarioReference);
   $("#scenario-revenue").textContent = money(result.totalRevenue);
-  $("#scenario-contribution").textContent = money(result.contribution);
-  $("#scenario-margin").textContent = `${percent(result.margin)} of scenario revenue`;
+  $("#scenario-costs").textContent = money(
+    result.seasonCost + result.community + result.riskReserve,
+  );
+  $("#scenario-risk").textContent = money(result.riskReserve);
   $("#scenario-break-even").textContent = breakEvenLabel(result);
   $("#scenario-feasibility").textContent = result.feasible
-    ? "Per home fixture · within capacity"
-    : "Not achievable within current capacity";
-  $("#scenario-risk").textContent = money(result.riskReserve);
+    ? "Per home match"
+    : "Not achievable within capacity";
   $("#scenario-waterfall").innerHTML = waterfall(result);
   $("#scenario-detail").innerHTML = scenarioDetail(result);
-  $("#view-scope").innerHTML =
-    `<b>Synthetic demonstration</b><span>${viewScope()}</span><small>Independent assumptions; PCFC approval pending.</small>`;
+  $("#free-entry-explanation").textContent = freeEntryExplanation(scenarioModel);
+  $("#scenario-callout").textContent = scenarioExplanation(scenarioModel);
+  $("#view-scope").textContent =
+    viewScope() + " · synthetic demonstration · assumptions require confirmation";
   $("#filter-summary").textContent = viewScope();
-  $("#scenario-callout").className = `callout ${result.contribution >= 0 ? "info" : "warn"}`;
-  $("#scenario-callout").innerHTML =
-    `<b>${result.contribution >= 0 ? "Positive scenario contribution." : "Negative scenario contribution."}</b> Validate assumptions, funding and an authorized cash balance before approval.`;
+  scenarioChart?.update(scenarioModel, scenarioReference);
 }
 
 function paletteItems(query = "") {
@@ -998,6 +1133,14 @@ function closeRail() {
 }
 
 function handleAction(action) {
+  if (action === "expand-chart") {
+    const panel = $(".lab-results");
+    const expanded = panel.classList.toggle("expanded");
+    const button = $('[data-action="expand-chart"]');
+    button.textContent = expanded ? "Compact Graph" : "Expand Graph";
+    button.setAttribute("aria-expanded", String(expanded));
+    return;
+  }
   if (action.startsWith("export")) exportFor(action);
   else if (action === "open-decisions") navigate("decisions");
   else if (action === "print-view") window.print();
@@ -1005,7 +1148,7 @@ function handleAction(action) {
   else if (action === "presentation-brief") presentationBrief();
   else if (action === "print-owner-brief") {
     $("#presentation-print").innerHTML =
-      `<h1>Port City FC · stakeholder review briefing</h1>${presentationBody()}<p>Input snapshot: ${data.meta.snapshotAt} · Release: ${data.meta.release}</p>`;
+      `<h1>${escapeHtml(data.meta.product)}</h1><p>Stakeholder review briefing</p>${presentationBody()}<p>Input snapshot: ${data.meta.snapshotAt} · Release: ${data.meta.release}</p>`;
     document.body.classList.add("print-owner");
     window.print();
   }
@@ -1067,23 +1210,53 @@ $("#program-filter").addEventListener("change", (event) => {
 });
 
 $("#workspace").addEventListener("input", (event) => {
-  if (event.target.dataset.scenarioInput) {
+  if (event.target.dataset.scenarioInput || event.target.dataset.scenarioRange) {
+    const key = event.target.dataset.scenarioInput || event.target.dataset.scenarioRange;
+    const value = event.target.value === "" ? NaN : Number(event.target.value);
+    const next = { ...scenarioModel, [key]: value };
+    const error = $("#error-" + key);
+    try {
+      calculateSeasonScenario(next);
+      if (value < Number(event.target.min) || value > Number(event.target.max))
+        throw Error("Enter a value between " + event.target.min + " and " + event.target.max + ".");
+      error.hidden = true;
+      event.target.removeAttribute("aria-invalid");
+    } catch {
+      error.textContent =
+        "Enter a valid value within the shown limits. Combined weather and operations buffers cannot exceed 100%.";
+      error.hidden = false;
+      event.target.setAttribute("aria-invalid", "true");
+      $("#lab-input-status").hidden = false;
+      $("#lab-input-status").textContent =
+        "Showing the last valid result. Correct the highlighted input before exporting.";
+      $("#workspace")
+        .querySelectorAll('[data-action="export-scenario"],[data-action="export-view"]')
+        .forEach((button) => (button.disabled = true));
+      return;
+    }
     scenarioModel = {
-      ...scenarioModel,
+      ...next,
       id: "custom",
       name: "Custom",
-      [event.target.dataset.scenarioInput]: Number(event.target.value),
+      scope: next.homeMatches === 1 ? "Per fixture" : "Season",
     };
-    const output = $(`#output-${event.target.dataset.scenarioInput}`);
-    if (output) {
-      const key = event.target.dataset.scenarioInput;
-      const formatter = key.endsWith("Pct")
-        ? (value) => percent(value, 0)
-        : key === "expectedAttendance" || key === "homeMatches" || key === "venueCapacity"
-          ? number
-          : preciseMoney;
-      output.textContent = formatter(Number(event.target.value));
-    }
+    const peer = event.target.dataset.scenarioInput
+      ? $('[data-scenario-range="' + key + '"]')
+      : $("#scenario-" + key);
+    peer.value = String(value);
+    for (const slider of $("#workspace").querySelectorAll("[data-scenario-range]"))
+      slider.style.setProperty(
+        "--range-fill",
+        ((Number(slider.value) - Number(slider.min)) / (Number(slider.max) - Number(slider.min))) *
+          100 +
+          "%",
+      );
+    const blocked = $("#workspace").querySelectorAll(".lab-number-error:not([hidden])").length > 0;
+    $("#lab-input-status").hidden = !blocked;
+    $("#workspace")
+      .querySelectorAll('[data-action="export-scenario"],[data-action="export-view"]')
+      .forEach((button) => (button.disabled = blocked));
+    $("#output-" + key).textContent = String(value);
     $("#workspace")
       .querySelectorAll("[data-preset]")
       .forEach((button) => button.classList.remove("active"));
@@ -1091,6 +1264,7 @@ $("#workspace").addEventListener("input", (event) => {
   } else if (event.target.id === "sponsor-search") {
     state.sponsorQuery = event.target.value;
     $("#workspace").innerHTML = commercialView();
+    polishTitles();
     $("#sponsor-search").focus({ preventScroll: true });
   }
 });
@@ -1099,6 +1273,19 @@ $("#workspace").addEventListener("change", (event) => {
   if (event.target.id === "sponsor-sort") {
     state.sponsorSort = event.target.value;
     $("#workspace").innerHTML = commercialView();
+    polishTitles();
+  }
+  if (event.target.id === "scenario-sponsor-frequency") {
+    scenarioModel = {
+      ...scenarioModel,
+      sponsorFrequency: event.target.value,
+      id: "custom",
+      name: "Custom",
+    };
+    $("#workspace")
+      .querySelectorAll("[data-preset]")
+      .forEach((button) => button.classList.remove("active"));
+    updateScenario();
   }
   if (event.target.id === "scenario-program") {
     scenarioModel = { ...scenarioModel, program: event.target.value, id: "custom", name: "Custom" };

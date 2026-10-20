@@ -1,5 +1,14 @@
 {
   "generatedAt": "2026-10-12T00:00:00.000Z",
+  "referenceDate": "2026-10-12",
+  "timestampMeaning": "generatedAt is the retained deterministic input-snapshot timestamp, not the execution/build date",
+  "sourceSha256": {
+    "financial_periods.json": "8a273b147956ded880d60a985114ca14490efb2566255862d9d00e8d75f3f8cd",
+    "finance_monthly.csv": "e88d464635c8df7dcaa831e1de3eb7867535d6699479acfb0811e067133cfdf5",
+    "finance_categories.csv": "aeb281161ea109993d334c404c1cb29cdf482c4637b88f333af1807e98d18949",
+    "operating_assumptions.csv": "bb31e5538677576b9d455a953ab9c5e4251ae4a378ba69e92adbd800af88d915",
+    "staffing_roles.csv": "5383f7811bd28150b3c0129b982657587100cb84ab61ed8524d68d05f39e7de7"
+  },
   "classification": "Synthetic demonstration data",
   "privacyBoundary": "No staff contacts, source payees, bank transactions, private filenames or interview attribution.",
   "checks": [
@@ -64,6 +73,7 @@
     "factOperations": 10
   },
   "sha256": {
+    "public-reference.json": "e98f155c98a0d5cec4d9644320a339597d0e2a045e705c55e5d354279d4689e7",
     "dim_date.csv": "e0a8b8ca9966499877714a749bd65f1da88a712bae7ff94d6e1cdf52a837a751",
     "dim_program.csv": "ae1f5d27005c31d06e775ba160a89aa1949cba88278bb93489a010bbb67e903e",
     "dim_metric.csv": "140e7819f8fd052004dda1d70427737926eb28805239d0f4f2ab655ce1000ed0",

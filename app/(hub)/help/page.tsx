@@ -7,12 +7,12 @@ export default function HelpPage() {
     <>
       <PageHeader
         eyebrow="In-application help"
-        title="Use the hub with confidence."
+        title="Help & Methods"
         description="Operating guidance, calculation definitions, import controls, recovery procedures, and clear boundaries for future integrations."
       />
       <div className="grid-2">
         <Card className="padded">
-          <CardHeader title="Start here" description="Role-aware operating guides" />
+          <CardHeader title="Start Here" description="Role-aware operating guides" />
           <ul className="action-list">
             <li className="action-item">
               <span className="risk-index">
@@ -56,7 +56,7 @@ export default function HelpPage() {
           </ul>
         </Card>
         <Card className="padded radar-panel">
-          <CardHeader title="Calculation methodology" description="Version PCFC-DIH-CALC-1.0" />
+          <CardHeader title="Calculation Methodology" description="Version PCFC-DIH-CALC-1.0" />
           <div className="metric-list">
             <div className="metric-row">
               <span>Paid attendance</span>
@@ -90,7 +90,7 @@ export default function HelpPage() {
       </div>
       <Card className="padded">
         <CardHeader
-          title="Integration boundary register"
+          title="Integration Boundary Register"
           description="No integration is claimed until it is authorized, implemented, reconciled, and tested."
         />
         <DataTable
@@ -134,7 +134,7 @@ export default function HelpPage() {
       <div className="grid-2 section-gap">
         <Card className="padded">
           <CardHeader
-            title="Backup & restore"
+            title="Backup & Restore"
             description="PostgreSQL procedures are documented and operator-owned."
           />
           <div className="callout">
@@ -151,7 +151,7 @@ export default function HelpPage() {
         </Card>
         <Card className="padded">
           <CardHeader
-            title="Security responsibilities"
+            title="Security Responsibilities"
             description="A pilot is not a compliance certification."
           />
           <div className="callout">

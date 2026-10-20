@@ -41,11 +41,11 @@
                       "Entity": "FactFinanceCategory"
                     }
                   },
-                  "Property": "Category Amount"
+                  "Property": "Annual Category Amount"
                 }
               },
-              "queryRef": "FactFinanceCategory.Category Amount",
-              "nativeQueryRef": "Category Amount"
+              "queryRef": "FactFinanceCategory.Annual Category Amount",
+              "nativeQueryRef": "Annual Category Amount"
             }
           ]
         }

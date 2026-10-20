@@ -41,7 +41,7 @@
         {
           at: 0,
           image: "/walkthrough/frames/01-ownership.png",
-          kicker: "PORT CITY FC · DECISION INTELLIGENCE",
+          kicker: "PORT CITY FC · BUSINESS INTELLIGENCE & ANALYTICS",
           title: "From disconnected evidence to governed decisions",
           note: "Sanitized portfolio walkthrough",
         },
@@ -56,7 +56,7 @@
           at: 58,
           image: "/walkthrough/frames/02-dashboard.png",
           kicker: "02 · FINDING",
-          title: "Concentration plus a thin cash margin",
+          title: "A concentration question, not an achieved benefit",
           note: "Finding → decision → accountable owner",
         },
         {
@@ -68,10 +68,10 @@
         },
         {
           at: 132,
-          image: "/walkthrough/frames/04-case-study.png",
+          image: "/walkthrough/frames/04-operations.png",
           kicker: "04 · ARCHITECTURE & TRACEABILITY",
           title: "Every requirement connects to evidence and a test",
-          note: "Pipeline · star schema · RLS · PostgreSQL · CI",
+          note: "Typed records · atomic imports · PostgreSQL · audit",
         },
         {
           at: 168,
@@ -105,46 +105,67 @@
         const image = loadImage(frame.image);
         context.fillStyle = "#071e2b";
         context.fillRect(0, 0, 1280, 720);
-        if (image.complete) context.drawImage(image, 0, 0, 1280, 720);
+        if (image.complete && image.naturalWidth) {
+          const scale = Math.min(1280 / image.naturalWidth, 720 / image.naturalHeight);
+          const width = image.naturalWidth * scale,
+            height = image.naturalHeight * scale;
+          context.drawImage(image, (1280 - width) / 2, (720 - height) / 2, width, height);
+        }
 
-        const gradient = context.createLinearGradient(0, 360, 0, 720);
+        const gradient = context.createLinearGradient(0, 570, 0, 720);
         gradient.addColorStop(0, "rgba(5,26,38,0)");
-        gradient.addColorStop(0.48, "rgba(5,26,38,.68)");
+        gradient.addColorStop(0.48, "rgba(5,26,38,.3)");
         gradient.addColorStop(1, "rgba(5,26,38,.96)");
         context.fillStyle = gradient;
         context.fillRect(0, 0, 1280, 720);
 
         context.fillStyle = "rgba(15,58,72,.92)";
-        roundedRect(54, 500, 1172, 166, 18);
+        roundedRect(54, 610, 1172, 94, 12);
         context.fillStyle = "#67c6b7";
-        context.font = "700 15px system-ui, sans-serif";
-        context.fillText(frame.kicker, 84, 538);
+        context.font = "700 12px system-ui, sans-serif";
+        context.fillText(frame.kicker, 84, 632);
         context.fillStyle = "#ffffff";
-        context.font = "700 38px Georgia, serif";
-        context.fillText(frame.title, 84, 590);
+        context.font = "700 24px Georgia, serif";
+        context.fillText(frame.title, 84, 661);
         context.fillStyle = "#c7d9de";
-        context.font = "400 18px system-ui, sans-serif";
-        context.fillText(frame.note, 84, 627);
+        context.font = "400 13px system-ui, sans-serif";
+        context.fillText(frame.note, 84, 683);
 
-        const duration = audio.duration || 190;
+        const duration = 180;
         const progress = Math.min(1, time / duration);
         context.fillStyle = "rgba(255,255,255,.16)";
-        context.fillRect(84, 646, 1062, 4);
+        context.fillRect(84, 696, 1062, 3);
         context.fillStyle = "#67c6b7";
-        context.fillRect(84, 646, 1062 * progress, 4);
+        context.fillRect(84, 696, 1062 * progress, 3);
         context.fillStyle = "#c7d9de";
-        context.font = "600 13px system-ui, sans-serif";
-        context.fillText("PORT CITY FC INTELLIGENCE HUB", 982, 538);
+        context.save();
+        context.font = "600 10px system-ui, sans-serif";
+        context.textAlign = "right";
+        context.fillText("PORT CITY FC BUSINESS INTELLIGENCE & ANALYTICS", 1190, 632);
+        context.restore();
       }
 
       let animation;
       function animate() {
-        draw(audio.currentTime);
+        draw(audio.currentTime / audio.playbackRate);
         if (!audio.ended) animation = requestAnimationFrame(animate);
       }
 
       start.addEventListener("click", async () => {
         start.disabled = true;
+        document.title = "Preparing frames";
+        await Promise.all(frames.map((frame) => loadImage(frame.image).decode()));
+        document.title = "Preparing audio";
+        if (audio.readyState < 1)
+          await new Promise((resolve) =>
+            audio.addEventListener("loadedmetadata", resolve, { once: true }),
+          );
+        if (!Number.isFinite(audio.duration) || audio.duration <= 0)
+          throw new Error(
+            "Narration duration is unavailable; verify the media server and WAV file",
+          );
+        audio.playbackRate = audio.duration / 180;
+        audio.preservesPitch = true;
         await audio.play().then(() => audio.pause());
         audio.currentTime = 0;
         const audioContext = new AudioContext();
@@ -176,6 +197,7 @@
         });
         audio.addEventListener("ended", () => recorder.stop(), { once: true });
         recorder.start(1000);
+        document.title = "Recording";
         await audio.play();
         animate();
       });

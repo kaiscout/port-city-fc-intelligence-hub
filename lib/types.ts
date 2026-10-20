@@ -15,6 +15,13 @@ export interface ScenarioInput {
   id: string;
   name: string;
   program: Program;
+  scope: "Per fixture" | "Season";
+  homeMatches: number;
+  sponsorFrequency: "Per fixture" | "Per season";
+  variableCostPerAttendee: number;
+  provenance: string;
+  referenceDate: string;
+  version?: number;
   ticketPrice: number;
   expectedAttendance: number;
   venueCapacity: number;
@@ -48,13 +55,16 @@ export interface ScenarioResult {
   totalCost: number;
   contributionMargin: number;
   operatingMargin: number;
-  operatingMarginPct: number;
+  operatingMarginPct: number | null;
   breakEvenAttendance: number | null;
-  revenuePerAttendee: number;
-  costPerAttendee: number;
+  revenuePerAttendee: number | null;
+  costPerAttendee: number | null;
   downsideExposure: number;
   capacityUtilizationPct: number;
   charitableContribution: number;
+  feasible: boolean;
+  homeMatches: number;
+  grossBeforeAllowance: number;
 }
 
 export interface Fixture {

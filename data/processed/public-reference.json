@@ -1,0 +1,181 @@
+{
+  "referenceDate": "2026-10-12",
+  "financialPeriods": [
+    {
+      "id": "FY24",
+      "label": "Synthetic prior-year benchmark",
+      "startDate": "2024-01-01",
+      "endDate": "2024-12-31",
+      "transactions": 340,
+      "inflow": 63200,
+      "outflow": 60950,
+      "netCash": 2250,
+      "referenceDate": "2026-10-12",
+      "evidence": "Synthetic demonstration data"
+    },
+    {
+      "id": "FY25",
+      "label": "Synthetic current-year portfolio ledger",
+      "startDate": "2025-01-01",
+      "endDate": "2025-12-31",
+      "transactions": 312,
+      "inflow": 67500,
+      "outflow": 63700,
+      "netCash": 3800,
+      "referenceDate": "2026-10-12",
+      "evidence": "Synthetic demonstration data"
+    }
+  ],
+  "incomeCategories": [
+    {
+      "name": "Sponsorship",
+      "amount": 38000
+    },
+    {
+      "name": "Ticket sales",
+      "amount": 15400
+    },
+    {
+      "name": "Concessions",
+      "amount": 6400
+    },
+    {
+      "name": "Memberships",
+      "amount": 4200
+    },
+    {
+      "name": "Merchandise",
+      "amount": 2100
+    },
+    {
+      "name": "Other income",
+      "amount": 1400
+    }
+  ],
+  "expenseCategories": [
+    {
+      "name": "Travel and lodging",
+      "amount": 14200
+    },
+    {
+      "name": "Coaching staff and officials",
+      "amount": 13600
+    },
+    {
+      "name": "Operations and supplies",
+      "amount": 9400
+    },
+    {
+      "name": "Venue and fields",
+      "amount": 8100
+    },
+    {
+      "name": "Media and marketing",
+      "amount": 6800
+    },
+    {
+      "name": "League and registration",
+      "amount": 6200
+    },
+    {
+      "name": "Gear and merchandise",
+      "amount": 3400
+    },
+    {
+      "name": "Community programs",
+      "amount": 2000
+    }
+  ],
+  "monthly": [
+    {
+      "month": "Jan 25",
+      "inflow": 6000,
+      "outflow": 2500,
+      "net": 3500
+    },
+    {
+      "month": "Feb 25",
+      "inflow": 5000,
+      "outflow": 3200,
+      "net": 1800
+    },
+    {
+      "month": "Mar 25",
+      "inflow": 7500,
+      "outflow": 3800,
+      "net": 3700
+    },
+    {
+      "month": "Apr 25",
+      "inflow": 8000,
+      "outflow": 4200,
+      "net": 3800
+    },
+    {
+      "month": "May 25",
+      "inflow": 7000,
+      "outflow": 5200,
+      "net": 1800
+    },
+    {
+      "month": "Jun 25",
+      "inflow": 6000,
+      "outflow": 6100,
+      "net": -100
+    },
+    {
+      "month": "Jul 25",
+      "inflow": 6500,
+      "outflow": 7400,
+      "net": -900
+    },
+    {
+      "month": "Aug 25",
+      "inflow": 7500,
+      "outflow": 8200,
+      "net": -700
+    },
+    {
+      "month": "Sep 25",
+      "inflow": 5000,
+      "outflow": 7600,
+      "net": -2600
+    },
+    {
+      "month": "Oct 25",
+      "inflow": 4500,
+      "outflow": 6000,
+      "net": -1500
+    },
+    {
+      "month": "Nov 25",
+      "inflow": 2500,
+      "outflow": 5100,
+      "net": -2600
+    },
+    {
+      "month": "Dec 25",
+      "inflow": 2000,
+      "outflow": 4400,
+      "net": -2400
+    }
+  ],
+  "operating": [
+    {
+      "program": "Men",
+      "averageAttendance": 800,
+      "ticketPrice": 12,
+      "baseMatches": 10,
+      "playoffMatches": 12,
+      "concessionSpend": 8.5
+    },
+    {
+      "program": "Women",
+      "averageAttendance": 800,
+      "ticketPrice": 12,
+      "baseMatches": 10,
+      "playoffMatches": 12,
+      "concessionSpend": 8.5
+    }
+  ]
+}

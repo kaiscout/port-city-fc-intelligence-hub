@@ -70,6 +70,17 @@ check("FY25 months, categories and annual values reconcile independently", () =>
 check("Unknown periods cannot silently fall back", () =>
   assert.throws(() => financeModel(data, "FY23")),
 );
+check("Missing sponsorship and zero cash denominators stay unavailable", () => {
+  const copy = structuredClone(data);
+  copy.financialPeriods.find((p) => p.id === "FY25").inflow = 0;
+  assert.equal(financeModel(copy, "FY25").sponsorshipSharePct, null);
+  copy.financialPeriods.find((p) => p.id === "FY24").inflow = 0;
+  assert.equal(financeModel(copy, "FY25").inflowChangePct, null);
+  copy.financeBreakdowns.FY25.income = copy.financeBreakdowns.FY25.income.filter(
+    (r) => r.name !== "Sponsorship",
+  );
+  assert.equal(financeModel(copy, "FY25").sponsorshipSharePct, null);
+});
 check("Fixture totals and opportunity-weighted denominators", () => {
   const m = fixtureMetrics(selectFixtures(data));
   assert.equal(m.count, 8);

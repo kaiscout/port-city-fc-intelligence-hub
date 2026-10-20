@@ -46,7 +46,7 @@ export default function AboutPage() {
     <>
       <PageHeader
         eyebrow="About & provenance"
-        title="Independent by design. Explicit about evidence."
+        title="About This Project"
         description="This portfolio case study demonstrates a credible operating model while keeping official facts, synthetic records, calculations, and assumptions unmistakably separate."
       />
       <div className="grid-2">
@@ -79,7 +79,7 @@ export default function AboutPage() {
       </div>
       <Card className="padded">
         <CardHeader
-          title="Data provenance classification"
+          title="Data Provenance Classification"
           description="Every metric, record, or claim must fall into one of these seven classes."
         />
         <div className="provenance-grid">
@@ -96,7 +96,7 @@ export default function AboutPage() {
       </Card>
       <Card className="padded section-gap">
         <CardHeader
-          title="Published data-asset register"
+          title="Published Data-asset Register"
           description="Only sanitized, reproducible inputs and outputs available in this repository"
           action={<ShieldCheck size={18} />}
         />
@@ -128,7 +128,7 @@ export default function AboutPage() {
       </Card>
       <Card className="padded section-gap">
         <CardHeader
-          title="Official source register"
+          title="Official Source Register"
           description="Sources were reviewed on 11 October 2026. Public facts should be revalidated before any external presentation."
           action={<ShieldCheck size={18} />}
         />
@@ -162,7 +162,7 @@ export default function AboutPage() {
       </Card>
       <Card className="padded section-gap">
         <CardHeader
-          title="Brand asset boundary"
+          title="Brand Asset Boundary"
           description="The circular crest is an unaltered local copy served by the club’s current official site."
         />
         <p style={{ color: "#637283", fontSize: 11, lineHeight: 1.65 }}>

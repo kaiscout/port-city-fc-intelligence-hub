@@ -1,0 +1,15 @@
+{
+  "status": "PASS",
+  "duration": 180.711,
+  "width": 1280,
+  "height": 720,
+  "audioRms": 0.10070581026247767,
+  "audioDuration": 180,
+  "audioChannels": 2,
+  "audioDecodeEngine": "Chromium Web Audio",
+  "bytes": 20087036,
+  "sha256": "4cb3606beff50e348096bd9c2a3d637608e6e3cf0445aa20be7db6f3fa755dc5",
+  "decodedAudioSeconds": 10,
+  "seekScreenshots": [5, 65, 105, 145],
+  "checkedAt": "2026-10-18T04:42:07.525Z"
+}
