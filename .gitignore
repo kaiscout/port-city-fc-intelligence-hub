@@ -16,4 +16,5 @@ release/
 outputs/**/*.inspect.ndjson
 outputs/**/workbook-inspection.ndjson
 outputs/**/ownership-snapshot-preview.png
+/outputs/linkedin-*/
 walkthrough/narration.wav

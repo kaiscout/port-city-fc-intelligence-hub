@@ -2,6 +2,18 @@
 
 A football business-analysis portfolio product with a privacy-safe public demonstration and a separate authenticated PostgreSQL operating workspace.
 
+## Start here
+
+| Review goal                   | Recommended route                                                                                                                                                                   |
+| ----------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Explore the product           | [Live demonstration](https://pcfc.denizci.dev/) · [public interface screenshot](public/screenshots/polished-command-center.png)                                                     |
+| Assess business-analysis work | [Business case](docs/ba/business-case.md) → [requirements](docs/ba/requirements-catalog.md) → [traceability](docs/ba/traceability-matrix.md) → [UAT record](docs/ba/uat-results.md) |
+| Inspect engineering decisions | [Scenario engine](site/model.js), [server-side policies](lib/auth/policies.ts), [database schema](lib/server/schema.ts), [tests](tests/)                                            |
+| Inspect the BI deliverables   | [Power BI guide](powerbi/README.md), [analytical workbook](outputs/01a128c4-1c8c-71b0-819c-29eaae5a311f/PortCityFC_Analytics_Companion.xlsx)                                        |
+| Run or maintain the source    | Quick-start and verification commands below · [documentation index](docs/README.md)                                                                                                 |
+
+![Port City FC public business intelligence workspace](public/screenshots/polished-command-center.png)
+
 The project was renamed on 18 October 2026. The public domain and repository URL
 remain stable; dated release evidence, recordings and artifact filenames retain
 their historical identity rather than being retroactively rewritten.
@@ -64,6 +76,20 @@ Sign in at `http://127.0.0.1:3000/login` with the administrator you provisioned.
 For a production-mode local check, use `npm run build` then `npm run start` with the same private environment. Production refuses missing database/session configuration or a database-connected public mode. `APP_URL` must match the external origin and reverse proxies must preserve Host; writes reject missing or foreign origins. HTTPS is required outside loopback.
 
 ## Data and architecture
+
+### Repository map
+
+- `app/` and `components/` — authenticated application pages, HTTP boundaries, and shared interface.
+- `lib/` — calculations, authorization, domain rules, and persistence services.
+- `prisma/` — versioned PostgreSQL migrations; `lib/server/schema.ts` supplies the application schema.
+- `site/` — independently publishable static demonstration and shared scenario engine.
+- `data/` — approved public/synthetic inputs and deterministic generated reference data.
+- `tests/` and `scripts/` — behavioral checks, artifact generation, and bounded development tools.
+- `docs/` — business-analysis artifacts, operating guides, and dated verification evidence.
+- `powerbi/` — reproducible BI source; `walkthrough/` — presentation recording and its source.
+- `outputs/` — the checked-in analytical workbook; local marketing exports stay untracked.
+
+### Data flow
 
 Public raw sources → deterministic TypeScript generation → dimensions/facts/reference JSON + SHA-256 reconciliation → static hub, native demonstration, workbook and Power BI source. FY25 months/categories reconcile independently; FY24 stays annual-only.
 
