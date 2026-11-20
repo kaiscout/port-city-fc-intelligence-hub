@@ -14,6 +14,7 @@ The [KPI dictionary](ba/kpi-dictionary.md), [data dictionary](ba/data-dictionary
 - [Calculation methodology](operations/calculation-methodology.md)
 - [Permission matrix](operations/permission-matrix.md)
 - [Backup and restore](operations/backup-restore.md)
+- [Cloudflare hosting](operations/cloudflare-hosting.md)
 - [Power BI companion](../powerbi/README.md)
 - [Walkthrough guide](../walkthrough/README.md)
 - [Security and privacy scope](../SECURITY.md)

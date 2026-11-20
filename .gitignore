@@ -18,3 +18,7 @@ outputs/**/workbook-inspection.ndjson
 outputs/**/ownership-snapshot-preview.png
 /outputs/linkedin-*/
 walkthrough/narration.wav
+
+# Cloudflare / Wrangler local state
+.wrangler/
+.dev.vars

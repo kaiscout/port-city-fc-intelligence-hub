@@ -12,6 +12,8 @@
     "site:build": "tsx scripts/build-sites-demo.ts",
     "site:check": "npm run site:build && node scripts/check-sites-demo.mjs",
     "site:preview": "npm run site:build && node scripts/preview-sites-demo.mjs",
+    "cf:dev": "npm run site:build && wrangler dev",
+    "cf:deploy": "npm run site:build && npm run site:check && wrangler deploy",
     "site:test": "npm run site:build && node scripts/test-sites-model.mjs && node scripts/test-sites-demo.mjs",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
@@ -59,13 +61,15 @@
     "prettier": "^3.6.2",
     "tsx": "^4.20.6",
     "typescript": "^5.9.3",
-    "vitest": "^4.0.0"
+    "vitest": "^4.0.0",
+    "wrangler": "^4.166.0"
   },
   "engines": {
     "node": ">=22.0.0"
   },
   "allowScripts": {
     "esbuild@0.28.2": true,
-    "unrs-resolver@1.12.2": true
+    "unrs-resolver@1.12.2": true,
+    "workerd@1.20261119.1": true
   }
 }
