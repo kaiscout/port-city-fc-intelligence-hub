@@ -3,6 +3,7 @@
   // `npm run site:build` regenerates ./dist; `npm run cf:deploy` builds and uploads it.
   "$schema": "./node_modules/wrangler/config-schema.json",
   "name": "pcfc-intelligence-hub",
+  "account_id": "e37e60395246132a8b82855c6f6f1918",
   "compatibility_date": "2026-11-01",
   "assets": {
     "directory": "./dist",
