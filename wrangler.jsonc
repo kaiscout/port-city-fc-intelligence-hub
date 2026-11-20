@@ -5,6 +5,7 @@
   "name": "pcfc-intelligence-hub",
   "account_id": "e37e60395246132a8b82855c6f6f1918",
   "compatibility_date": "2026-11-01",
+  "routes": [{ "pattern": "pcfc.denizci.dev", "custom_domain": true }],
   "assets": {
     "directory": "./dist",
     "html_handling": "auto-trailing-slash",

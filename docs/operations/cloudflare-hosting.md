@@ -15,23 +15,18 @@ secret in the deployment. Configuration lives in `wrangler.jsonc`.
 `cf:dev` needs the current Microsoft Visual C++ Redistributable on Windows; without it
 the local runtime crashes with an access violation. `cf:deploy` does not depend on it.
 
-## First-time setup
+## Account and domain
 
-1. `npx wrangler login` (opens a browser to authorize Wrangler for the Cloudflare account).
-2. `npm run cf:deploy`. The Worker `pcfc-intelligence-hub` is created and served at
-   `https://pcfc-intelligence-hub.<account-subdomain>.workers.dev`. Check it there first.
+- Cloudflare account: `Denizeizci@gmail.com's Account` (`account_id` in `wrangler.jsonc`).
+  Run `npx wrangler login` with that login before deploying.
+- `denizci.dev` is a Cloudflare zone in the same account. `pcfc.denizci.dev` is attached as a
+  Worker Custom Domain through `routes` in `wrangler.jsonc`; Cloudflare manages its DNS
+  record and certificate, so there is nothing to edit by hand.
+- The `workers.dev` URL is disabled because the custom domain is the only public entry point.
 
-## Custom domain cutover
+## History
 
-`denizci.dev` DNS is currently managed at the registrar, with
-`pcfc CNAME custom-domains.chatgpt.site` pointing at the old host.
-
-- **Zone on Cloudflare (recommended):** add `denizci.dev` to Cloudflare, copy the
-  existing records across, switch the registrar's nameservers to Cloudflare, then add
-  `pcfc.denizci.dev` as a Custom Domain on the Worker (Workers & Pages → the worker →
-  Settings → Domains & Routes). Cloudflare creates the DNS record and certificate.
-- **DNS stays at the registrar:** Worker Custom Domains require a Cloudflare zone. Without
-  one, either move the zone, or use a Cloudflare for SaaS custom hostname (paid add-on).
-
-After the domain serves from Cloudflare, delete the old `pcfc` CNAME, the
-`_openai-site-verification` TXT record, and `.openai/hosting.json`.
+Until 2026-11-20 the site was published to ChatGPT Sites (`.openai/hosting.json`, with
+`pcfc CNAME custom-domains.chatgpt.site` and two verification TXT records). That
+manifest and those three DNS records were removed at the Cloudflare cutover. The dated
+`docs/verification/2026-10-18-*` reports describe the earlier host.
