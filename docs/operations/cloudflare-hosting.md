@@ -17,7 +17,7 @@ the local runtime crashes with an access violation. `cf:deploy` does not depend 
 
 ## Account and domain
 
-- Cloudflare account: `Denizeizci@gmail.com's Account` (`account_id` in `wrangler.jsonc`).
+- Cloudflare account: the one whose `account_id` is set in `wrangler.jsonc`.
   Run `npx wrangler login` with that login before deploying.
 - `denizci.dev` is a Cloudflare zone in the same account. `pcfc.denizci.dev` is attached as a
   Worker Custom Domain through `routes` in `wrangler.jsonc`; Cloudflare manages its DNS
