@@ -4,6 +4,13 @@ The public dashboard (`pcfc.denizci.dev`) is a static build in `dist/`, served b
 Cloudflare Worker with static assets. There is no server code, database, binding, or
 secret in the deployment. Configuration lives in `wrangler.jsonc`.
 
+## Automatic deploys
+
+Cloudflare Workers Builds is connected to this repository. Every push to `main` runs
+`npm run site:build` and then `npx wrangler deploy` on Cloudflare, and reports the
+result as a check on the commit. Other branches are not built. The connection is managed
+in the Cloudflare dashboard under the Worker's Settings → Builds.
+
 ## Commands
 
 | Command                | What it does                                                           |
